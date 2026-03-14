@@ -42,7 +42,12 @@
         <div class="hero-video-container">
             <video class="hero-video" autoplay loop muted playsinline disablePictureInPicture
                 controlsList="nodownload noplaybackrate noremoteplayback">
-                <source src="hero.mp4" type="video/mp4">
+                <!-- PC: 1024px in su -->
+                <source src="hero-pc.mp4" media="(min-width: 1024px)" type="video/mp4">
+                <!-- Tablet: tra 768px e 1023px -->
+                <source src="hero-tablet.mp4" media="(min-width: 768px)" type="video/mp4">
+                <!-- Telefono: fino a 767px -->
+                <source src="hero-telefono.mp4" media="(max-width: 767px)" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
