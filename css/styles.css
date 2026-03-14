@@ -1,0 +1,1010 @@
+:root {
+  /* QUBLY Premium Palette */
+  --QUBLY-BLACK: #0a0a0a;
+  /* Deep rich black */
+  --QUBLY-DARK-GRAY: #1a1a1a;
+  /* Schiarito / Soft Black */
+  --QUBLY-GRAY: #ABABAB;
+  /* Original Gray for text */
+  --QUBLY-WHITE: #FAFAFA;
+  /* Off-white */
+  --QUBLY-ACCENT: #ffffff;
+
+  --bg-color: var(--QUBLY-BLACK);
+  --text-color: var(--QUBLY-WHITE);
+  --header-height: 8vw;
+  /* Increased for larger logo (approx 150px) */
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-height: 25vw;
+    /* Increased for mobile */
+  }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Helvetica, Arial, sans-serif;
+  /* Fallback font */
+  font-weight: 300;
+  font-size: clamp(14px, 0.9375vw, 18px);
+  line-height: 1.35;
+  color: var(--text-color);
+  background: var(--bg-color);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 767px) {
+
+  html,
+  body {
+    font-size: 3.56vw;
+    line-height: 4.58vw;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s ease;
+}
+
+/* UTILITIES */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* HEADER */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0 1.666vw;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  transition: background-color 0.3s ease;
+  pointer-events: none;
+  /* Allow clicks to pass through header background (e.g. to scrollbar) */
+}
+
+/* Ensure interactive elements in header are clickable */
+.site-header>* {
+  pointer-events: auto;
+}
+
+.site-header {
+  position: fixed;
+  z-index: 100;
+}
+
+@media (max-width: 767px) {
+  .site-header {
+    padding: 0 5.08vw;
+  }
+}
+
+/* LOGO */
+.logo {
+  display: block;
+  z-index: 101;
+  background: transparent;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* ... existing content ... */
+
+/* CASE STUDIES SNAPSHOT */
+.case-snapshots {
+  padding: 8.33vw 6.25vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.case-snapshots h2.service-title {
+  font-size: clamp(24px, 3vw, 56px);
+  line-height: 1.1;
+  text-align: center !important;
+  /* Reverted to center */
+  margin-bottom: 4vw !important;
+}
+
+.logo img {
+  height: 6.5vw;
+  /* Approx 125px on 1920px screen (2.5x of 50px) */
+  width: auto;
+  object-fit: contain;
+  max-height: 100%;
+}
+
+@media (max-width: 767px) {
+  .logo img {
+    height: 20vw;
+    /* Larger on mobile too (~75px) */
+  }
+}
+
+/* HAMBURGER MENU */
+.menu-toggle {
+  position: relative;
+  cursor: pointer;
+  height: 1.5625vw;
+  width: 1.5625vw;
+  display: flex;
+  align-items: center;
+  z-index: 101;
+}
+
+@media (max-width: 767px) {
+  .menu-toggle {
+    height: 5.08vw;
+    width: 7.63vw;
+  }
+}
+
+.hamburger-line {
+  position: relative;
+  height: 0.104vw;
+  width: 1.5625vw;
+  background: transparent;
+}
+
+.hamburger-line::before,
+.hamburger-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.104vw;
+  width: 1.5625vw;
+  background: var(--QUBLY-GRAY);
+  transition: all 0.25s ease;
+}
+
+.hamburger-line::before {
+  transform: translateY(-0.156vw);
+}
+
+.hamburger-line::after {
+  transform: translateY(0.156vw);
+}
+
+.menu-toggle:hover .hamburger-line::before,
+.menu-toggle:hover .hamburger-line::after {
+  background: var(--QUBLY-WHITE);
+}
+
+.menu-toggle:hover .hamburger-line::before {
+  transform: translateY(-0.3125vw);
+}
+
+.menu-toggle:hover .hamburger-line::after {
+  transform: translateY(0.3125vw);
+}
+
+/* Menu Open State */
+.menu-open .hamburger-line::before {
+  transform: rotate(45deg) !important;
+  background: var(--QUBLY-WHITE);
+}
+
+.menu-open .hamburger-line::after {
+  transform: rotate(-45deg) !important;
+  background: var(--QUBLY-WHITE);
+}
+
+@media (max-width: 767px) {
+
+  .hamburger-line,
+  .hamburger-line::before,
+  .hamburger-line::after {
+    height: 0.254vw;
+    width: 7.63vw;
+  }
+
+  .hamburger-line::before {
+    transform: translateY(-0.76vw);
+  }
+
+  .hamburger-line::after {
+    transform: translateY(0.76vw);
+  }
+
+  .menu-toggle:hover .hamburger-line::before {
+    transform: translateY(-1.27vw);
+  }
+
+  .menu-toggle:hover .hamburger-line::after {
+    transform: translateY(1.27vw);
+  }
+}
+
+/* FULLSCREEN OVERLAY MENU */
+.fullscreen-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.fullscreen-menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.menu-item {
+  padding: 1.25vw 0;
+  font-size: 2.08vw;
+  font-weight: 300;
+  letter-spacing: 0.14vw;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.fullscreen-menu.active .menu-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fullscreen-menu.active .menu-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.fullscreen-menu.active .menu-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.fullscreen-menu.active .menu-item:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.fullscreen-menu.active .menu-item:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+@media (max-width: 767px) {
+  .menu-item {
+    font-size: 7.12vw;
+    padding: 4.07vw 0;
+  }
+}
+
+.menu-item a:hover {
+  color: var(--QUBLY-WHITE);
+}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative;
+  z-index: 10 !important;
+  /* Ensure on top of transparency/canvas */
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  /* Fade out bottom to black using mask */
+  /* Gradient mask removed per user request */
+}
+
+.hero-video-container {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  /* Anchor to top, crop bottom */
+  pointer-events: none;
+  /* Prevent browser overlays */
+}
+
+/* Removed Manual Gradients as requested */
+
+/* Scroll Arrow */
+/* Scroll Zone and Arrow */
+.scroll-trigger-zone {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  height: 15vh;
+  z-index: 20;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 2vw;
+}
+
+.scroll-arrow {
+  width: 2vw;
+  height: 2vw;
+  background-image: url("data:image/svg+xml,%3Csvg width='39' height='20' viewBox='0 0 39 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.3125 0.460938L19.7734 18.9219L38.2343 0.460938' stroke='%23000000' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.scroll-trigger-zone:hover .scroll-arrow {
+  opacity: 1;
+  transform: scale(2.0);
+  /* significantly larger per request */
+}
+
+@media (max-width: 767px) {
+  .scroll-trigger-zone {
+    height: 15vh;
+    padding-bottom: 8vw;
+  }
+
+  .scroll-arrow {
+    width: 6vw;
+    height: 6vw;
+  }
+}
+
+/* Make body cursor none to hide default */
+/* Make body cursor none to hide default */
+body {
+  cursor: default;
+  background-color: #000;
+  position: relative;
+}
+
+/* Dark Overlay MASK Removed */
+
+/* Custom Cursor Dot */
+.custom-cursor {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  /* Inverts colors for high contrast */
+  transition: width 0.3s ease, height 0.3s ease;
+  /* Smooth size change */
+}
+
+/* Hover State (Large Dot/Ball) */
+/* Moved to #cursor-dot.active */
+
+/* Restore system cursors on interactive elements */
+a,
+button,
+.scroll-trigger-zone,
+input,
+label,
+select,
+textarea,
+.case-card,
+.close-popup,
+.menu-toggle,
+.menu-item,
+.contact-trigger,
+.nav-links a {
+  cursor: pointer;
+}
+
+#cursor-dot {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+  mix-blend-mode: difference;
+}
+
+#cursor-dot.active {
+  width: 40px;
+  /* 2/3 of 60px */
+  height: 40px;
+  /* 2/3 of 60px */
+  background-color: white;
+  mix-blend-mode: difference;
+  opacity: 0.8;
+}
+
+/* Spotlight canvas must be an overlay, not a block that pushes content down */
+#spotlight-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  /* stays behind UI */
+  pointer-events: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  clip-path: inset(0 10px 0 0);
+  /* Cut 12px from right to reveal scrollbar */
+}
+
+/* Ensure the page UI is above the canvas */
+.about-page {
+  position: relative;
+  z-index: 1;
+}
+
+/* INTRO TEXT SECTION */
+#intro {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  /* Ensure it sits above the background texture */
+  z-index: 10;
+}
+
+#intro h1 {
+  font-size: clamp(32px, 3vw, 72px);
+  line-height: 1.2;
+  letter-spacing: 0.1vw;
+  margin: 0;
+}
+
+/* Layering for Spotlight */
+/* Images AND Cards must be above spotlight (z-index 5) */
+.service-image,
+.case-media,
+.case-media img,
+.hero-video-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Make cards transparent again (removed black background) but keep z-index so images stay on top */
+.case-card,
+.service-card {
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
+}
+
+/* Text inside cards needs to remain visible */
+.case-body,
+.service-desc,
+.service-title {
+  position: relative;
+  z-index: 11;
+}
+
+/* Text is default (0 or 1), so spotlight (5) is ON TOP of text */
+
+
+/* SECTIONS GRID */
+.section-wrapper {
+  padding: 8.33vw 6.25vw;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vw;
+  padding: 4vw 0;
+}
+
+@media (max-width: 767px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 8vw;
+  }
+}
+
+.service-card {
+  text-align: left;
+}
+
+.service-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #222;
+  margin-bottom: 1.5vw;
+  object-fit: cover;
+}
+
+.service-title {
+  font-size: clamp(20px, 1.66vw, 32px);
+  margin: 0 0 0.5vw 0;
+  letter-spacing: 0.11vw;
+  text-transform: uppercase;
+}
+
+.service-desc {
+  font-size: clamp(14px, 0.9375vw, 18px);
+  color: var(--QUBLY-GRAY);
+}
+
+@media (max-width: 767px) {
+  .service-title {
+    font-size: 4.07vw;
+  }
+
+  .service-desc {
+    font-size: 3.56vw;
+  }
+}
+
+
+/* SHARED SERVICE TITLE STYLE (Animated) */
+.service-title {
+  font-size: clamp(24px, 3vw, 56px);
+  line-height: 1.1;
+  text-align: center;
+  margin-bottom: 4vw;
+  text-transform: uppercase;
+  letter-spacing: 0.11vw;
+}
+
+/* Ensure specific overrides if needed (e.g. Case Studies already has size set, but we make it consistent) */
+.case-snapshots h2.service-title {
+  text-align: left !important;
+  /* User wanted Case Studies title left? No, "rimettilo in centro" in previous turn. 
+       Let's keep it consistent. User said "anche qua aumenta la dimensione come l'altro titolo".
+       I will set a global style for .service-title inside sections to be big and centered.
+    */
+  text-align: center !important;
+}
+
+@media (max-width: 767px) {
+  .service-title {
+    font-size: clamp(26px, 8vw, 42px);
+    /* Balanced on mobile */
+    margin-bottom: 8vw;
+  }
+}
+
+/* CONTACT SECTION (Redesign) */
+.contact-section {
+  padding: 8.33vw 6.25vw;
+  border-top: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* Top align */
+  text-align: left;
+  /* Reset center from previous */
+  flex-wrap: wrap;
+  position: relative;
+  /* Visible above dark mask */
+  z-index: 10;
+}
+
+.contact-left {
+  flex: 1;
+  max-width: 60%;
+  padding-right: 4vw;
+}
+
+.contact-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding-top: 1vw;
+  /* Align visually with text */
+}
+
+.contact-section h2.service-title {
+  text-align: left;
+  /* Contact title left aligned per request? 
+    "sotto ma sempre a sinistra la mail, poi a destra i 2 loghi"
+    "anche per tutta uesta sezione contatti ingrandisci il titolo e fallo a comparsa"
+    */
+  text-align: left;
+  margin-bottom: 2vw;
+}
+
+.contact-text {
+  font-size: clamp(16px, 1.2vw, 24px);
+  color: var(--QUBLY-WHITE);
+  margin-bottom: 2vw;
+  line-height: 1.4;
+  max-width: 80%;
+}
+
+.contact-trigger-link {
+  font-size: clamp(18px, 1.5vw, 28px);
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5vw;
+  display: inline-block;
+}
+
+@media (max-width: 767px) {
+  .contact-section {
+    flex-direction: column;
+  }
+
+  .contact-left {
+    max-width: 100%;
+    margin-bottom: 8vw;
+  }
+
+  .contact-section h2.service-title {
+    text-align: left;
+  }
+
+  .contact-text {
+    font-size: 4vw;
+    max-width: 100%;
+  }
+
+  .contact-trigger-link {
+    font-size: 5vw;
+  }
+}
+
+/* SOCIAL ICONS (Moved to Contact) */
+.social-icons-wrapper {
+  display: flex;
+  gap: 1.5vw;
+}
+
+.social-icons-wrapper .social-icon {
+  width: 2vw;
+  height: 2vw;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  color: var(--QUBLY-WHITE);
+}
+
+.social-icons-wrapper .social-icon:hover {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .social-icons-wrapper .social-icon {
+    width: 8vw;
+    height: 8vw;
+  }
+}
+
+
+/* CONTACT POPUP */
+.contact-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  /* Darker overlay */
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.contact-popup.open {
+  display: flex;
+  opacity: 1;
+}
+
+.contact-popup-content {
+  background: #111;
+  /* Dark Premium */
+  padding: 3rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  border: 1px solid #333;
+}
+
+.close-popup {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--QUBLY-GRAY);
+}
+
+.close-popup:hover {
+  color: var(--QUBLY-WHITE);
+}
+
+/* CASE STUDIES SNAPSHOT */
+.case-snapshots {
+  padding: 8.33vw 6.25vw;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.case-snapshots h2.service-title {
+  font-size: 3vw;
+  /* Significantly larger */
+  line-height: 1.1;
+  text-align: left !important;
+  /* Align left */
+  margin-bottom: 4vw !important;
+}
+
+.case-row-title {
+  font-size: clamp(18px, 1.6vw, 32px);
+  text-transform: uppercase;
+  letter-spacing: 0.05vw;
+  margin-top: 6vw;
+  margin-bottom: 2vw;
+  color: var(--QUBLY-WHITE);
+  font-weight: 400;
+}
+
+.case-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2vw;
+  margin-top: 0;
+  /* Title handles top margin now */
+}
+
+.case-card {
+  display: block;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  will-change: transform;
+  transition: transform 0.4s ease;
+}
+
+.case-media {
+  position: relative;
+  width: 100%;
+  /* aspect-ratio: 16/9; REMOVED to show full image */
+  overflow: hidden;
+  margin-bottom: 1.5vw;
+}
+
+.case-media img {
+  width: 100%;
+  height: auto;
+  /* Was 100% with object-fit cover */
+  display: block;
+  object-fit: contain;
+  /* Ensure full image is seen */
+  transform: scale(1);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+
+.case-body {
+  padding: 0;
+}
+
+.case-kicker {
+  opacity: .75;
+  font-size: clamp(12px, 0.8vw, 16px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 0.5vw 0;
+  color: var(--QUBLY-GRAY);
+}
+
+.case-card h3 {
+  font-size: clamp(18px, 1.4vw, 24px);
+  margin: 0 0 0.5vw 0;
+  letter-spacing: 0.05vw;
+  text-transform: uppercase;
+}
+
+.case-card p:not(.case-kicker) {
+  font-size: clamp(14px, 0.9375vw, 18px);
+  color: var(--QUBLY-GRAY);
+  margin: 0;
+}
+
+/* Case snapshots: kicker and body text centered + hidden by default */
+.case-snapshots .case-kicker {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.case-snapshots .case-body {
+  text-align: center;
+  overflow: hidden;
+}
+
+.case-snapshots .case-body p {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: 0.05s;
+}
+
+/* On hover: reveal text in sync with image zoom */
+.case-snapshots .case-card:hover .case-kicker {
+  opacity: 0.75;
+  transform: translateY(0);
+}
+
+.case-snapshots .case-card:hover .case-body p {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover Effects */
+.case-card:hover {
+  transform: scale(1.015);
+}
+
+.case-card:hover .case-media img {
+  transform: scale(1.06);
+}
+
+/* Animation States */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.from-left {
+  transform: translateX(-40px);
+}
+
+.reveal.from-right {
+  transform: translateX(40px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive Case Studies */
+@media (max-width: 767px) {
+  .case-snapshots {
+    padding: 8.33vw 5.08vw;
+  }
+
+  .case-row {
+    grid-template-columns: 1fr 1fr;
+    /* ENSURE 2x2 ON MOBILE */
+    gap: 4vw;
+    margin-top: 8vw;
+  }
+
+  .case-kicker {
+    font-size: 3vw;
+    margin-bottom: 1.5vw;
+  }
+
+  .case-card h3 {
+    font-size: 4.5vw;
+    margin-bottom: 1.5vw;
+  }
+
+  .case-card p:not(.case-kicker) {
+    font-size: 3.56vw;
+  }
+
+  .reveal.from-left,
+  .reveal.from-right {
+    transform: translateY(30px);
+  }
+
+  /* FOOTER Fix Contrast on Mobile */
+  .site-footer p {
+    color: #888 !important;
+    /* Lighter for mobile visibility */
+  }
+
+  /* Intro Text Fix for Mobile */
+  h1.reveal {
+    font-size: 6vw !important;
+    /* Larger on mobile */
+  }
+
+  /* GRID SPACING for PROJECTS */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 8vw;
+  }
+
+  .services-grid .case-media {
+    height: 60vw !important;
+    /* Taller on mobile for better visibility */
+  }
+}
+
+/* Global Footer Contrast Fix (Applied to PC as well if it's too dark) */
+.site-footer p {
+  color: #666;
+  /* Balanced gray */
+}
+
+/* CUSTOM SCROLLBAR (Global) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: white;
+  border: 2px solid #000;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}

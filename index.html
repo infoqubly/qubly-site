@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUBLY - Architectural Visualization</title>
+    <meta name="description" content="QUBLY is a specialized architectural visualization studio.">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css?v=27">
+    <link rel="icon" href="logo.png" type="image/png">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <a href="#" class="logo">
+            <!-- Increased size to 50px height as requested -->
+            <img src="logo.png" alt="QUBLY">
+        </a>
+
+        <div class="menu-toggle">
+            <div class="hamburger-line"></div>
+        </div>
+    </header>
+
+    <!-- FULLSCREEN MENU -->
+    <div class="fullscreen-menu">
+        <ul class="menu-list">
+            <li class="menu-item"><a href="about.html">About Us</a></li>
+            <li class="menu-item"><a href="#case-studies">Purpose</a></li>
+            <li class="menu-item"><a href="#projects">Projects</a></li>
+            <!-- CONTACT triggers scroll to #contact section, where the trigger link is -->
+            <li class="menu-item"><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay loop muted playsinline disablePictureInPicture
+                controlsList="nodownload noplaybackrate noremoteplayback">
+                <source src="hero.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="scroll-trigger-zone">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- SCROLLING TEXTURE BACKGROUND -->
+    <img src="Sfondo.webp" id="scrolling-texture" alt=""
+        style="position: absolute; top: 100vh; left: 0; width: 100%; height: auto; z-index: 1; pointer-events: none; opacity: 1;">
+
+    <!-- INTRO TEXT -->
+    <div class="section-wrapper" id="intro">
+        <h1 class="reveal from-left" data-delay="0" style="text-transform: uppercase;">
+            SEE THE FORM<br>
+            UNDERSTAND THE PROJECT
+        </h1>
+    </div>
+
+    <!-- CASE STUDIES SNAPSHOT -->
+    <section class="case-snapshots" id="case-studies">
+        <h2 class="service-title reveal from-left" data-delay="0">WHEN CLARITY DRIVES DECISIONS
+        </h2>
+
+        <!-- ROW 1 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0">Design transition to reality</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker">Need</p>
+                <div class="case-media">
+                    <img src="PS/P1.png" alt="Case Study 1 Problem" />
+                </div>
+                <div class="case-body">
+                    <p>Drawings explain structure, but they don’t communicate how the architecture will actually look
+                        and feel in reality.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="200">
+                <p class="case-kicker">What we deliver</p>
+                <div class="case-media">
+                    <img src="PS/S1.png" alt="Case Study 1 Solution" />
+                </div>
+                <div class="case-body">
+                    <p>Architectural visualizations that turn 2D intent into clear, tangible spatial reality.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- ROW 2 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0">Interior decisions</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker">Need</p>
+                <div class="case-media">
+                    <img src="PS/P2.png" alt="Case Study 2 Problem" />
+                </div>
+                <div class="case-body">
+                    <p>Sometimes there is only an empty space, or just a project on paper, and it has to be sold before
+                        anyone can imagine living in it.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="200">
+                <p class="case-kicker">What we deliver</p>
+                <div class="case-media">
+                    <img src="PS/S2.png" alt="Case Study 2 Solution" />
+                </div>
+                <div class="case-body">
+                    <p>Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready
+                        environments that make purchase decisions easier.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- ROW 3 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0">Redevelopment and transformation</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker">Need</p>
+                <div class="case-media">
+                    <img src="PS/P3.png" alt="Case Study 3 Problem" />
+                </div>
+                <div class="case-body">
+                    <p>Existing buildings and sites don’t communicate their future potential.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="200">
+                <p class="case-kicker">What we deliver</p>
+                <div class="case-media">
+                    <img src="PS/S3.png" alt="Case Study 3 Solution" />
+                </div>
+                <div class="case-body">
+                    <p>Contextual photoinsertions that show the transformation as if it already exists.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- ROW 4 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0">Design options and material comparison</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker">Need</p>
+                <div class="case-media">
+                    <img src="PS/P4.png" alt="Case Study 4 Problem" />
+                </div>
+                <div class="case-body">
+                    <p>Comparing finishes and alternatives is abstract without seeing them side by side.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="200">
+                <p class="case-kicker">What we deliver</p>
+                <div class="case-media">
+                    <img src="PS/S4.png" alt="Case Study 4 Solution" />
+                </div>
+                <div class="case-body">
+                    <p>Consistent comparative renders that make choices immediate and concrete.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION (Moved here) -->
+    <div class="section-wrapper" id="projects">
+        <h2 class="service-title reveal from-left" data-delay="0">PROJECTS</h2>
+
+        <div class="services-grid">
+            <!-- Project Category 1: EXTERIOR -->
+            <a href="#" class="case-card reveal from-left" data-delay="0">
+                <div class="case-media"
+                    style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
+                    <img src="PS/exterior.png" alt="Exterior"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
+                </div>
+                <div class="case-body">
+                    <h3>EXTERIOR</h3>
+                </div>
+            </a>
+
+            <!-- Project Category 2: INTERIOR -->
+            <a href="#" class="case-card reveal from-left" data-delay="200">
+                <div class="case-media"
+                    style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
+                    <img src="PS/interior.png" alt="Interior"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
+                </div>
+                <div class="case-body">
+                    <h3>INTERIOR</h3>
+                </div>
+            </a>
+
+            <!-- Project Category 3: MARINE -->
+            <a href="#" class="case-card reveal from-left" data-delay="400">
+                <div class="case-media"
+                    style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
+                    <img src="PS/marine.png" alt="Marine"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
+                </div>
+                <div class="case-body">
+                    <h3>MARINE</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTACT SECTION (Redesigned) -->
+    <div class="contact-section" id="contact">
+        <div class="contact-left reveal from-left" data-delay="0">
+            <h2 class="service-title">CONTACT</h2>
+            <p class="contact-text">
+                Turning architectural ideas into visual reality.<br>
+                For project proposals and collaborations, email us.
+            </p>
+            <a href="#" class="contact-trigger-link">info.qubly@gmail.com</a>
+        </div>
+
+        <div class="contact-right">
+            <div class="social-icons-wrapper">
+                <!-- Facebook Icon -->
+                <a href="#" class="social-icon">
+                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.71 6 13.5 6H16V9H14C13.06 9 13 9.97 13 10.5V12H16L15.6 15H13V21.95C17.74 21.45 22 17.18 22 12Z" />
+                    </svg>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="#" class="social-icon">
+                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6Z" />
+                        <path
+                            d="M12 7C9.2 7 7 9.2 7 12C7 14.8 9.2 17 12 17C14.8 17 17 14.8 17 12C17 9.2 14.8 7 12 7ZM12 15C10.3 15 9 13.7 9 12C9 10.3 10.3 9 12 9C13.7 9 15 10.3 15 12C15 13.7 13.7 15 12 15Z" />
+                        <circle cx="17" cy="7" r="1.5" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER (Empty now or removed) -->
+    <footer class="site-footer" style="padding: 2vw; border: none;">
+        <!-- Icons moved to contact section, keeping simple copyright or empty -->
+        <p style="font-size: 0.8vw; color: #333; margin: 0 auto;">&copy; 2026 QUBLY.</p>
+    </footer>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot" class="custom-cursor"></div>
+
+    <!-- SPOTLIGHT CANVAS -->
+    <canvas id="spotlight-canvas"></canvas>
+
+    <!-- CONTACT POPUP -->
+    <div id="contact-popup" class="contact-popup">
+        <div class="contact-popup-content">
+            <span class="close-popup">&times;</span>
+            <h2 class="service-title">GET IN TOUCH</h2>
+            <p class="service-desc" style="margin-bottom: 2rem;">We'd love to hear from you. Send us a message.</p>
+
+            <!-- Removed action/mail to prevent default mailto behavior. Handled by JS. -->
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="email" class="service-desc">Your email</label>
+                    <input type="email" id="email" name="email" required
+                        style="width: 100%; padding: 10px; margin-top: 5px; background: #222; border: 1px solid #444; color: white;">
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="message" class="service-desc">Message</label>
+                    <textarea id="message" name="message" rows="4" required
+                        style="width: 100%; resize: vertical; padding: 10px; margin-top: 5px; background: #222; border: 1px solid #444; color: white;"></textarea>
+                </div>
+                <button type="submit"
+                    style="margin-top: 1.5rem; padding: 10px 20px; background: var(--QUBLY-WHITE); color: black; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold;">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/spotlight.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
