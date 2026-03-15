@@ -36,16 +36,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cursorDot = document.getElementById('cursor-dot');
 
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
+    function updatePosition(x, y) {
+        mouse.x = x;
+        mouse.y = y;
 
         // Instant cursor movement
         if (cursorDot) {
             cursorDot.style.left = `${mouse.x}px`;
             cursorDot.style.top = `${mouse.y}px`;
         }
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        updatePosition(e.clientX, e.clientY);
     });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            updatePosition(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            updatePosition(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
 
     // Add hover effect for interactive elements
     const interactiveElements = document.querySelectorAll('a, button, .scroll-trigger-zone, input, label, select, textarea, .case-card, .close-popup, .menu-toggle, .menu-item, .contact-trigger');
