@@ -36,12 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cursorDot = document.getElementById('cursor-dot');
 
+    let isTouchMode = false;
+
     function updatePosition(x, y) {
         mouse.x = x;
         mouse.y = y;
 
-        // Instant cursor movement
-        if (cursorDot) {
+        // Instant cursor movement only on non-touch devices
+        if (cursorDot && !isTouchMode) {
             cursorDot.style.left = `${mouse.x}px`;
             cursorDot.style.top = `${mouse.y}px`;
         }
@@ -52,12 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('touchmove', (e) => {
+        isTouchMode = true;
+        if (cursorDot) cursorDot.style.display = 'none'; // Force hide
+
         if (e.touches.length > 0) {
             updatePosition(e.touches[0].clientX, e.touches[0].clientY);
         }
     }, { passive: true });
 
     window.addEventListener('touchstart', (e) => {
+        isTouchMode = true;
+        if (cursorDot) cursorDot.style.display = 'none'; // Force hide
+
         if (e.touches.length > 0) {
             updatePosition(e.touches[0].clientX, e.touches[0].clientY);
         }
