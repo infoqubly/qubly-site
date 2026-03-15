@@ -458,6 +458,12 @@ textarea,
   mix-blend-mode: difference;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  #cursor-dot {
+    display: none !important;
+  }
+}
+
 #cursor-dot.active {
   width: 40px;
   /* 2/3 of 60px */
