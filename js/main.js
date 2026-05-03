@@ -122,4 +122,35 @@ document.addEventListener('DOMContentLoaded', () => {
             revealItems.forEach(el => el.classList.add('is-visible'));
         }
     }
+
+    // --- AUTO-LOCALIZATION ---
+    function applyTranslations() {
+        if (typeof translations === 'undefined') return;
+        
+        // Detect language (e.g., 'it-IT' -> 'it')
+        const userLang = navigator.language.slice(0, 2).toLowerCase();
+        
+        // Default to 'en' if the user's language is not supported
+        const lang = translations[userLang] ? userLang : 'en';
+        const dict = translations[lang];
+
+        // Translate meta descriptions
+        document.querySelectorAll('meta[data-i18n]').forEach(meta => {
+            const key = meta.getAttribute('data-i18n');
+            if (dict[key]) {
+                meta.setAttribute("content", dict[key]);
+            }
+        });
+
+        // Translate HTML elements
+        document.querySelectorAll('[data-i18n]:not(meta)').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (dict[key]) {
+                el.innerHTML = dict[key];
+            }
+        });
+    }
+
+    // Call on load
+    applyTranslations();
 });

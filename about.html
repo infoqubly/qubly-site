@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUBLY – About</title>
     <meta name="description"
-        content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici.">
+        content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici." data-i18n="meta_desc_index">
     <link rel="canonical" href="https://infoqubly.github.io/qubly-site/about.html">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css?v=26">
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="favicon.png" type="image/png">
 </head>
 
 <body>
@@ -34,10 +34,11 @@
     <!-- FULLSCREEN MENU -->
     <div class="fullscreen-menu">
         <ul class="menu-list">
-            <li class="menu-item"><a href="about.html">About Us</a></li>
-            <li class="menu-item"><a href="index.html#case-studies">Purpose</a></li>
-            <li class="menu-item"><a href="index.html#projects">Projects</a></li>
-            <li class="menu-item"><a href="index.html#contact">Contact</a></li>
+            <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
+            <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
+            <li class="menu-item"><a href="index.html#case-studies" data-i18n="nav_purpose">Purpose</a></li>
+            <li class="menu-item"><a href="index.html#projects" data-i18n="nav_projects">Projects</a></li>
+            <li class="menu-item"><a href="index.html#contact" data-i18n="nav_contact">Contact</a></li>
         </ul>
     </div>
 
@@ -45,21 +46,21 @@
     <div class="section-wrapper about-page"
         style="padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column;">
         <div class="content-container" style="max-width: 800px; margin: 0 auto; text-align: left; flex-grow: 1;">
-            <h1 class="service-title" style="margin-top: 0; margin-bottom: 2vw;">ABOUT QUBLY</h1>
+            <h1 class="service-title" style="margin-top: 0; margin-bottom: 2vw;" data-i18n="about_title">ABOUT QUBLY</h1>
 
             <p class="service-desc"
-                style="font-size: 1.25rem; line-height: 1.6; color: var(--QUBLY-WHITE); margin-bottom: 2rem;">
+                style="font-size: 1.25rem; line-height: 1.6; color: var(--QUBLY-WHITE); margin-bottom: 2rem;" data-i18n="about_p1">
                 QUBLY is a specialized architectural visualization studio composed of architects dedicated to crafting
                 reality through digital imagery.
             </p>
 
-            <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;" data-i18n="about_p2">
                 We operate at the intersection of architecture, design, and marketing, providing high-end visual content
                 that communicates the essence of unbuilt spaces. Our expertise spans three core disciplines:
                 <strong>Exteriors</strong>, <strong>Interiors</strong>, and <strong>Marine</strong> visualization.
             </p>
 
-            <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 3rem;">
+            <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 3rem;" data-i18n="about_p3">
                 Every project is approached with an architectural understanding of space, light, and materiality. We do
                 not just render; we interpret design to create compelling visual narratives that add value and
                 desirability to real estate and nautical developments.
@@ -98,6 +99,7 @@
     </div>
 
     <!-- SHARED JS -->
+    <script src="js/translations.js"></script>
     <script src="js/spotlight.js"></script>
     <script src="js/main.js"></script>
 
@@ -105,22 +107,22 @@
     <div id="contact-popup" class="contact-popup">
         <div class="contact-popup-content">
             <span class="close-popup">&times;</span>
-            <h2 class="service-title">GET IN TOUCH</h2>
-            <p class="service-desc" style="margin-bottom: 2rem;">We'd love to hear from you. Send us a message.</p>
+            <h2 class="service-title" data-i18n="popup_title">GET IN TOUCH</h2>
+            <p class="service-desc" style="margin-bottom: 2rem;" data-i18n="popup_desc">We'd love to hear from you. Send us a message.</p>
 
             <form id="contact-form">
                 <div class="form-group">
-                    <label for="email" class="service-desc">Your email</label>
+                    <label for="email" class="service-desc" data-i18n="popup_email_label">Your email</label>
                     <input type="email" id="email" name="email" required
                         style="width: 100%; padding: 10px; margin-top: 5px; background: #222; border: 1px solid #444; color: white;">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label for="message" class="service-desc">Message</label>
+                    <label for="message" class="service-desc" data-i18n="popup_msg_label">Message</label>
                     <textarea id="message" name="message" rows="4" required
                         style="width: 100%; resize: vertical; padding: 10px; margin-top: 5px; background: #222; border: 1px solid #444; color: white;"></textarea>
                 </div>
                 <button type="submit"
-                    style="margin-top: 1.5rem; padding: 10px 20px; background: var(--QUBLY-WHITE); color: black; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold;">Send</button>
+                    style="margin-top: 1.5rem; padding: 10px 20px; background: var(--QUBLY-WHITE); color: black; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold;" data-i18n="popup_send">Send</button>
             </form>
         </div>
     </div>

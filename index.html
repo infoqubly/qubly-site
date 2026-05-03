@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUBLY – Architectural Visualization</title>
-    <meta name="description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici.">
+    <meta name="description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici." data-i18n="meta_desc_index">
     <link rel="canonical" href="https://infoqubly.github.io/qubly-site/">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css?v=28">
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="favicon.png" type="image/png">
 </head>
 
 <body>
@@ -30,11 +30,12 @@
     <!-- FULLSCREEN MENU -->
     <div class="fullscreen-menu">
         <ul class="menu-list">
-            <li class="menu-item"><a href="about.html">About Us</a></li>
-            <li class="menu-item"><a href="#case-studies">Purpose</a></li>
-            <li class="menu-item"><a href="#projects">Projects</a></li>
+            <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
+            <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
+            <li class="menu-item"><a href="#case-studies" data-i18n="nav_purpose">Purpose</a></li>
+            <li class="menu-item"><a href="#projects" data-i18n="nav_projects">Projects</a></li>
             <!-- CONTACT triggers scroll to #contact section, where the trigger link is -->
-            <li class="menu-item"><a href="#contact">Contact</a></li>
+            <li class="menu-item"><a href="#contact" data-i18n="nav_contact">Contact</a></li>
         </ul>
     </div>
 
@@ -57,126 +58,128 @@
         </div>
     </section>
 
-    <!-- SCROLLING TEXTURE BACKGROUND -->
-    <img src="Sfondo.webp" id="scrolling-texture" alt=""
-        style="position: absolute; top: 100vh; left: 0; width: 100%; height: auto; z-index: 1; pointer-events: none; opacity: 1;">
+    <!-- MAIN CONTENT WRAPPER to fix background scrolling issue -->
+    <main id="main-content-wrapper" style="position: relative; overflow: hidden; background-color: var(--bg-color);">
+        <!-- SCROLLING TEXTURE BACKGROUND -->
+        <img src="Sfondo.webp" id="scrolling-texture" alt=""
+            style="position: absolute; top: 0; left: 0; width: 100%; height: auto; min-height: 100%; object-fit: cover; z-index: 1; pointer-events: none; opacity: 1;">
 
-    <!-- INTRO TEXT -->
-    <div class="section-wrapper" id="intro">
-        <h1 class="reveal from-left" data-delay="0" style="text-transform: uppercase;">
-            SEE THE FORM<br>
-            UNDERSTAND THE PROJECT
-        </h1>
-    </div>
+        <!-- INTRO TEXT -->
+        <div class="section-wrapper" id="intro">
+            <h1 class="reveal from-left" data-delay="0" style="text-transform: uppercase;" data-i18n="hero_title">
+                SEE THE FORM<br>
+                UNDERSTAND THE PROJECT
+            </h1>
+        </div>
 
     <!-- CASE STUDIES SNAPSHOT -->
     <section class="case-snapshots" id="case-studies">
-        <h2 class="service-title reveal from-left" data-delay="0">WHEN CLARITY DRIVES DECISIONS
+        <h2 class="service-title reveal from-left" data-delay="0" data-i18n="case_studies_title">WHEN CLARITY DRIVES DECISIONS
         </h2>
 
         <!-- ROW 1 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0">Design transition to reality</h3>
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row1_title">Design transition to reality</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Need</p>
                 <div class="case-media">
                     <img src="PS/P1.png" alt="Case Study 1 Problem" />
                 </div>
                 <div class="case-body">
-                    <p>Drawings explain structure, but they don’t communicate how the architecture will actually look
+                    <p data-i18n="row1_prob">Drawings explain structure, but they don’t communicate how the architecture will actually look
                         and feel in reality.</p>
                 </div>
             </a>
 
             <!-- Right Card: Solution -->
             <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker">What we deliver</p>
+                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
                 <div class="case-media">
                     <img src="PS/S1.png" alt="Case Study 1 Solution" />
                 </div>
                 <div class="case-body">
-                    <p>Architectural visualizations that turn 2D intent into clear, tangible spatial reality.</p>
+                    <p data-i18n="row1_sol">Architectural visualizations that turn 2D intent into clear, tangible spatial reality.</p>
                 </div>
             </a>
         </div>
 
         <!-- ROW 2 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0">Interior decisions</h3>
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row2_title">Interior decisions</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Need</p>
                 <div class="case-media">
                     <img src="PS/P2.png" alt="Case Study 2 Problem" />
                 </div>
                 <div class="case-body">
-                    <p>Sometimes there is only an empty space, or just a project on paper, and it has to be sold before
+                    <p data-i18n="row2_prob">Sometimes there is only an empty space, or just a project on paper, and it has to be sold before
                         anyone can imagine living in it.</p>
                 </div>
             </a>
 
             <!-- Right Card: Solution -->
             <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker">What we deliver</p>
+                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
                 <div class="case-media">
                     <img src="PS/S2.png" alt="Case Study 2 Solution" />
                 </div>
                 <div class="case-body">
-                    <p>Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready
+                    <p data-i18n="row2_sol">Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready
                         environments that make purchase decisions easier.</p>
                 </div>
             </a>
         </div>
 
         <!-- ROW 3 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0">Redevelopment and transformation</h3>
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row3_title">Redevelopment and transformation</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Need</p>
                 <div class="case-media">
                     <img src="PS/P3.png" alt="Case Study 3 Problem" />
                 </div>
                 <div class="case-body">
-                    <p>Existing buildings and sites don’t communicate their future potential.</p>
+                    <p data-i18n="row3_prob">Existing buildings and sites don’t communicate their future potential.</p>
                 </div>
             </a>
 
             <!-- Right Card: Solution -->
             <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker">What we deliver</p>
+                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
                 <div class="case-media">
                     <img src="PS/S3.png" alt="Case Study 3 Solution" />
                 </div>
                 <div class="case-body">
-                    <p>Contextual photoinsertions that show the transformation as if it already exists.</p>
+                    <p data-i18n="row3_sol">Contextual photoinsertions that show the transformation as if it already exists.</p>
                 </div>
             </a>
         </div>
 
         <!-- ROW 4 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0">Design options and material comparison</h3>
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row4_title">Design options and material comparison</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Need</p>
                 <div class="case-media">
                     <img src="PS/P4.png" alt="Case Study 4 Problem" />
                 </div>
                 <div class="case-body">
-                    <p>Comparing finishes and alternatives is abstract without seeing them side by side.</p>
+                    <p data-i18n="row4_prob">Comparing finishes and alternatives is abstract without seeing them side by side.</p>
                 </div>
             </a>
 
             <!-- Right Card: Solution -->
             <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker">What we deliver</p>
+                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
                 <div class="case-media">
                     <img src="PS/S4.png" alt="Case Study 4 Solution" />
                 </div>
                 <div class="case-body">
-                    <p>Consistent comparative renders that make choices immediate and concrete.</p>
+                    <p data-i18n="row4_sol">Consistent comparative renders that make choices immediate and concrete.</p>
                 </div>
             </a>
         </div>
@@ -184,42 +187,42 @@
 
     <!-- PROJECTS SECTION (Moved here) -->
     <div class="section-wrapper" id="projects">
-        <h2 class="service-title reveal from-left" data-delay="0">PROJECTS</h2>
+        <h2 class="service-title reveal from-left" data-delay="0" data-i18n="projects_title">PROJECTS</h2>
 
         <div class="services-grid">
             <!-- Project Category 1: EXTERIOR -->
-            <a href="#" class="case-card reveal from-left" data-delay="0">
+            <a href="esterni.html" class="case-card reveal from-left" data-delay="0">
                 <div class="case-media"
                     style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
                     <img src="PS/exterior.png" alt="Exterior"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
-                    <h3>EXTERIOR</h3>
+                    <h3 data-i18n="proj_exterior">EXTERIOR</h3>
                 </div>
             </a>
 
             <!-- Project Category 2: INTERIOR -->
-            <a href="#" class="case-card reveal from-left" data-delay="200">
+            <a href="interni.html" class="case-card reveal from-left" data-delay="200">
                 <div class="case-media"
                     style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
                     <img src="PS/interior.png" alt="Interior"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
-                    <h3>INTERIOR</h3>
+                    <h3 data-i18n="proj_interior">INTERIOR</h3>
                 </div>
             </a>
 
             <!-- Project Category 3: MARINE -->
-            <a href="#" class="case-card reveal from-left" data-delay="400">
+            <a href="nautica.html" class="case-card reveal from-left" data-delay="400">
                 <div class="case-media"
                     style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
                     <img src="PS/marine.png" alt="Marine"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
-                    <h3>MARINE</h3>
+                    <h3 data-i18n="proj_marine">MARINE</h3>
                 </div>
             </a>
         </div>
@@ -228,8 +231,8 @@
     <!-- CONTACT SECTION (Redesigned) -->
     <div class="contact-section" id="contact">
         <div class="contact-left reveal from-left" data-delay="0">
-            <h2 class="service-title">CONTACT</h2>
-            <p class="contact-text">
+            <h2 class="service-title" data-i18n="contact_title">CONTACT</h2>
+            <p class="contact-text" data-i18n="contact_desc">
                 Turning architectural ideas into visual reality.<br>
                 For project proposals and collaborations, email us.
             </p>
@@ -264,6 +267,7 @@
         <!-- Icons moved to contact section, keeping simple copyright or empty -->
         <p style="font-size: 0.8vw; color: #333; margin: 0 auto;">&copy; 2026 QUBLY.</p>
     </footer>
+    </main>
 
     <!-- CUSTOM CURSOR -->
     <div id="cursor-dot" class="custom-cursor"></div>
@@ -273,6 +277,7 @@
 
 
     <!-- JS -->
+    <script src="js/translations.js"></script>
     <script src="js/spotlight.js"></script>
     <script src="js/main.js"></script>
 </body>
