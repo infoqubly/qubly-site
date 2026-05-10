@@ -1014,3 +1014,106 @@ textarea,
 ::-webkit-scrollbar-thumb:hover {
   background: #ccc;
 }
+
+/* ========================================= */
+/* MASONRY GALLERY (For Esterni, Interni, Nautica) */
+/* ========================================= */
+.gallery-section {
+  padding: 8vw 6.25vw;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.masonry-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 18vw; /* responsive height */
+  grid-auto-flow: dense;
+  gap: 1.5vw;
+  padding-bottom: 4vw;
+}
+
+.masonry-item {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.25vw;
+  cursor: pointer;
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.masonry-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Staggered, irregular horizontal rectangular crops for the grid view using CSS Grid spans */
+/* Layout 1: Esterni */
+.layout-1 .masonry-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.layout-1 .masonry-item:nth-child(4) { grid-column: span 2; }
+.layout-1 .masonry-item:nth-child(7) { grid-column: span 2; }
+.layout-1 .masonry-item:nth-child(8) { grid-row: span 2; }
+
+/* Layout 2: Interni */
+.layout-2 .masonry-item:nth-child(2) { grid-column: span 2; }
+.layout-2 .masonry-item:nth-child(3) { grid-row: span 2; }
+.layout-2 .masonry-item:nth-child(5) { grid-column: span 2; grid-row: span 2; }
+.layout-2 .masonry-item:nth-child(9) { grid-column: span 2; }
+
+/* Layout 3: Nautica */
+.layout-3 .masonry-item:nth-child(1) { grid-column: span 3; }
+.layout-3 .masonry-item:nth-child(3) { grid-column: span 2; }
+.layout-3 .masonry-item:nth-child(6) { grid-row: span 2; }
+.layout-3 .masonry-item:nth-child(8) { grid-column: span 2; grid-row: span 2; }
+
+.masonry-item:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .masonry-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 25vw;
+    gap: 2vw;
+  }
+  .layout-1 .masonry-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .layout-3 .masonry-item:nth-child(1) { grid-column: span 2; }
+}
+
+@media (max-width: 767px) {
+  .masonry-gallery {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 55vw;
+    gap: 4vw;
+  }
+  .masonry-item {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+  }
+  .gallery-section {
+    padding: 25vw 5.08vw 10vw 5.08vw;
+  }
+}
+
+/* ========================================= */
+/* PHOTOSWIPE CUSTOM STYLES (Lightbox) */
+/* ========================================= */
+.pswp__bg {
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.pswp__button {
+  opacity: 0.8 !important;
+}
+
+.pswp__button:hover {
+  opacity: 1 !important;
+}
