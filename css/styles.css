@@ -1084,6 +1084,10 @@ textarea,
 }
 
 @media (max-width: 767px) {
+  .about-faq-cue {
+    display: none;
+  }
+
   .contact-section {
     flex-direction: column;
   }
