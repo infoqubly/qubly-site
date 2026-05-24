@@ -191,18 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const flowMetrics = getVisualFlowScrollMetrics();
-        const header = visualFlow.querySelector(".scroll-showcase-header");
         const defaultEntryTop = getScrollDestination(visualFlow);
-        const headerTop = header
-            ? header.getBoundingClientRect().top + window.scrollY
-            : visualFlow.getBoundingClientRect().top + window.scrollY;
-        const entryTop = Math.round(headerTop - (window.innerHeight * 0.18));
+        const entryTop = flowMetrics
+            ? Math.max(0, Math.round(flowMetrics.pinStart))
+            : defaultEntryTop;
         const exitTop = flowMetrics
             ? Math.max(defaultEntryTop + 1, Math.round(flowMetrics.stackTop + flowMetrics.availableScroll))
             : defaultEntryTop;
 
         return {
-            entryTop: Math.min(defaultEntryTop, Math.max(0, entryTop)),
+            entryTop,
             exitTop,
             flowMetrics
         };
@@ -397,6 +395,101 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const caseGroups = Array.from(document.querySelectorAll(".case-snapshots .case-group"));
+    let activeCaseGroupIndex = -1;
+    let caseTitleTicking = false;
+
+    function restartCaseTitleFill(group) {
+        const title = group.querySelector(".case-row-title");
+        if (!title) {
+            return;
+        }
+
+        group.classList.remove("is-title-filling");
+        title.style.animation = "none";
+        title.offsetHeight;
+        title.style.animation = "";
+        group.classList.add("is-title-filling");
+    }
+
+    function updateActiveCaseTitle() {
+        caseTitleTicking = false;
+
+        if (caseGroups.length === 0) {
+            return;
+        }
+
+        const viewportTarget = window.innerHeight * 0.46;
+        let nextIndex = -1;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+
+        caseGroups.forEach((group, index) => {
+            const rect = group.getBoundingClientRect();
+            const isNearViewport = rect.top < window.innerHeight * 0.95 && rect.bottom > window.innerHeight * 0.05;
+            if (!isNearViewport) {
+                return;
+            }
+
+            const title = group.querySelector(".case-row-title");
+            const titleRect = title ? title.getBoundingClientRect() : rect;
+            const distance = Math.abs(titleRect.top - viewportTarget);
+
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nextIndex = index;
+            }
+        });
+
+        if (nextIndex === -1 || nextIndex === activeCaseGroupIndex) {
+            return;
+        }
+
+        caseGroups.forEach((group) => group.classList.remove("is-title-filling"));
+        activeCaseGroupIndex = nextIndex;
+        restartCaseTitleFill(caseGroups[nextIndex]);
+    }
+
+    function scheduleCaseTitleActivation() {
+        if (caseTitleTicking || caseGroups.length === 0) {
+            return;
+        }
+
+        caseTitleTicking = true;
+        window.requestAnimationFrame(updateActiveCaseTitle);
+    }
+
+    window.addEventListener("scroll", scheduleCaseTitleActivation, { passive: true });
+    window.addEventListener("resize", scheduleCaseTitleActivation, { passive: true });
+    window.addEventListener("load", scheduleCaseTitleActivation);
+    if (caseGroups.length > 0) {
+        window.setInterval(updateActiveCaseTitle, 180);
+    }
+    if ("IntersectionObserver" in window && caseGroups.length > 0) {
+        const caseTitleObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                const index = caseGroups.indexOf(entry.target);
+                if (index === -1 || index === activeCaseGroupIndex) {
+                    return;
+                }
+
+                caseGroups.forEach((group) => group.classList.remove("is-title-filling"));
+                activeCaseGroupIndex = index;
+                restartCaseTitleFill(entry.target);
+            });
+        }, {
+            root: null,
+            threshold: 0.18,
+            rootMargin: "-12% 0px -28% 0px"
+        });
+
+        caseGroups.forEach((group) => caseTitleObserver.observe(group));
+    }
+    updateActiveCaseTitle();
+
     document.querySelectorAll(".faq-item").forEach((item) => {
         const summary = item.querySelector("summary");
         const panel = item.querySelector(".faq-panel");
@@ -498,6 +591,14 @@ document.addEventListener("DOMContentLoaded", () => {
                                 top: snapMetrics.exitTop
                             }
                         ];
+                    }
+
+                    if (element.classList.contains("faq-section")) {
+                        return [{
+                            element,
+                            kind: "default",
+                            top: Math.round(element.getBoundingClientRect().top + window.scrollY)
+                        }];
                     }
 
                     return [{
@@ -650,14 +751,33 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const userLang = navigator.language.slice(0, 2).toLowerCase();
+        const requestedLang = new URLSearchParams(window.location.search).get("lang");
+        const userLang = (requestedLang || navigator.language.slice(0, 2)).toLowerCase();
         const lang = translations[userLang] ? userLang : "en";
         const dict = translations[lang];
+        const missingKeys = [];
+
+        document.documentElement.lang = lang;
+
+        const pageTitleKeys = [
+            [document.body.classList.contains("home-page"), "page_title_index"],
+            [document.body.classList.contains("about-page-body"), "page_title_about"],
+            [window.location.pathname.endsWith("esterni.html"), "page_title_esterni"],
+            [window.location.pathname.endsWith("interni.html"), "page_title_interni"],
+            [window.location.pathname.endsWith("spazi.html"), "page_title_spaces"],
+            [window.location.pathname.endsWith("privacy-policy.html"), "page_title_privacy"]
+        ];
+        const titleKey = pageTitleKeys.find(([matches]) => matches)?.[1];
+        if (titleKey && dict[titleKey]) {
+            document.title = dict[titleKey];
+        }
 
         document.querySelectorAll("meta[data-i18n]").forEach((meta) => {
             const key = meta.getAttribute("data-i18n");
             if (key && dict[key]) {
                 meta.setAttribute("content", dict[key]);
+            } else if (key) {
+                missingKeys.push(key);
             }
         });
 
@@ -665,8 +785,40 @@ document.addEventListener("DOMContentLoaded", () => {
             const key = element.getAttribute("data-i18n");
             if (key && dict[key]) {
                 element.innerHTML = dict[key];
+            } else if (key) {
+                missingKeys.push(key);
             }
         });
+
+        document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+            const key = element.getAttribute("data-i18n-aria-label");
+            if (key && dict[key]) {
+                element.setAttribute("aria-label", dict[key]);
+            } else if (key) {
+                missingKeys.push(key);
+            }
+        });
+
+        const languageSignatures = {
+            en: dict.hero_title,
+            it: dict.case_studies_title,
+            sl: dict.faq_title
+        };
+
+        window.__qublyTranslationCheck = {
+            lang,
+            missingKeys: Array.from(new Set(missingKeys)),
+            signature: languageSignatures[lang],
+            uniqueByLanguage: {
+                en: translations.en.hero_title,
+                it: translations.it.case_studies_title,
+                sl: translations.sl.faq_title
+            }
+        };
+
+        if (missingKeys.length > 0) {
+            console.warn("Missing translation keys:", window.__qublyTranslationCheck.missingKeys);
+        }
     }
 
     applyTranslations();

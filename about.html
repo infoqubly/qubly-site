@@ -10,7 +10,7 @@
     <link rel="canonical" href="https://infoqubly.github.io/qubly-site/about.html">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=50">
+    <link rel="stylesheet" href="css/styles.css?v=57">
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
 
@@ -74,12 +74,19 @@
         </div>
 
         <!-- FOOTER: Email Left, Icons Right -->
-        <footer class="site-footer"
-            style="padding: 2rem 6.25vw; display: flex; justify-content: space-between; align-items: flex-end;">
+        <footer class="site-footer about-footer">
 
-            <!-- Email (Left) -->
-            <a href="#" class="contact-trigger-link"
-                style="color: grey; font-size: 14px; text-decoration: none;">info.qubly@gmail.com</a>
+            <!-- Email and Privacy (Left) -->
+            <div class="footer-legal-links">
+                <a href="#" class="contact-trigger-link"
+                    style="color: grey; font-size: 14px; text-decoration: none;">info.qubly@gmail.com</a>
+                <a href="privacy-policy.html" class="privacy-policy-link" data-i18n="privacy_policy_link">Privacy Policy</a>
+            </div>
+
+            <a href="#faq" class="about-faq-cue" aria-label="Vai alle FAQ" data-i18n-aria-label="faq_cue_label">
+                <span data-i18n="faq_cue">F.A.Q.</span>
+                <span class="about-faq-arrow"></span>
+            </a>
 
             <!-- Icons (Right) -->
             <div class="footer-socials">
@@ -104,7 +111,7 @@
         </footer>
     </div>
 
-    <section class="faq-section" id="faq" data-snap-anchor data-snap-offset="0.06">
+    <section class="faq-section" id="faq" data-snap-anchor data-snap-offset="0">
         <h2 class="faq-title" data-i18n="faq_title">FREQUENTLY ASKED QUESTIONS</h2>
 
         <div class="faq-list">
@@ -148,9 +155,9 @@
     </section>
 
     <!-- SHARED JS -->
-    <script src="js/translations.js?v=49"></script>
-    <script src="js/spotlight.js?v=48"></script>
-    <script src="js/main.js?v=52"></script>
+    <script src="js/translations.js?v=53"></script>
+    <script src="js/spotlight.js?v=49"></script>
+    <script src="js/main.js?v=60"></script>
 
     <!-- CONTACT POPUP HTML -->
     <div id="contact-popup" class="contact-popup">

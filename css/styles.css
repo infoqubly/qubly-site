@@ -19,6 +19,12 @@
   /* Increased for larger logo (approx 150px) */
 }
 
+@media (min-width: 768px) {
+  :root {
+    --page-scrim: rgba(0, 0, 0, 0.12);
+  }
+}
+
 @media (max-width: 767px) {
   :root {
     --header-height: 25vw;
@@ -93,12 +99,12 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  padding: 0 1.666vw;
+  padding: 1.666vw;
   z-index: 100;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: var(--header-height);
+  align-items: flex-start;
+  height: auto;
   transition: background-color 0.3s ease;
   pointer-events: none;
   mix-blend-mode: difference;
@@ -118,7 +124,7 @@ a {
 
 @media (max-width: 767px) {
   .site-header {
-    padding: 0 5.08vw;
+    padding: 5.08vw;
   }
 }
 
@@ -127,9 +133,9 @@ a {
   display: block;
   z-index: 101;
   background: transparent;
-  height: 100%;
+  height: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* ... existing content ... */
@@ -644,15 +650,7 @@ textarea,
   position: relative;
   z-index: 10;
   margin: 0 auto;
-  padding: 6vw 1.75vw 3vw;
-}
-
-.scroll-showcase-header {
-  margin-bottom: 3vw;
-}
-
-.scroll-showcase-header .service-title {
-  margin-bottom: 0;
+  padding: 0 1.75vw 3vw;
 }
 
 .scroll-showcase-stack {
@@ -954,6 +952,137 @@ textarea,
   border-color: var(--QUBLY-WHITE);
 }
 
+.footer-legal-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.privacy-policy-link {
+  color: var(--QUBLY-GRAY);
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.privacy-policy-link:hover {
+  color: var(--QUBLY-WHITE);
+  border-bottom-color: var(--QUBLY-WHITE);
+}
+
+.about-faq-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  z-index: 12;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--QUBLY-WHITE);
+  font-size: clamp(13px, 0.9vw, 16px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.about-footer {
+  padding: 2rem 6.25vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  min-height: 88px;
+}
+
+.about-faq-cue:hover {
+  opacity: 1;
+}
+
+.about-faq-arrow {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  animation: aboutFaqCue 1.5s ease-in-out infinite;
+}
+
+@keyframes aboutFaqCue {
+  0%,
+  100% {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(0.35rem) rotate(45deg);
+  }
+}
+
+.legal-page {
+  min-height: 100vh;
+  position: relative;
+  padding: 110px 6.25vw 7vw;
+  color: var(--QUBLY-WHITE);
+  background: var(--QUBLY-BLACK);
+}
+
+.legal-content {
+  max-width: 980px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.legal-content h1 {
+  margin: 0 0 3rem;
+}
+
+.legal-section {
+  margin-bottom: 2.4rem;
+}
+
+.legal-section h2 {
+  color: var(--QUBLY-WHITE);
+  font-size: clamp(20px, 1.45vw, 30px);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04vw;
+  margin: 0 0 0.9rem;
+}
+
+.legal-section p,
+.legal-section li {
+  color: var(--QUBLY-GRAY);
+  line-height: 1.65;
+}
+
+.legal-section p {
+  margin: 0 0 1rem;
+}
+
+.legal-section ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.legal-section strong {
+  color: var(--QUBLY-WHITE);
+  font-weight: 400;
+}
+
+.legal-page-body,
+.legal-page-body #main-content-wrapper {
+  background: var(--QUBLY-BLACK) !important;
+}
+
+.legal-page-body #main-content-wrapper::before,
+.legal-page-body #scrolling-texture {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .contact-section {
     flex-direction: column;
@@ -1190,9 +1319,40 @@ textarea,
   overflow: visible;
 }
 
+.case-snapshots::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -6vw;
+  width: 100vw;
+  height: 13vw;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, var(--QUBLY-BLACK) 0%, rgba(10, 10, 10, 0.96) 58%, rgba(10, 10, 10, 0) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 @media (min-width: 768px) {
   .case-snapshots .case-group:first-of-type {
-    transform: translateY(-1vw);
+    transform: translateY(-4.1vw);
+  }
+
+  .case-snapshots .case-group:first-of-type .case-row-title {
+    margin-bottom: 1.15vw;
+  }
+
+  .case-snapshots .case-group:first-of-type .case-media {
+    aspect-ratio: 1.66;
+    margin-bottom: 0.85vw;
+  }
+
+  .case-snapshots .case-group:first-of-type .case-kicker {
+    margin-bottom: 0.25vw;
+  }
+
+  .case-snapshots .case-group:first-of-type .case-card p:not(.case-kicker) {
+    font-size: clamp(13px, 0.86vw, 16px);
+    line-height: 1.3;
   }
 }
 
@@ -1210,19 +1370,42 @@ textarea,
   /* Significantly larger */
   line-height: 1.1;
   text-align: center !important;
-  margin-bottom: 4vw !important;
+  margin-bottom: 1.9vw !important;
 }
 
 .case-row-title {
-  font-size: clamp(18px, 1.6vw, 32px);
+  display: inline-block;
+  font-size: clamp(24px, 2.35vw, 48px);
   text-transform: uppercase;
-  letter-spacing: 0.05vw;
+  letter-spacing: 0.16vw;
   margin-top: 0;
-  margin-bottom: 2vw;
-  color: var(--QUBLY-WHITE);
+  margin-bottom: 2.15vw;
+  color: transparent;
+  background:
+    linear-gradient(90deg, var(--QUBLY-WHITE), var(--QUBLY-WHITE)) 0 0 / 0% 100% no-repeat,
+    linear-gradient(90deg, rgba(250, 250, 250, 0.28), rgba(250, 250, 250, 0.28)) 0 0 / 100% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
   font-weight: 400;
   position: relative;
   z-index: 11;
+  transform: scaleX(1.08);
+  transform-origin: left center;
+}
+
+.case-group.is-title-filling .case-row-title,
+.case-row-title.reveal.is-visible {
+  animation: caseTitleFill 1.5s ease 0.5s forwards;
+}
+
+@keyframes caseTitleFill {
+  from {
+    background-size: 0% 100%, 100% 100%;
+  }
+
+  to {
+    background-size: 100% 100%, 100% 100%;
+  }
 }
 
 .case-row {
@@ -1352,6 +1535,14 @@ textarea,
   transform: translateX(0);
 }
 
+.case-row-title.reveal.from-left {
+  transform: translateX(-40px) scaleX(1.08);
+}
+
+.case-row-title.reveal.is-visible {
+  transform: translateX(0) scaleX(1.08);
+}
+
 /* Responsive Case Studies */
 @media (max-width: 767px) {
   .case-snapshots {
@@ -1421,10 +1612,6 @@ textarea,
 
   .scroll-showcase + .case-snapshots {
     padding-top: 12vw;
-  }
-
-  .scroll-showcase-header {
-    margin-bottom: 8vw;
   }
 
   .scroll-showcase-stack {

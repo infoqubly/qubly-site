@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
 
     const config = {
-        baseRadius: 250, // Larger radius per request
+        baseRadius: window.matchMedia('(min-width: 768px)').matches ? 290 : 250, // Larger radius on desktop
         smoothing: 0.1
     };
 
@@ -94,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Fill the screen with Darkness
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.82)';
+        ctx.fillStyle = window.matchMedia('(min-width: 768px)').matches
+            ? 'rgba(0, 0, 0, 0.76)'
+            : 'rgba(0, 0, 0, 0.82)';
         ctx.fillRect(0, 0, width, height);
 
         // 2. Erase the "Light" (Cut a hole)

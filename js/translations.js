@@ -1,9 +1,17 @@
 const translations = {
     en: {
+        page_title_index: "QUBLY - Architectural Visualization",
+        page_title_about: "QUBLY - About",
+        page_title_esterni: "QUBLY - Exteriors",
+        page_title_interni: "QUBLY - Interiors",
+        page_title_spaces: "QUBLY - Spaces",
+        page_title_privacy: "QUBLY - Privacy Policy",
+
         meta_desc_index: "Architectural visualizations, exterior and interior renders, and imagery for real estate and architectural projects.",
         meta_desc_esterni: "Architectural visualizations for exteriors and real estate projects.",
         meta_desc_interni: "Architectural visualizations for interiors and spatial design.",
         meta_desc_spaces: "Architectural visualizations for spaces and spatial design.",
+        meta_desc_privacy: "QUBLY Privacy Policy.",
 
         nav_home: "Home",
         nav_about: "About Us",
@@ -12,14 +20,13 @@ const translations = {
         nav_contact: "Contact Us",
 
         hero_title: "SEE THE FORM<br>UNDERSTAND THE PROJECT",
-        showcase_title: "SELECTED WORKS",
         showcase_tag_residential: "RESIDENTIAL",
         showcase_tag_architecture: "ARCHITECTURE",
         showcase_tag_spaces: "SPACES",
         showcase_tag_transformation: "TRANSFORMATION",
         case_studies_title: "WHEN CLARITY DRIVES DECISIONS",
 
-        row1_title: "Design transition to reality",
+        row1_title: "From idea to image",
         kicker_need: "Before",
         row1_prob: "Drawings explain structure, but they don't communicate how the architecture will actually look and feel in reality.",
         kicker_deliver: "After",
@@ -29,11 +36,11 @@ const translations = {
         row2_prob: "Sometimes there is only an empty space, or just a project on paper, and it has to be sold before anyone can imagine living in it.",
         row2_sol: "Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready environments that make purchase decisions easier.",
 
-        row3_title: "FOTOINSERIMENTO",
+        row3_title: "Photomontage of your project",
         row3_prob: "Existing buildings and sites don't communicate their future potential.",
-        row3_sol: "Contextual photoinsertions that show the transformation as if it already exists.",
+        row3_sol: "Contextual photomontages that show the transformation as if it already exists.",
 
-        row4_title: "Design options and material comparison",
+        row4_title: "Materials and solutions compared",
         row4_prob: "Comparing finishes and alternatives is abstract without seeing them side by side.",
         row4_sol: "Consistent comparative renders that make choices immediate and concrete.",
 
@@ -50,6 +57,9 @@ const translations = {
         about_p1: "QUBLY is a specialized architectural visualization studio composed of architects dedicated to crafting reality through digital imagery.",
         about_p2: "We operate at the intersection of architecture, design, and marketing, providing high-end visual content that communicates the essence of unbuilt spaces. Our expertise spans three core disciplines: <strong>Exteriors</strong>, <strong>Interiors</strong>, and <strong>Spaces</strong> visualization.",
         about_p3: "Every project is approached with an architectural understanding of space, light, and materiality. We do not just render; we interpret design to create compelling visual narratives that add value and desirability to real estate and spatial design projects.",
+        faq_cue: "F.A.Q.",
+        faq_cue_label: "Go to FAQ",
+        privacy_policy_link: "Privacy Policy",
 
         faq_title: "FREQUENTLY ASKED QUESTIONS",
         faq_q1: "HOW LONG DOES A RENDERING TAKE?",
@@ -59,7 +69,7 @@ const translations = {
         faq_q3: "WHICH FILES DO I NEED TO START?",
         faq_a3: "Plans, elevations, references, material notes, and any available 3D files are helpful.",
         faq_q4: "WHAT SERVICES DO YOU OFFER?",
-        faq_a4: "We create exterior, interior, spaces, photoinsertion, and material comparison visuals.",
+        faq_a4: "We create exterior, interior, spaces, photomontage, and material comparison visuals.",
         faq_q5: "HOW MANY REVISIONS ARE INCLUDED?",
         faq_a5: "Revision rounds are defined before starting, based on the project needs.",
         faq_q6: "DO YOU WORK ON INTERNATIONAL PROJECTS?",
@@ -69,13 +79,25 @@ const translations = {
         popup_desc: "We'd love to hear from you. Send us a message.",
         popup_email_label: "Your email",
         popup_msg_label: "Message",
-        popup_send: "Send"
+        popup_send: "Send",
+
+        privacy_title: "Privacy Policy of QUBLY",
+        privacy_updated_label: "Last updated:",
+        privacy_updated_date: "May 24, 2026"
     },
     it: {
+        page_title_index: "QUBLY - Visualizzazione Architettonica",
+        page_title_about: "QUBLY - Chi Siamo",
+        page_title_esterni: "QUBLY - Esterni",
+        page_title_interni: "QUBLY - Interni",
+        page_title_spaces: "QUBLY - Spazi",
+        page_title_privacy: "QUBLY - Privacy Policy",
+
         meta_desc_index: "Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici.",
         meta_desc_esterni: "Visualizzazioni architettoniche per esterni e progetti immobiliari.",
         meta_desc_interni: "Visualizzazioni architettoniche per interni e design degli spazi.",
         meta_desc_spaces: "Visualizzazioni architettoniche per gli spazi e il design degli spazi.",
+        meta_desc_privacy: "Privacy Policy di QUBLY.",
 
         nav_home: "Home",
         nav_about: "Chi Siamo",
@@ -84,14 +106,13 @@ const translations = {
         nav_contact: "Contattaci",
 
         hero_title: "VEDI LA FORMA<br>COMPRENDI IL PROGETTO",
-        showcase_title: "LAVORI SELEZIONATI",
         showcase_tag_residential: "RESIDENZIALE",
         showcase_tag_architecture: "ARCHITETTURA",
         showcase_tag_spaces: "SPAZI",
         showcase_tag_transformation: "TRASFORMAZIONE",
         case_studies_title: "QUANDO LA CHIAREZZA GUIDA LE DECISIONI",
 
-        row1_title: "Passaggio dal design alla realtà",
+        row1_title: "Dall’idea all’immagine",
         kicker_need: "Prima",
         row1_prob: "I disegni spiegano la struttura, ma non comunicano come l'architettura apparirà e si farà sentire nella realtà.",
         kicker_deliver: "Dopo",
@@ -101,11 +122,11 @@ const translations = {
         row2_prob: "A volte c'è solo uno spazio vuoto, o un progetto su carta, e deve essere venduto prima che chiunque possa immaginare di viverci.",
         row2_sol: "Visualizzazioni fotorealistiche che trasformano spazi vuoti o non ancora costruiti in ambienti desiderabili e pronti per il mercato, facilitando le decisioni di acquisto.",
 
-        row3_title: "FOTOINSERIMENTO",
+        row3_title: "Fotoinserimento del tuo progetto",
         row3_prob: "Gli edifici e i siti esistenti non comunicano il loro potenziale futuro.",
         row3_sol: "Fotoinserimenti contestuali che mostrano la trasformazione come se esistesse già.",
 
-        row4_title: "Opzioni di design e confronto dei materiali",
+        row4_title: "Materiali e soluzioni a confronto",
         row4_prob: "Confrontare finiture e alternative è astratto senza vederle fianco a fianco.",
         row4_sol: "Render comparativi coerenti che rendono le scelte immediate e concrete.",
 
@@ -122,6 +143,9 @@ const translations = {
         about_p1: "QUBLY è uno studio specializzato in visualizzazione architettonica composto da architetti dedicati alla creazione della realtà attraverso immagini digitali.",
         about_p2: "Operiamo all'intersezione tra architettura, design e marketing, fornendo contenuti visivi di alta gamma che comunicano l'essenza di spazi non ancora costruiti. La nostra competenza abbraccia tre discipline principali: visualizzazione di <strong>Esterni</strong>, <strong>Interni</strong> e <strong>Spazi</strong>.",
         about_p3: "Ogni progetto viene affrontato con una comprensione architettonica dello spazio, della luce e della materialità. Non ci limitiamo a renderizzare; interpretiamo il design per creare narrazioni visive accattivanti che aggiungono valore e desiderabilità agli sviluppi immobiliari e ai progetti di spazi.",
+        faq_cue: "F.A.Q.",
+        faq_cue_label: "Vai alle FAQ",
+        privacy_policy_link: "Informativa Privacy",
 
         faq_title: "DOMANDE FREQUENTI",
         faq_q1: "QUANTO TEMPO SERVE PER UN RENDERING?",
@@ -141,13 +165,25 @@ const translations = {
         popup_desc: "Ci piacerebbe sentirti. Mandaci un messaggio.",
         popup_email_label: "La tua email",
         popup_msg_label: "Messaggio",
-        popup_send: "Invia"
+        popup_send: "Invia",
+
+        privacy_title: "Privacy Policy di QUBLY",
+        privacy_updated_label: "Ultimo aggiornamento:",
+        privacy_updated_date: "24 maggio 2026"
     },
     sl: {
+        page_title_index: "QUBLY - Arhitekturna Vizualizacija",
+        page_title_about: "QUBLY - O Nas",
+        page_title_esterni: "QUBLY - Zunanjost",
+        page_title_interni: "QUBLY - Notranjost",
+        page_title_spaces: "QUBLY - Prostori",
+        page_title_privacy: "QUBLY - Politika Zasebnosti",
+
         meta_desc_index: "Arhitekturne vizualizacije, zunanji in notranji renderji ter slike za nepremičninske in arhitekturne projekte.",
         meta_desc_esterni: "Arhitekturne vizualizacije za zunanjost in nepremičninske projekte.",
         meta_desc_interni: "Arhitekturne vizualizacije za notranjost in oblikovanje prostorov.",
         meta_desc_spaces: "Arhitekturne vizualizacije za prostore in prostorsko oblikovanje.",
+        meta_desc_privacy: "Politika zasebnosti QUBLY.",
 
         nav_home: "Domov",
         nav_about: "O nas",
@@ -156,14 +192,13 @@ const translations = {
         nav_contact: "Kontaktirajte Nas",
 
         hero_title: "VIDI OBLIKO<br>RAZUMI PROJEKT",
-        showcase_title: "IZBRANI PROJEKTI",
         showcase_tag_residential: "STANOVANJSKO",
         showcase_tag_architecture: "ARHITEKTURA",
         showcase_tag_spaces: "PROSTORI",
         showcase_tag_transformation: "PREOBRAZBA",
         case_studies_title: "KO JASNOST VODI ODLOČITVE",
 
-        row1_title: "Prehod od dizajna do realnosti",
+        row1_title: "Od ideje do podobe",
         kicker_need: "Pred",
         row1_prob: "Risbe pojasnjujejo strukturo, a ne sporočajo, kako bo arhitektura dejansko izgledala in kakšen bo občutek v realnosti.",
         kicker_deliver: "Po",
@@ -173,11 +208,11 @@ const translations = {
         row2_prob: "Včasih je le prazen prostor ali pa samo projekt na papirju, in ga je treba prodati preden si lahko kdor koli predstavlja življenje v njem.",
         row2_sol: "Fotorealistične vizualizacije, ki spremenijo prazne ali nezgrajene prostore v zaželena okolja, pripravljena na trg, kar olajša odločitve o nakupu.",
 
-        row3_title: "FOTOINSERIMENTO",
+        row3_title: "Fotomontaža vašega projekta",
         row3_prob: "Obstoječe stavbe in lokacije ne sporočajo svojega prihodnjega potenciala.",
-        row3_sol: "Kontekstualne fotovstavitve, ki prikazujejo transformacijo, kot da že obstaja.",
+        row3_sol: "Kontekstualne fotomontaže, ki prikazujejo transformacijo, kot da že obstaja.",
 
-        row4_title: "Možnosti dizajna in primerjava materialov",
+        row4_title: "Primerjava materialov in rešitev",
         row4_prob: "Primerjava zaključkov in alternativ je abstraktna brez možnosti, da jih vidimo drugo ob drugi.",
         row4_sol: "Dosledni primerjalni renderji, ki naredijo izbire takojšnje in konkretne.",
 
@@ -194,6 +229,9 @@ const translations = {
         about_p1: "QUBLY je specializiran studio za arhitekturno vizualizacijo, sestavljen iz arhitektov, ki se posvečajo ustvarjanju realnosti skozi digitalne podobe.",
         about_p2: "Delujemo na presečišču arhitekture, oblikovanja in trženja ter zagotavljamo vrhunske vizualne vsebine, ki sporočajo bistvo še nezgrajenih prostorov. Naše strokovno znanje obsega tri ključne discipline: vizualizacija <strong>zunanjosti</strong>, <strong>notranjosti</strong> in <strong>prostorov</strong>.",
         about_p3: "Vsakemu projektu pristopamo z arhitekturnim razumevanjem prostora, svetlobe in materialnosti. Ne izdelujemo samo renderjev; interpretiramo dizajn, da ustvarimo privlačne vizualne pripovedi, ki dodajajo vrednost in zaželenost nepremičninskim in prostorskim projektom.",
+        faq_cue: "F.A.Q.",
+        faq_cue_label: "Pojdi na pogosta vprašanja",
+        privacy_policy_link: "Politika zasebnosti",
 
         faq_title: "POGOSTA VPRAŠANJA",
         faq_q1: "KOLIKO ČASA TRAJA IZDELAVA RENDERJA?",
@@ -213,6 +251,10 @@ const translations = {
         popup_desc: "Z veseljem vas bomo slišali. Pošljite nam sporočilo.",
         popup_email_label: "Vaš e-naslov",
         popup_msg_label: "Sporočilo",
-        popup_send: "Pošlji"
+        popup_send: "Pošlji",
+
+        privacy_title: "Politika zasebnosti QUBLY",
+        privacy_updated_label: "Zadnja posodobitev:",
+        privacy_updated_date: "24. maj 2026"
     }
 };
