@@ -9,15 +9,15 @@
     <link rel="canonical" href="https://infoqubly.github.io/qubly-site/">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=28">
+    <link rel="stylesheet" href="css/styles.css?v=50">
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
 
-<body>
+<body class="home-page">
 
     <!-- HEADER -->
     <header class="site-header">
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
             <!-- Increased size to 50px height as requested -->
             <img src="logo.png" alt="QUBLY">
         </a>
@@ -32,10 +32,10 @@
         <ul class="menu-list">
             <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
             <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
-            <li class="menu-item"><a href="#case-studies" data-i18n="nav_purpose">Purpose</a></li>
+            <li class="menu-item"><a href="#case-studies" data-i18n="nav_purpose">What We Offer</a></li>
             <li class="menu-item"><a href="#projects" data-i18n="nav_projects">Projects</a></li>
             <!-- CONTACT triggers scroll to #contact section, where the trigger link is -->
-            <li class="menu-item"><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+            <li class="menu-item"><a href="#contact" data-i18n="nav_contact">Contact Us</a></li>
         </ul>
     </div>
 
@@ -59,21 +59,59 @@
     </section>
 
     <!-- MAIN CONTENT WRAPPER to fix background scrolling issue -->
-    <main id="main-content-wrapper" style="position: relative; overflow: hidden; background-color: var(--bg-color);">
+    <main id="main-content-wrapper">
         <!-- SCROLLING TEXTURE BACKGROUND -->
-        <img src="Sfondo.webp" id="scrolling-texture" alt=""
-            style="position: absolute; top: 0; left: 0; width: 100%; height: auto; min-height: 100%; object-fit: cover; z-index: 1; pointer-events: none; opacity: 1;">
+        <img src="Sfondo.webp" id="scrolling-texture" alt="">
 
         <!-- INTRO TEXT -->
-        <div class="section-wrapper" id="intro">
+        <div class="section-wrapper" id="intro" data-snap-anchor data-snap-offset="0">
             <h1 class="reveal from-left" data-delay="0" style="text-transform: uppercase;" data-i18n="hero_title">
                 SEE THE FORM<br>
                 UNDERSTAND THE PROJECT
             </h1>
         </div>
 
+        <section class="scroll-showcase" id="visual-flow" data-snap-anchor data-snap-offset="0.08">
+            <div class="scroll-showcase-header">
+                <h2 class="service-title reveal from-left" data-i18n="showcase_title">SELECTED WORKS</h2>
+            </div>
+            <div class="scroll-showcase-stack" style="--showcase-card-count: 4;">
+                <div class="scroll-showcase-stage">
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/01.jpg" alt="Selected interior work 1" data-speed="0.94">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_residential">RESIDENTIAL</span>
+                        </div>
+                    </article>
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/02.jpg" alt="Selected exterior work" data-speed="0.92">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_architecture">ARCHITECTURE</span>
+                        </div>
+                    </article>
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/03.jpg" alt="Selected spaces work" data-speed="0.9">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_spaces">SPACES</span>
+                        </div>
+                    </article>
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/04.png" alt="Selected redevelopment work" data-speed="0.88">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_transformation">TRANSFORMATION</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
     <!-- CASE STUDIES SNAPSHOT -->
     <section class="case-snapshots" id="case-studies">
+        <div class="case-group" data-snap-anchor data-snap-offset="0.08">
         <h2 class="service-title reveal from-left" data-delay="0" data-i18n="case_studies_title">WHEN CLARITY DRIVES DECISIONS
         </h2>
 
@@ -82,7 +120,7 @@
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
                     <img src="PS/P1.png" alt="Case Study 1 Problem" />
                 </div>
@@ -93,8 +131,8 @@
             </a>
 
             <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
                     <img src="PS/S1.png" alt="Case Study 1 Solution" />
                 </div>
@@ -103,13 +141,15 @@
                 </div>
             </a>
         </div>
+        </div>
 
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
         <!-- ROW 2 -->
         <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row2_title">Interior decisions</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
                     <img src="PS/P2.png" alt="Case Study 2 Problem" />
                 </div>
@@ -120,8 +160,8 @@
             </a>
 
             <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
                     <img src="PS/S2.png" alt="Case Study 2 Solution" />
                 </div>
@@ -131,13 +171,15 @@
                 </div>
             </a>
         </div>
+        </div>
 
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
         <!-- ROW 3 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row3_title">Redevelopment and transformation</h3>
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row3_title">FOTOINSERIMENTO</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
                     <img src="PS/P3.png" alt="Case Study 3 Problem" />
                 </div>
@@ -147,8 +189,8 @@
             </a>
 
             <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
                     <img src="PS/S3.png" alt="Case Study 3 Solution" />
                 </div>
@@ -157,13 +199,15 @@
                 </div>
             </a>
         </div>
+        </div>
 
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
         <!-- ROW 4 -->
         <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row4_title">Design options and material comparison</h3>
         <div class="case-row">
             <!-- Left Card: Problem -->
             <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Need</p>
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
                     <img src="PS/P4.png" alt="Case Study 4 Problem" />
                 </div>
@@ -173,8 +217,8 @@
             </a>
 
             <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="200">
-                <p class="case-kicker" data-i18n="kicker_deliver">What we deliver</p>
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
                     <img src="PS/S4.png" alt="Case Study 4 Solution" />
                 </div>
@@ -183,17 +227,18 @@
                 </div>
             </a>
         </div>
+        </div>
     </section>
 
     <!-- PROJECTS SECTION (Moved here) -->
-    <div class="section-wrapper" id="projects">
+    <div class="section-wrapper" id="projects" data-snap-anchor data-snap-offset="0.12">
         <h2 class="service-title reveal from-left" data-delay="0" data-i18n="projects_title">PROJECTS</h2>
 
         <div class="services-grid">
             <!-- Project Category 1: EXTERIOR -->
             <a href="esterni.html" class="case-card reveal from-left" data-delay="0">
                 <div class="case-media"
-                    style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
+                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
                     <img src="PS/exterior.png" alt="Exterior"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
@@ -205,7 +250,7 @@
             <!-- Project Category 2: INTERIOR -->
             <a href="interni.html" class="case-card reveal from-left" data-delay="200">
                 <div class="case-media"
-                    style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
+                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
                     <img src="PS/interior.png" alt="Interior"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
@@ -214,29 +259,31 @@
                 </div>
             </a>
 
-            <!-- Project Category 3: MARINE -->
-            <a href="nautica.html" class="case-card reveal from-left" data-delay="400">
+            <!-- Project Category 3: SPACES -->
+            <a href="spazi.html" class="case-card reveal from-left" data-delay="400">
                 <div class="case-media"
-                    style="position: relative; height: 18vw; overflow: hidden; border-radius: 0.25vw;">
-                    <img src="PS/marine.png" alt="Marine"
+                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
+                    <img src="PS/spaces.png" alt="Spaces"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
-                    <h3 data-i18n="proj_marine">MARINE</h3>
+                    <h3 data-i18n="proj_spaces">SPACES</h3>
                 </div>
             </a>
         </div>
     </div>
 
     <!-- CONTACT SECTION (Redesigned) -->
-    <div class="contact-section" id="contact">
+    <div class="contact-section" id="contact" data-snap-anchor data-snap-offset="0.12">
         <div class="contact-left reveal from-left" data-delay="0">
             <h2 class="service-title" data-i18n="contact_title">CONTACT</h2>
             <p class="contact-text" data-i18n="contact_desc">
                 Turning architectural ideas into visual reality.<br>
                 For project proposals and collaborations, email us.
             </p>
-            <a href="#" class="contact-trigger-link">info.qubly@gmail.com</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRsD1cFEi_Piw1dqPVw4LWgrstn5cbHXEcnYwcSCSfHgwjyg/viewform?usp=publish-editor"
+                class="contact-form-button contact-form-button--dark" target="_blank" rel="noopener"
+                data-i18n="contact_request_button">SEND REQUEST</a>
         </div>
 
         <div class="contact-right">
@@ -259,6 +306,7 @@
                     </svg>
                 </a>
             </div>
+            <a href="#" class="contact-trigger-link">info.qubly@gmail.com</a>
         </div>
     </div>
 
@@ -277,9 +325,9 @@
 
 
     <!-- JS -->
-    <script src="js/translations.js"></script>
-    <script src="js/spotlight.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/translations.js?v=49"></script>
+    <script src="js/spotlight.js?v=48"></script>
+    <script src="js/main.js?v=52"></script>
 </body>
 
 </html>

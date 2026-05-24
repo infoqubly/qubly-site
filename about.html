@@ -10,11 +10,11 @@
     <link rel="canonical" href="https://infoqubly.github.io/qubly-site/about.html">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=26">
+    <link rel="stylesheet" href="css/styles.css?v=50">
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
 
-<body>
+<body class="about-page-body">
 
     <!-- CUSTOM CURSOR -->
     <div id="cursor-dot"></div>
@@ -36,15 +36,17 @@
         <ul class="menu-list">
             <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
             <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
-            <li class="menu-item"><a href="index.html#case-studies" data-i18n="nav_purpose">Purpose</a></li>
+            <li class="menu-item"><a href="index.html#case-studies" data-i18n="nav_purpose">What We Offer</a></li>
             <li class="menu-item"><a href="index.html#projects" data-i18n="nav_projects">Projects</a></li>
-            <li class="menu-item"><a href="index.html#contact" data-i18n="nav_contact">Contact</a></li>
+            <li class="menu-item"><a href="index.html#contact" data-i18n="nav_contact">Contact Us</a></li>
         </ul>
     </div>
 
     <!-- ABOUT CONTENT -->
-    <div class="section-wrapper about-page"
+    <div class="section-wrapper about-page" data-snap-anchor data-snap-offset="0"
         style="padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column;">
+        <!-- SCROLLING TEXTURE BACKGROUND -->
+        <img src="Sfondo.webp" id="scrolling-texture" alt="">
         <div class="content-container" style="max-width: 800px; margin: 0 auto; text-align: left; flex-grow: 1;">
             <h1 class="service-title" style="margin-top: 0; margin-bottom: 2vw;" data-i18n="about_title">ABOUT QUBLY</h1>
 
@@ -57,14 +59,18 @@
             <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;" data-i18n="about_p2">
                 We operate at the intersection of architecture, design, and marketing, providing high-end visual content
                 that communicates the essence of unbuilt spaces. Our expertise spans three core disciplines:
-                <strong>Exteriors</strong>, <strong>Interiors</strong>, and <strong>Marine</strong> visualization.
+                <strong>Exteriors</strong>, <strong>Interiors</strong>, and <strong>Spaces</strong> visualization.
             </p>
 
             <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 3rem;" data-i18n="about_p3">
                 Every project is approached with an architectural understanding of space, light, and materiality. We do
                 not just render; we interpret design to create compelling visual narratives that add value and
-                desirability to real estate and nautical developments.
+                desirability to real estate and spatial design projects.
             </p>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRsD1cFEi_Piw1dqPVw4LWgrstn5cbHXEcnYwcSCSfHgwjyg/viewform?usp=publish-editor"
+                class="contact-form-button contact-form-button--light" target="_blank" rel="noopener"
+                data-i18n="contact_request_button">SEND REQUEST</a>
         </div>
 
         <!-- FOOTER: Email Left, Icons Right -->
@@ -72,7 +78,7 @@
             style="padding: 2rem 6.25vw; display: flex; justify-content: space-between; align-items: flex-end;">
 
             <!-- Email (Left) -->
-            <a href="mailto:info.qubly@gmail.com" class="contact-trigger-link"
+            <a href="#" class="contact-trigger-link"
                 style="color: grey; font-size: 14px; text-decoration: none;">info.qubly@gmail.com</a>
 
             <!-- Icons (Right) -->
@@ -98,10 +104,53 @@
         </footer>
     </div>
 
+    <section class="faq-section" id="faq" data-snap-anchor data-snap-offset="0.06">
+        <h2 class="faq-title" data-i18n="faq_title">FREQUENTLY ASKED QUESTIONS</h2>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary data-i18n="faq_q1">HOW LONG DOES A RENDERING TAKE?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a1">Timing depends on the project scope, number of views, and available material.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q2">HOW MUCH DOES A RENDERING COST?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a2">Costs vary by complexity, output type, and number of images required.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q3">WHICH FILES DO I NEED TO START?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a3">Plans, elevations, references, material notes, and any available 3D files are helpful.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q4">WHAT SERVICES DO YOU OFFER?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a4">We create exterior, interior, spaces, photoinsertion, and material comparison visuals.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q5">HOW MANY REVISIONS ARE INCLUDED?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a5">Revision rounds are defined before starting, based on the project needs.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q6">DO YOU WORK ON INTERNATIONAL PROJECTS?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a6">Yes, we work remotely with clients and teams in different countries.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
     <!-- SHARED JS -->
-    <script src="js/translations.js"></script>
-    <script src="js/spotlight.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/translations.js?v=49"></script>
+    <script src="js/spotlight.js?v=48"></script>
+    <script src="js/main.js?v=52"></script>
 
     <!-- CONTACT POPUP HTML -->
     <div id="contact-popup" class="contact-popup">

@@ -7,9 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('spotlight-canvas');
     if (!canvas) return; // safety check
 
-    // Set z-index to 2 (Above background texture (1), below content (10))
-    canvas.style.zIndex = '2';
-
     const ctx = canvas.getContext('2d');
 
     const config = {
@@ -97,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Fill the screen with Darkness
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.90)'; // Check 0.90 as requested
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.82)';
         ctx.fillRect(0, 0, width, height);
 
         // 2. Erase the "Light" (Cut a hole)
