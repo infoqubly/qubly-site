@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const contactTriggers = document.querySelectorAll(".contact-trigger-link");
     const revealItems = Array.from(document.querySelectorAll(".reveal"));
     const visualFlow = document.getElementById("visual-flow");
-    const firstCaseGroup = document.querySelector("#case-studies .case-group");
     const scrollShowcaseCards = Array.from(document.querySelectorAll(".scroll-showcase-card"));
     const isHomePage = body.classList.contains("home-page");
     const isSnapPage = isHomePage || body.classList.contains("about-page-body");
@@ -126,6 +125,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const offsetRatio = Number.parseFloat(target.dataset.snapOffset || "0");
         const targetTop = target.getBoundingClientRect().top + window.scrollY;
+
+        if (target.classList.contains("case-group") && window.matchMedia("(min-width: 1024px)").matches) {
+            const centeredOffset = Math.max(0, (window.innerHeight - target.offsetHeight) / 2);
+            return Math.max(0, Math.round(targetTop - centeredOffset));
+        }
+
         return Math.max(0, Math.round(targetTop - (window.innerHeight * offsetRatio)));
     }
 
@@ -191,34 +196,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const flowMetrics = getVisualFlowScrollMetrics();
-        const defaultEntryTop = getScrollDestination(visualFlow);
+        const defaultTop = getScrollDestination(visualFlow);
         const entryTop = flowMetrics
             ? Math.max(0, Math.round(flowMetrics.pinStart))
-            : defaultEntryTop;
+            : defaultTop;
         const exitTop = flowMetrics
-            ? Math.max(defaultEntryTop + 1, Math.round(flowMetrics.stackTop + flowMetrics.availableScroll))
-            : defaultEntryTop;
+            ? Math.max(entryTop + 1, Math.round(flowMetrics.pinEnd))
+            : defaultTop;
 
         return {
             entryTop,
             exitTop,
             flowMetrics
         };
-    }
-
-    function isInsideVisualFlowZone(scrollTop = window.scrollY) {
-        if (!visualFlow) {
-            return false;
-        }
-
-        const snapMetrics = getVisualFlowSnapMetrics();
-        if (!snapMetrics) {
-            return false;
-        }
-
-        const zoneStart = Math.max(0, snapMetrics.entryTop - Math.round(window.innerHeight * 0.08));
-        const zoneEnd = snapMetrics.exitTop + Math.round(window.innerHeight * 0.08);
-        return scrollTop >= zoneStart && scrollTop <= zoneEnd;
     }
 
     function initScrollShowcase() {
@@ -280,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const stageTopPx = resolveViewportOffsetFromCssVar(visualFlow, "--showcase-stage-top");
             const pinStart = stackTop - stageTopPx;
             const pinEnd = pinStart + availableScroll;
-            const currentScroll = clamp(window.scrollY - stackTop, 0, availableScroll);
+            const currentScroll = clamp(window.scrollY - pinStart, 0, availableScroll);
             const segment = availableScroll / Math.max(1, scrollShowcaseCards.length - 1);
             const progress = segment > 0 ? currentScroll / segment : 0;
             const activeIndex = clamp(Math.floor(progress + 0.55), 0, scrollShowcaseCards.length - 1);
@@ -548,7 +538,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (isSnapPage) {
-        const introSection = document.getElementById("intro");
         const snapTargets = Array.from(document.querySelectorAll("[data-snap-anchor]"));
         let requestedSnapIndex = null;
         let lastSnapInputAt = 0;
@@ -575,22 +564,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 .flatMap((element) => {
                     if (element === visualFlow) {
                         const snapMetrics = getVisualFlowSnapMetrics();
-                        if (!snapMetrics) {
+                        if (!snapMetrics || !snapMetrics.flowMetrics) {
                             return [];
                         }
 
-                        return [
-                            {
-                                element,
-                                kind: "visual-flow-entry",
-                                top: snapMetrics.entryTop
-                            },
-                            {
-                                element,
-                                kind: "visual-flow-exit",
-                                top: snapMetrics.exitTop
-                            }
-                        ];
+                        const cardCount = Math.max(1, scrollShowcaseCards.length);
+                        const segment = cardCount > 1
+                            ? snapMetrics.flowMetrics.availableScroll / (cardCount - 1)
+                            : 0;
+
+                        return Array.from({ length: cardCount }, (_, index) => ({
+                            element,
+                            kind: "visual-flow-step",
+                            top: Math.round(snapMetrics.entryTop + (segment * index))
+                        }));
                     }
 
                     if (element.classList.contains("faq-section")) {
@@ -646,36 +633,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const now = performance.now();
             const direction = event.deltaY > 0 ? 1 : -1;
             const snapPoints = getSnapPoints();
-
-            if (isInsideVisualFlowZone()) {
-                const snapMetrics = getVisualFlowSnapMetrics();
-                const edgeTolerance = Math.round(window.innerHeight * 0.14);
-
-                if (snapMetrics && direction > 0 && firstCaseGroup && window.scrollY >= (snapMetrics.exitTop - edgeTolerance)) {
-                    event.preventDefault();
-                    snapLockUntil = now + 520;
-                    window.scrollTo({
-                        top: getScrollDestination(firstCaseGroup),
-                        behavior: "smooth"
-                    });
-                    requestedSnapIndex = getNearestSnapIndex(snapPoints, getScrollDestination(firstCaseGroup));
-                    syncRequestedSnapIndex();
-                    return;
-                }
-
-                if (snapMetrics && direction < 0 && introSection && window.scrollY <= (snapMetrics.entryTop + edgeTolerance)) {
-                    event.preventDefault();
-                    snapLockUntil = now + 520;
-                    window.scrollTo({
-                        top: getScrollDestination(introSection),
-                        behavior: "smooth"
-                    });
-                    requestedSnapIndex = getNearestSnapIndex(snapPoints, getScrollDestination(introSection));
-                    syncRequestedSnapIndex();
-                }
-
-                return;
-            }
 
             if (now < snapLockUntil || (now - lastSnapInputAt) < 90) {
                 event.preventDefault();
