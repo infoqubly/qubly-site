@@ -614,7 +614,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             requestedSnapIndex = nextIndex;
             lastSnapInputAt = performance.now();
-            snapLockUntil = lastSnapInputAt + (isVisualFlowMove ? 340 : 520);
+            snapLockUntil = lastSnapInputAt + (isVisualFlowMove ? 620 : 520);
             window.scrollTo({
                 top: points[nextIndex].top,
                 behavior: "smooth"

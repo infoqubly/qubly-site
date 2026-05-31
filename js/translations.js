@@ -32,17 +32,25 @@ const translations = {
         kicker_deliver: "After",
         row1_sol: "Architectural visualizations that turn 2D intent into clear, tangible spatial reality.",
 
-        row2_title: "Interior decisions",
-        row2_prob: "Sometimes there is only an empty space, or just a project on paper, and it has to be sold before anyone can imagine living in it.",
-        row2_sol: "Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready environments that make purchase decisions easier.",
+        row2_title: "From project to image",
+        row2_prob: "A project can be precise and complete, but still difficult to read without a clear visual translation.",
+        row2_sol: "Images that turn the project into an immediate, readable and communicative architectural vision.",
 
-        row3_title: "Photomontage of your project",
-        row3_prob: "Existing buildings and sites don't communicate their future potential.",
-        row3_sol: "Contextual photomontages that show the transformation as if it already exists.",
+        row3_title: "From model to image",
+        row3_prob: "A model defines volumes and proportions, but it does not yet express atmosphere, materials and light.",
+        row3_sol: "Rendered images that transform the model into a complete visual experience, ready to communicate.",
 
-        row4_title: "Materials and solutions compared",
-        row4_prob: "Comparing finishes and alternatives is abstract without seeing them side by side.",
-        row4_sol: "Consistent comparative renders that make choices immediate and concrete.",
+        row4_title: "Interior decisions",
+        row4_prob: "Sometimes there is only an empty space, or just a project on paper, and it has to be sold before anyone can imagine living in it.",
+        row4_sol: "Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready environments that make purchase decisions easier.",
+
+        row5_title: "Photomontage of your project",
+        row5_prob: "Existing buildings and sites don't communicate their future potential.",
+        row5_sol: "Contextual photomontages that show the transformation as if it already exists.",
+
+        row6_title: "Materials and solutions compared",
+        row6_prob: "Comparing finishes and alternatives is abstract without seeing them side by side.",
+        row6_sol: "Consistent comparative renders that make choices immediate and concrete.",
 
         projects_title: "PROJECTS",
         proj_exterior: "EXTERIOR",
@@ -118,17 +126,25 @@ const translations = {
         kicker_deliver: "Dopo",
         row1_sol: "Visualizzazioni architettoniche che trasformano l'intento 2D in una realtà spaziale chiara e tangibile.",
 
-        row2_title: "Decisioni sugli interni",
-        row2_prob: "A volte c'è solo uno spazio vuoto, o un progetto su carta, e deve essere venduto prima che chiunque possa immaginare di viverci.",
-        row2_sol: "Visualizzazioni fotorealistiche che trasformano spazi vuoti o non ancora costruiti in ambienti desiderabili e pronti per il mercato, facilitando le decisioni di acquisto.",
+        row2_title: "Dal progetto all'immagine",
+        row2_prob: "Un progetto può essere preciso e completo, ma resta difficile da leggere senza una traduzione visiva chiara.",
+        row2_sol: "Immagini che trasformano il progetto in una visione architettonica immediata, leggibile e comunicativa.",
 
-        row3_title: "Fotoinserimento del tuo progetto",
-        row3_prob: "Gli edifici e i siti esistenti non comunicano il loro potenziale futuro.",
-        row3_sol: "Fotoinserimenti contestuali che mostrano la trasformazione come se esistesse già.",
+        row3_title: "Dal modello all'immagine",
+        row3_prob: "Un modello definisce volumi e proporzioni, ma non esprime ancora atmosfera, materiali e luce.",
+        row3_sol: "Immagini renderizzate che trasformano il modello in un'esperienza visiva completa, pronta da comunicare.",
 
-        row4_title: "Materiali e soluzioni a confronto",
-        row4_prob: "Confrontare finiture e alternative è astratto senza vederle fianco a fianco.",
-        row4_sol: "Render comparativi coerenti che rendono le scelte immediate e concrete.",
+        row4_title: "Decisioni sugli interni",
+        row4_prob: "A volte c'è solo uno spazio vuoto, o un progetto su carta, e deve essere venduto prima che chiunque possa immaginare di viverci.",
+        row4_sol: "Visualizzazioni fotorealistiche che trasformano spazi vuoti o non ancora costruiti in ambienti desiderabili e pronti per il mercato, facilitando le decisioni di acquisto.",
+
+        row5_title: "Fotoinserimento del tuo progetto",
+        row5_prob: "Gli edifici e i siti esistenti non comunicano il loro potenziale futuro.",
+        row5_sol: "Fotoinserimenti contestuali che mostrano la trasformazione come se esistesse già.",
+
+        row6_title: "Materiali e soluzioni a confronto",
+        row6_prob: "Confrontare finiture e alternative è astratto senza vederle fianco a fianco.",
+        row6_sol: "Render comparativi coerenti che rendono le scelte immediate e concrete.",
 
         projects_title: "PROGETTI",
         proj_exterior: "ESTERNI",
@@ -204,17 +220,25 @@ const translations = {
         kicker_deliver: "Po",
         row1_sol: "Arhitekturne vizualizacije, ki spremenijo 2D namero v jasno, otipljivo prostorsko realnost.",
 
-        row2_title: "Odločitve glede notranjosti",
-        row2_prob: "Včasih je le prazen prostor ali pa samo projekt na papirju, in ga je treba prodati preden si lahko kdor koli predstavlja življenje v njem.",
-        row2_sol: "Fotorealistične vizualizacije, ki spremenijo prazne ali nezgrajene prostore v zaželena okolja, pripravljena na trg, kar olajša odločitve o nakupu.",
+        row2_title: "Od projekta do podobe",
+        row2_prob: "Projekt je lahko natančen in popoln, vendar ga je brez jasnega vizualnega prevoda še vedno težko razumeti.",
+        row2_sol: "Podobe, ki projekt spremenijo v takojšnjo, berljivo in komunikativno arhitekturno vizijo.",
 
-        row3_title: "Fotomontaža vašega projekta",
-        row3_prob: "Obstoječe stavbe in lokacije ne sporočajo svojega prihodnjega potenciala.",
-        row3_sol: "Kontekstualne fotomontaže, ki prikazujejo transformacijo, kot da že obstaja.",
+        row3_title: "Od modela do podobe",
+        row3_prob: "Model določa volumne in razmerja, vendar še ne izraža atmosfere, materialov in svetlobe.",
+        row3_sol: "Renderirane podobe, ki model spremenijo v celovito vizualno izkušnjo, pripravljeno za komunikacijo.",
 
-        row4_title: "Primerjava materialov in rešitev",
-        row4_prob: "Primerjava zaključkov in alternativ je abstraktna brez možnosti, da jih vidimo drugo ob drugi.",
-        row4_sol: "Dosledni primerjalni renderji, ki naredijo izbire takojšnje in konkretne.",
+        row4_title: "Odločitve glede notranjosti",
+        row4_prob: "Včasih je le prazen prostor ali pa samo projekt na papirju, in ga je treba prodati preden si lahko kdor koli predstavlja življenje v njem.",
+        row4_sol: "Fotorealistične vizualizacije, ki spremenijo prazne ali nezgrajene prostore v zaželena okolja, pripravljena na trg, kar olajša odločitve o nakupu.",
+
+        row5_title: "Fotomontaža vašega projekta",
+        row5_prob: "Obstoječe stavbe in lokacije ne sporočajo svojega prihodnjega potenciala.",
+        row5_sol: "Kontekstualne fotomontaže, ki prikazujejo transformacijo, kot da že obstaja.",
+
+        row6_title: "Primerjava materialov in rešitev",
+        row6_prob: "Primerjava zaključkov in alternativ je abstraktna brez možnosti, da jih vidimo drugo ob drugi.",
+        row6_sol: "Dosledni primerjalni renderji, ki naredijo izbire takojšnje in konkretne.",
 
         projects_title: "PROJEKTI",
         proj_exterior: "ZUNANJOST",
