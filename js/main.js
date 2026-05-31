@@ -608,9 +608,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function moveToSnapIndex(nextIndex, points) {
+            const currentIndex = requestedSnapIndex ?? getNearestSnapIndex(points);
+            const isVisualFlowMove = points[currentIndex]?.kind === "visual-flow-step"
+                || points[nextIndex]?.kind === "visual-flow-step";
+
             requestedSnapIndex = nextIndex;
             lastSnapInputAt = performance.now();
-            snapLockUntil = lastSnapInputAt + 520;
+            snapLockUntil = lastSnapInputAt + (isVisualFlowMove ? 340 : 520);
             window.scrollTo({
                 top: points[nextIndex].top,
                 behavior: "smooth"
