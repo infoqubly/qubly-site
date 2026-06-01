@@ -1601,7 +1601,7 @@ textarea,
   }
 
   .case-group + .case-group {
-    margin-top: 12vw;
+    margin-top: 22vw;
   }
 
   .case-snapshots h2.service-title {
@@ -1631,8 +1631,8 @@ textarea,
   }
 
   .case-card p:not(.case-kicker) {
-    font-size: 3.25vw;
-    line-height: 1.45;
+    font-size: 2.75vw;
+    line-height: 1.28;
   }
 
   .case-snapshots .case-kicker {
@@ -1645,7 +1645,7 @@ textarea,
   }
 
   .case-snapshots .case-body {
-    padding-inline: 0.5vw;
+    padding-inline: 0;
   }
 
   .case-snapshots .case-body p {
@@ -1653,9 +1653,8 @@ textarea,
     transform: translateY(0);
     width: 100%;
     max-width: none;
-    text-align: justify;
-    text-justify: inter-word;
-    text-align-last: left;
+    text-align: left;
+    text-align-last: auto;
     hyphens: auto;
   }
 
@@ -1668,13 +1667,14 @@ textarea,
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
-    gap: 8vw;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3vw;
   }
 
   .scroll-showcase {
     --showcase-card-radius: 5vw;
-    padding: 18vw 4.2vw 16vw;
+    padding: 14vw 0 12vw;
+    overflow: hidden;
   }
 
   .case-studies-intro + .case-snapshots {
@@ -1688,23 +1688,34 @@ textarea,
   .scroll-showcase-stage {
     position: relative;
     top: auto;
-    height: auto;
+    height: 58vh;
     display: flex;
-    flex-direction: column;
-    gap: 6vw;
+    flex-direction: row;
+    gap: 4vw;
     border: none;
     box-shadow: none;
     background: transparent;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 8vw 3vw;
+    scroll-padding-inline: 8vw;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-showcase-stage::-webkit-scrollbar {
+    display: none;
   }
 
   .scroll-showcase-card {
     position: relative;
+    flex: 0 0 78vw;
     inset: auto;
-    height: 70vh;
+    height: 100%;
     border-radius: 5vw;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    scroll-snap-align: center;
     transform: none !important;
     opacity: 1 !important;
     box-shadow: 0 6vw 10vw rgba(0, 0, 0, 0.2);
@@ -1729,11 +1740,18 @@ textarea,
   }
 
   .services-grid .case-media {
-    height: 60vw !important;
+    height: 24vw !important;
+    margin-bottom: 2vw;
+  }
+
+  .services-grid .case-card h3 {
+    font-size: 3.1vw;
+    line-height: 1.1;
+    text-align: center;
   }
 
   #projects.section-wrapper {
-    padding-top: 20vw;
+    padding-top: 18vw;
   }
 
   .faq-section {
