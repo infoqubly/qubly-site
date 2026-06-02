@@ -171,8 +171,7 @@ video {
 
 @media (max-width: 767px) {
   .logo img {
-    height: 20vw;
-    /* Larger on mobile too (~75px) */
+    height: 15vw;
   }
 }
 
@@ -189,8 +188,8 @@ video {
 
 @media (max-width: 767px) {
   .menu-toggle {
-    height: 5.08vw;
-    width: 7.63vw;
+    height: 3.81vw;
+    width: 5.72vw;
   }
 }
 
@@ -251,24 +250,24 @@ video {
   .hamburger-line,
   .hamburger-line::before,
   .hamburger-line::after {
-    height: 0.254vw;
-    width: 7.63vw;
+    height: 0.19vw;
+    width: 5.72vw;
   }
 
   .hamburger-line::before {
-    transform: translateY(-0.76vw);
+    transform: translateY(-0.57vw);
   }
 
   .hamburger-line::after {
-    transform: translateY(0.76vw);
+    transform: translateY(0.57vw);
   }
 
   .menu-toggle:hover .hamburger-line::before {
-    transform: translateY(-1.27vw);
+    transform: translateY(-0.95vw);
   }
 
   .menu-toggle:hover .hamburger-line::after {
-    transform: translateY(1.27vw);
+    transform: translateY(0.95vw);
   }
 }
 
@@ -1117,28 +1116,53 @@ textarea,
 
   .contact-section {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .contact-left {
     max-width: 100%;
     margin-bottom: 8vw;
     padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .contact-right {
     width: 100%;
     flex-basis: auto;
-    align-items: flex-start;
+    align-items: center;
     gap: 4vw;
   }
 
   .contact-section h2.service-title {
-    text-align: left;
+    text-align: center;
+    margin-bottom: 5vw;
+    font-size: 0;
+  }
+
+  .contact-section h2.service-title::after {
+    content: "CONTATTACI";
+    display: block;
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.08;
+    letter-spacing: 0.08em;
   }
 
   .contact-text {
-    font-size: 4vw;
-    max-width: 100%;
+    font-size: 0;
+    max-width: 82vw;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.32;
+  }
+
+  .contact-text::after {
+    content: "Trasformiamo le idee architettoniche in realt\00E0  visiva per proposte di progetto e collaborazioni, scrivici.";
+    display: block;
+    font-size: clamp(13px, 3.35vw, 16px);
+    line-height: 1.32;
   }
 
   .contact-form-button {
@@ -1154,7 +1178,18 @@ textarea,
   }
 
   .contact-trigger-link {
-    font-size: 5vw;
+    font-size: clamp(14px, 4vw, 18px);
+  }
+
+  .site-footer {
+    padding: 4vw 5.08vw 5vw !important;
+    text-align: left;
+  }
+
+  .site-footer p {
+    margin: 0 !important;
+    font-size: clamp(11px, 3vw, 14px) !important;
+    color: #555 !important;
   }
 }
 
@@ -1392,6 +1427,10 @@ textarea,
   margin-bottom: 1.9vw !important;
 }
 
+.case-mobile-sticky-title {
+  display: none;
+}
+
 .case-row-title {
   display: block;
   width: 100%;
@@ -1596,12 +1635,71 @@ textarea,
 
 /* Responsive Case Studies */
 @media (max-width: 767px) {
+  .case-studies-intro {
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .case-studies-intro .service-title {
+    display: none;
+  }
+
   .case-snapshots {
-    padding: 12vw 5.08vw;
+    --case-mobile-header-clearance: var(--header-height);
+    --case-mobile-x-pad: clamp(30px, 9.4vw, 44px);
+    --case-mobile-title-space: clamp(92px, 17svh, 128px);
+    --case-mobile-title-lock: calc(var(--case-mobile-header-clearance) + var(--case-mobile-title-space));
+    --case-mobile-group-pad-top: clamp(8px, 2.4vw, 16px);
+    --case-mobile-group-pad-bottom: clamp(18px, 6vw, 32px);
+    --case-mobile-row-gap: clamp(11px, 3vw, 18px);
+    --case-mobile-media-height: clamp(166px, 48vw, 212px);
+    --case-mobile-media-margin: clamp(5px, 1.4vw, 9px);
+    height: 100svh;
+    overflow-y: auto;
+    padding: 0 var(--case-mobile-x-pad);
+    scroll-padding-top: var(--case-mobile-title-lock);
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .case-mobile-sticky-title {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: var(--case-mobile-title-lock);
+    margin: 0 calc(var(--case-mobile-x-pad) * -1);
+    padding: var(--case-mobile-header-clearance) var(--case-mobile-x-pad) clamp(56px, 12vw, 76px);
+    background: linear-gradient(180deg, rgba(10, 10, 10, 1) 0%, rgba(10, 10, 10, 0.99) 82%, rgba(10, 10, 10, 0.96) 100%);
+    box-shadow: 0 18px 26px rgba(10, 10, 10, 0.92);
+    color: var(--QUBLY-WHITE);
+    font-size: clamp(28px, 8.1vw, 38px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translateY(clamp(-24px, -4.6vw, -14px));
   }
 
   .case-group + .case-group {
-    margin-top: 22vw;
+    margin-top: clamp(10px, 2.8vw, 20px);
+  }
+
+  .case-group {
+    min-height: calc(100svh - var(--case-mobile-title-lock));
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--case-mobile-group-pad-top) 0 var(--case-mobile-group-pad-bottom);
   }
 
   .case-snapshots h2.service-title {
@@ -1609,20 +1707,30 @@ textarea,
   }
 
   .case-row-title {
-    font-size: 5vw;
+    color: var(--QUBLY-WHITE);
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    font-size: clamp(20px, 5.5vw, 28px);
+    line-height: 1.12;
+    letter-spacing: 0.04em;
     margin-top: 0;
-    margin-bottom: 4vw;
+    margin-bottom: 3vw;
+    position: relative;
+    top: clamp(-10px, -2vw, -6px);
+    animation: none !important;
+    transform: none !important;
   }
 
   .case-row {
-    grid-template-columns: 1fr 1fr;
-    gap: 4vw;
-    margin-top: 8vw;
+    grid-template-columns: 1fr;
+    gap: var(--case-mobile-row-gap);
+    margin-top: 0;
   }
 
   .case-kicker {
     font-size: 3vw;
-    margin-bottom: 1.2vw;
+    margin-bottom: 1vw;
   }
 
   .case-card h3 {
@@ -1631,8 +1739,8 @@ textarea,
   }
 
   .case-card p:not(.case-kicker) {
-    font-size: 2.75vw;
-    line-height: 1.28;
+    font-size: clamp(11px, 2.95vw, 14px);
+    line-height: 1.25;
   }
 
   .case-snapshots .case-kicker {
@@ -1641,7 +1749,9 @@ textarea,
   }
 
   .case-media {
-    margin-bottom: 2.2vw;
+    aspect-ratio: auto;
+    height: var(--case-mobile-media-height);
+    margin-bottom: var(--case-mobile-media-margin);
   }
 
   .case-snapshots .case-body {
@@ -1653,13 +1763,27 @@ textarea,
     transform: translateY(0);
     width: 100%;
     max-width: none;
-    text-align: left;
-    text-align-last: auto;
+    text-align: center;
+    text-align-last: center;
     hyphens: auto;
   }
 
   .site-footer p {
     color: #888 !important;
+  }
+
+  .case-studies-intro .reveal,
+  .case-snapshots .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .case-snapshots .case-card,
+  .case-snapshots .case-media img {
+    transition: none !important;
+    transform: none !important;
   }
 
   h1.reveal {
@@ -1673,12 +1797,12 @@ textarea,
 
   .scroll-showcase {
     --showcase-card-radius: 5vw;
-    padding: 14vw 0 12vw;
+    padding: 14vw 0 1vw;
     overflow: hidden;
   }
 
   .case-studies-intro + .case-snapshots {
-    padding-top: 12vw;
+    padding-top: 0;
   }
 
   .scroll-showcase-stack {
@@ -1719,6 +1843,7 @@ textarea,
     transform: none !important;
     opacity: 1 !important;
     box-shadow: 0 6vw 10vw rgba(0, 0, 0, 0.2);
+    cursor: zoom-in;
   }
 
   .scroll-showcase-card img {
@@ -1777,6 +1902,214 @@ textarea,
   .faq-item p {
     margin: 0 0 5vw;
     font-size: 3.9vw;
+  }
+}
+
+.mobile-showcase-zoom {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  body.mobile-showcase-zoom-open {
+    overflow: hidden;
+  }
+
+  .mobile-showcase-zoom {
+    position: fixed;
+    inset: 0;
+    z-index: 240;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(10, 10, 10, 0.96);
+    transition: opacity 0.32s ease, visibility 0.32s ease;
+  }
+
+  .mobile-showcase-zoom.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-showcase-zoom-track {
+    height: 100%;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-showcase-zoom-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-showcase-zoom-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 4vw, 24px);
+    padding: 14svh 4vw 12svh;
+    scroll-snap-align: center;
+  }
+
+  .mobile-showcase-zoom-frame {
+    width: min(92vw, 720px);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 4vw;
+    background: #161616;
+    box-shadow: 0 6vw 18vw rgba(0, 0, 0, 0.52);
+    transform-origin: center center;
+  }
+
+  .mobile-showcase-zoom-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .mobile-showcase-zoom-frame img.is-loaded {
+    opacity: 1;
+  }
+
+  .mobile-showcase-zoom-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vw;
+    width: min(92vw, 720px);
+  }
+
+  .mobile-showcase-zoom-tags span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: auto;
+    padding: 1.8vw 2.8vw;
+    border-radius: 999px;
+    background: rgba(250, 250, 250, 0.96);
+    color: #111;
+    font-size: 2.9vw;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .mobile-showcase-zoom-close {
+    position: absolute;
+    top: 5vw;
+    right: 5vw;
+    z-index: 2;
+    width: 5.72vw;
+    height: 3.81vw;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--QUBLY-WHITE);
+    cursor: pointer;
+  }
+
+  .mobile-showcase-zoom-close::before,
+  .mobile-showcase-zoom-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 5.72vw;
+    height: 0.19vw;
+    background: var(--QUBLY-WHITE);
+    transform-origin: center center;
+  }
+
+  .mobile-showcase-zoom-close::before {
+    transform: rotate(45deg);
+  }
+
+  .mobile-showcase-zoom-close::after {
+    transform: rotate(-45deg);
+  }
+}
+
+@media (max-width: 767px) and (max-height: 800px) {
+  .case-snapshots {
+    --case-mobile-title-space: clamp(86px, 15svh, 116px);
+    --case-mobile-group-pad-top: clamp(4px, 1.4vw, 10px);
+    --case-mobile-group-pad-bottom: clamp(12px, 4vw, 22px);
+    --case-mobile-row-gap: clamp(7px, 2vw, 12px);
+    --case-mobile-media-height: clamp(144px, 44vw, 186px);
+    --case-mobile-media-margin: clamp(3px, 1vw, 6px);
+  }
+
+  .case-mobile-sticky-title {
+    padding-bottom: clamp(42px, 10vw, 58px);
+    font-size: clamp(24px, 7vw, 31px);
+    line-height: 1.03;
+    letter-spacing: 0.015em;
+  }
+
+  .case-row-title {
+    margin-bottom: 1.8vw;
+    font-size: clamp(18px, 5vw, 24px);
+    line-height: 1.08;
+  }
+
+  .case-kicker {
+    font-size: 2.65vw;
+    margin-bottom: 0.5vw;
+  }
+
+  .case-card p:not(.case-kicker) {
+    font-size: clamp(9.5px, 2.55vw, 12px);
+    line-height: 1.16;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 690px) {
+  .case-snapshots {
+    --case-mobile-title-space: clamp(76px, 14svh, 96px);
+    --case-mobile-group-pad-top: clamp(2px, 1vw, 7px);
+    --case-mobile-group-pad-bottom: clamp(8px, 3vw, 16px);
+    --case-mobile-row-gap: clamp(5px, 1.5vw, 9px);
+    --case-mobile-media-height: clamp(118px, 42vw, 158px);
+    --case-mobile-media-margin: clamp(2px, 0.7vw, 4px);
+  }
+
+  .case-mobile-sticky-title {
+    padding-bottom: clamp(34px, 8.5vw, 48px);
+    font-size: clamp(21px, 6.3vw, 27px);
+    line-height: 1;
+  }
+
+  .case-row-title {
+    margin-bottom: 1.2vw;
+    font-size: clamp(16px, 4.6vw, 21px);
+  }
+
+  .case-kicker {
+    font-size: 2.45vw;
+  }
+
+  .case-card p:not(.case-kicker) {
+    font-size: clamp(8.8px, 2.35vw, 11px);
+    line-height: 1.12;
+  }
+}
+
+@media (max-width: 767px) and (min-height: 880px) {
+  .case-snapshots {
+    --case-mobile-title-space: clamp(104px, 16svh, 144px);
+    --case-mobile-group-pad-top: clamp(12px, 3vw, 22px);
+    --case-mobile-group-pad-bottom: clamp(24px, 7vw, 40px);
+    --case-mobile-row-gap: clamp(14px, 3.5vw, 22px);
+    --case-mobile-media-height: clamp(184px, 47vw, 224px);
   }
 }
 

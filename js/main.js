@@ -118,6 +118,203 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function initMobileShowcaseZoom() {
+        if (!visualFlow || scrollShowcaseCards.length === 0) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 767px)");
+        let overlay = null;
+        let track = null;
+        let slides = [];
+        let activeIndex = 0;
+        let scrollTimer = 0;
+
+        function escapeHtml(value) {
+            return value
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function ensureOverlay() {
+            if (overlay) {
+                return;
+            }
+
+            overlay = document.createElement("div");
+            overlay.className = "mobile-showcase-zoom";
+            overlay.setAttribute("aria-hidden", "true");
+
+            const slideMarkup = scrollShowcaseCards.map((card, index) => {
+                const image = card.querySelector("img");
+                const src = image?.currentSrc || image?.src || image?.getAttribute("src") || "";
+                const alt = image?.getAttribute("alt") || "";
+                const tagMarkup = Array.from(card.querySelectorAll(".showcase-tags span"))
+                    .map((tag) => tag.textContent.trim())
+                    .filter(Boolean)
+                    .map((text) => `<span>${escapeHtml(text)}</span>`)
+                    .join("");
+                return `
+                    <div class="mobile-showcase-zoom-slide" data-index="${index}">
+                        <div class="mobile-showcase-zoom-frame">
+                            <img src="${src}" alt="${escapeHtml(alt)}" loading="eager" decoding="sync" draggable="false">
+                        </div>
+                        <div class="mobile-showcase-zoom-tags">${tagMarkup}</div>
+                    </div>
+                `;
+            }).join("");
+
+            overlay.innerHTML = `
+                <button class="mobile-showcase-zoom-close" type="button" aria-label="Close image preview"></button>
+                <div class="mobile-showcase-zoom-track">${slideMarkup}</div>
+            `;
+
+            body.appendChild(overlay);
+            track = overlay.querySelector(".mobile-showcase-zoom-track");
+            slides = Array.from(overlay.querySelectorAll(".mobile-showcase-zoom-slide"));
+
+            slides.forEach((slide) => {
+                const zoomImage = slide.querySelector("img");
+                if (!zoomImage) {
+                    return;
+                }
+
+                const markLoaded = () => zoomImage.classList.add("is-loaded");
+                if (zoomImage.complete && zoomImage.naturalWidth > 0) {
+                    markLoaded();
+                } else {
+                    zoomImage.addEventListener("load", markLoaded, { once: true });
+                    zoomImage.decode?.().then(markLoaded).catch(() => {
+                        if (zoomImage.complete) {
+                            markLoaded();
+                        }
+                    });
+                }
+            });
+
+            overlay.querySelector(".mobile-showcase-zoom-close")?.addEventListener("click", closeZoom);
+            overlay.addEventListener("click", (event) => {
+                if (event.target === overlay) {
+                    closeZoom();
+                }
+            });
+
+            track?.addEventListener("scroll", () => {
+                window.clearTimeout(scrollTimer);
+                scrollTimer = window.setTimeout(() => {
+                    const nextIndex = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+                    setActiveSlide(nextIndex);
+                }, 80);
+            }, { passive: true });
+        }
+
+        function setActiveSlide(index) {
+            activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+            slides.forEach((slide, slideIndex) => {
+                slide.classList.toggle("is-active", slideIndex === activeIndex);
+            });
+        }
+
+        function animateZoomFrom(sourceRect, sourceRadius) {
+            if (!overlay || prefersReducedMotion.matches) {
+                return;
+            }
+
+            const frame = slides[activeIndex]?.querySelector(".mobile-showcase-zoom-frame");
+            if (!frame?.animate) {
+                return;
+            }
+
+            const finalRect = frame.getBoundingClientRect();
+            if (!finalRect.width || !finalRect.height) {
+                return;
+            }
+
+            const scaleX = sourceRect.width / finalRect.width;
+            const scaleY = sourceRect.height / finalRect.height;
+            const translateX = sourceRect.left + (sourceRect.width / 2) - (finalRect.left + (finalRect.width / 2));
+            const translateY = sourceRect.top + (sourceRect.height / 2) - (finalRect.top + (finalRect.height / 2));
+
+            frame.animate([
+                {
+                    transform: `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`,
+                    borderRadius: sourceRadius,
+                    opacity: 0.72
+                },
+                {
+                    transform: "translate(0, 0) scale(1, 1)",
+                    borderRadius: getComputedStyle(frame).borderRadius,
+                    opacity: 1
+                }
+            ], {
+                duration: 560,
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)"
+            });
+        }
+
+        function openZoom(index, card) {
+            if (!mobileQuery.matches) {
+                return;
+            }
+
+            ensureOverlay();
+            if (!overlay || !track) {
+                return;
+            }
+
+            const sourceRect = card.getBoundingClientRect();
+            const sourceRadius = getComputedStyle(card).borderRadius;
+            setActiveSlide(index);
+            overlay.classList.add("is-open");
+            overlay.setAttribute("aria-hidden", "false");
+            body.classList.add("mobile-showcase-zoom-open");
+            closeMenu();
+
+            window.requestAnimationFrame(() => {
+                track.scrollLeft = track.clientWidth * activeIndex;
+                window.requestAnimationFrame(() => animateZoomFrom(sourceRect, sourceRadius));
+            });
+        }
+
+        function closeZoom() {
+            if (!overlay) {
+                return;
+            }
+
+            overlay.classList.remove("is-open");
+            overlay.setAttribute("aria-hidden", "true");
+            body.classList.remove("mobile-showcase-zoom-open");
+        }
+
+        scrollShowcaseCards.forEach((card, index) => {
+            const image = card.querySelector("img");
+            image?.addEventListener("click", (event) => {
+                if (!mobileQuery.matches) {
+                    return;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+                openZoom(index, card);
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeZoom();
+            }
+        });
+
+        mobileQuery.addEventListener?.("change", () => {
+            if (!mobileQuery.matches) {
+                closeZoom();
+            }
+        });
+    }
+
     function getScrollDestination(target) {
         if (!target) {
             return 0;
@@ -480,6 +677,206 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     updateActiveCaseTitle();
 
+    function initMobileCaseSectionAccess() {
+        const caseScroller = document.querySelector(".case-snapshots");
+        if (!caseScroller) {
+            return;
+        }
+
+        const mobileQuery = window.matchMedia("(max-width: 767px)");
+        const previousSection = document.getElementById("visual-flow");
+        const nextSection = document.getElementById("projects");
+        let touchStartY = 0;
+        let handoffLockUntil = 0;
+
+        function isMobileCaseMode() {
+            return mobileQuery.matches;
+        }
+
+        function isLocked() {
+            return performance.now() < handoffLockUntil;
+        }
+
+        function lockHandoff() {
+            handoffLockUntil = performance.now() + 620;
+        }
+
+        function getPageTop(element) {
+            return Math.max(0, Math.round(element.getBoundingClientRect().top + window.scrollY));
+        }
+
+        function isCaseViewportLocked() {
+            return Math.abs(caseScroller.getBoundingClientRect().top) <= 2;
+        }
+
+        function isCasePartlyVisible() {
+            const rect = caseScroller.getBoundingClientRect();
+            return rect.top < window.innerHeight && rect.bottom > 0;
+        }
+
+        function snapCaseViewport() {
+            if (isLocked()) {
+                return false;
+            }
+
+            lockHandoff();
+            window.scrollTo({
+                top: getPageTop(caseScroller),
+                behavior: "smooth"
+            });
+            return true;
+        }
+
+        function shouldSnapCaseForTouch(deltaY) {
+            if (!isMobileCaseMode() || isCaseViewportLocked() || !isCasePartlyVisible()) {
+                return false;
+            }
+
+            const rect = caseScroller.getBoundingClientRect();
+            const enteringFromPreviousSection = rect.top > 2 && deltaY < 0;
+            const enteringFromNextSection = rect.top < -2 && deltaY > 0;
+            return enteringFromPreviousSection || enteringFromNextSection;
+        }
+
+        function shouldSnapCaseForWheel(deltaY) {
+            if (!isMobileCaseMode() || isCaseViewportLocked() || !isCasePartlyVisible()) {
+                return false;
+            }
+
+            const rect = caseScroller.getBoundingClientRect();
+            const enteringFromPreviousSection = rect.top > 2 && deltaY > 0;
+            const enteringFromNextSection = rect.top < -2 && deltaY < 0;
+            return enteringFromPreviousSection || enteringFromNextSection;
+        }
+
+        function isAtTop() {
+            return caseScroller.scrollTop <= 2;
+        }
+
+        function isAtBottom() {
+            const bottomTolerance = Math.max(48, window.innerHeight * 0.04);
+            return caseScroller.scrollTop + caseScroller.clientHeight >= caseScroller.scrollHeight - bottomTolerance;
+        }
+
+        function handoffTo(target) {
+            if (!target || isLocked()) {
+                return false;
+            }
+
+            lockHandoff();
+            window.scrollTo({
+                top: getScrollDestination(target),
+                behavior: "smooth"
+            });
+            return true;
+        }
+
+        function handleTouchStart(event) {
+            if (!isMobileCaseMode() || event.touches.length !== 1) {
+                return;
+            }
+
+            touchStartY = event.touches[0].clientY;
+        }
+
+        function handleTouchMove(event) {
+            if (!isMobileCaseMode() || event.touches.length !== 1) {
+                return;
+            }
+
+            const deltaY = event.touches[0].clientY - touchStartY;
+            if (Math.abs(deltaY) < 28) {
+                return;
+            }
+
+            if (!isCaseViewportLocked()) {
+                if (shouldSnapCaseForTouch(deltaY) && snapCaseViewport()) {
+                    event.preventDefault();
+                }
+                return;
+            }
+
+            const wantsPreviousSection = deltaY > 0 && isAtTop();
+            const wantsNextSection = deltaY < 0 && isAtBottom();
+            if (!wantsPreviousSection && !wantsNextSection) {
+                return;
+            }
+
+            const target = wantsPreviousSection ? previousSection : nextSection;
+            if (handoffTo(target)) {
+                event.preventDefault();
+            }
+        }
+
+        function handleWheel(event) {
+            if (!isMobileCaseMode() || Math.abs(event.deltaY) < 8) {
+                return;
+            }
+
+            if (!isCaseViewportLocked()) {
+                if (shouldSnapCaseForWheel(event.deltaY) && snapCaseViewport()) {
+                    event.preventDefault();
+                }
+                return;
+            }
+
+            const wantsPreviousSection = event.deltaY < 0 && isAtTop();
+            const wantsNextSection = event.deltaY > 0 && isAtBottom();
+            if (wantsPreviousSection || wantsNextSection) {
+                const target = wantsPreviousSection ? previousSection : nextSection;
+                if (handoffTo(target)) {
+                    event.preventDefault();
+                }
+                return;
+            }
+
+            event.preventDefault();
+            caseScroller.scrollTop += event.deltaY;
+        }
+
+        function handleWindowTouchStart(event) {
+            if (!isMobileCaseMode() || event.touches.length !== 1) {
+                return;
+            }
+
+            touchStartY = event.touches[0].clientY;
+        }
+
+        function handleWindowTouchMove(event) {
+            if (!isMobileCaseMode() || event.touches.length !== 1 || event.target.closest(".case-snapshots")) {
+                return;
+            }
+
+            const deltaY = event.touches[0].clientY - touchStartY;
+            if (Math.abs(deltaY) < 28 || !shouldSnapCaseForTouch(deltaY)) {
+                return;
+            }
+
+            if (snapCaseViewport()) {
+                event.preventDefault();
+            }
+        }
+
+        function handleWindowWheel(event) {
+            if (!isMobileCaseMode() || Math.abs(event.deltaY) < 8 || event.target.closest(".case-snapshots")) {
+                return;
+            }
+
+            if (shouldSnapCaseForWheel(event.deltaY) && snapCaseViewport()) {
+                event.preventDefault();
+            }
+        }
+
+        caseScroller.addEventListener("touchstart", handleTouchStart, { passive: true });
+        caseScroller.addEventListener("touchmove", handleTouchMove, { passive: false });
+        caseScroller.addEventListener("wheel", handleWheel, { passive: false });
+        window.addEventListener("touchstart", handleWindowTouchStart, { passive: true });
+        window.addEventListener("touchmove", handleWindowTouchMove, { passive: false });
+        window.addEventListener("wheel", handleWindowWheel, { passive: false });
+    }
+
+    initMobileCaseSectionAccess();
+
     document.querySelectorAll(".faq-item").forEach((item) => {
         const summary = item.querySelector("summary");
         const panel = item.querySelector(".faq-panel");
@@ -664,6 +1061,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     initScrollShowcase();
+    initMobileShowcaseZoom();
 
     const videos = document.querySelectorAll("video");
     videos.forEach((video) => {
