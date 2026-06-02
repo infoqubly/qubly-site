@@ -1431,12 +1431,16 @@ textarea,
   display: none;
 }
 
+.case-mobile-scroll-window {
+  display: contents;
+}
+
 .case-row-title {
   display: block;
   width: 100%;
   font-size: clamp(24px, 2.35vw, 48px);
-  text-transform: uppercase;
-  letter-spacing: 0.16vw;
+  text-transform: none;
+  letter-spacing: 0.06em;
   margin-top: 0;
   margin-bottom: 2.15vw;
   color: transparent;
@@ -1533,7 +1537,7 @@ textarea,
   opacity: .75;
   font-size: clamp(12px, 0.8vw, 16px);
   letter-spacing: 0.06em;
-  text-transform: uppercase;
+  text-transform: none;
   margin: 0 0 0.7vw 0;
   min-height: 1.25em;
   display: flex;
@@ -1651,33 +1655,38 @@ textarea,
     --case-mobile-x-pad: clamp(30px, 9.4vw, 44px);
     --case-mobile-title-space: clamp(92px, 17svh, 128px);
     --case-mobile-title-lock: calc(var(--case-mobile-header-clearance) + var(--case-mobile-title-space));
+    --case-mobile-content-top: calc(var(--case-mobile-title-lock) - clamp(20px, 6vw, 34px));
     --case-mobile-group-pad-top: clamp(8px, 2.4vw, 16px);
     --case-mobile-group-pad-bottom: clamp(18px, 6vw, 32px);
     --case-mobile-row-gap: clamp(11px, 3vw, 18px);
     --case-mobile-media-height: clamp(166px, 48vw, 212px);
     --case-mobile-media-margin: clamp(5px, 1.4vw, 9px);
     height: 100svh;
-    overflow-y: auto;
+    overflow: hidden;
     padding: 0 var(--case-mobile-x-pad);
-    scroll-padding-top: var(--case-mobile-title-lock);
-    scroll-snap-type: y mandatory;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
+    scroll-padding-top: 0;
+    scroll-snap-type: none;
+    overscroll-behavior: contain;
+  }
+
+  .case-snapshots::before {
+    display: none;
   }
 
   .case-mobile-sticky-title {
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: calc(var(--case-mobile-x-pad) * -1);
+    right: calc(var(--case-mobile-x-pad) * -1);
     z-index: 20;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     min-height: var(--case-mobile-title-lock);
-    margin: 0 calc(var(--case-mobile-x-pad) * -1);
+    margin: 0;
     padding: var(--case-mobile-header-clearance) var(--case-mobile-x-pad) clamp(56px, 12vw, 76px);
-    background: linear-gradient(180deg, rgba(10, 10, 10, 1) 0%, rgba(10, 10, 10, 0.99) 82%, rgba(10, 10, 10, 0.96) 100%);
-    box-shadow: 0 18px 26px rgba(10, 10, 10, 0.92);
+    background: none;
+    box-shadow: none;
     color: var(--QUBLY-WHITE);
     font-size: clamp(28px, 8.1vw, 38px);
     font-weight: 700;
@@ -1686,6 +1695,22 @@ textarea,
     text-align: center;
     text-transform: uppercase;
     transform: translateY(clamp(-24px, -4.6vw, -14px));
+    pointer-events: none;
+  }
+
+  .case-mobile-scroll-window {
+    display: block;
+    position: relative;
+    z-index: 5;
+    height: calc(100svh - var(--case-mobile-content-top));
+    margin-top: var(--case-mobile-content-top);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-padding-top: 0;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 
   .case-group + .case-group {
@@ -1693,7 +1718,7 @@ textarea,
   }
 
   .case-group {
-    min-height: calc(100svh - var(--case-mobile-title-lock));
+    min-height: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     display: flex;

@@ -678,11 +678,12 @@ document.addEventListener("DOMContentLoaded", () => {
     updateActiveCaseTitle();
 
     function initMobileCaseSectionAccess() {
-        const caseScroller = document.querySelector(".case-snapshots");
-        if (!caseScroller) {
+        const caseSection = document.querySelector(".case-snapshots");
+        if (!caseSection) {
             return;
         }
 
+        const caseScroller = caseSection.querySelector(".case-mobile-scroll-window") || caseSection;
         const mobileQuery = window.matchMedia("(max-width: 767px)");
         const previousSection = document.getElementById("visual-flow");
         const nextSection = document.getElementById("projects");
@@ -706,11 +707,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function isCaseViewportLocked() {
-            return Math.abs(caseScroller.getBoundingClientRect().top) <= 2;
+            return Math.abs(caseSection.getBoundingClientRect().top) <= 2;
         }
 
         function isCasePartlyVisible() {
-            const rect = caseScroller.getBoundingClientRect();
+            const rect = caseSection.getBoundingClientRect();
             return rect.top < window.innerHeight && rect.bottom > 0;
         }
 
@@ -721,7 +722,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             lockHandoff();
             window.scrollTo({
-                top: getPageTop(caseScroller),
+                top: getPageTop(caseSection),
                 behavior: "smooth"
             });
             return true;
@@ -732,7 +733,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return false;
             }
 
-            const rect = caseScroller.getBoundingClientRect();
+            const rect = caseSection.getBoundingClientRect();
             const enteringFromPreviousSection = rect.top > 2 && deltaY < 0;
             const enteringFromNextSection = rect.top < -2 && deltaY > 0;
             return enteringFromPreviousSection || enteringFromNextSection;
@@ -743,7 +744,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return false;
             }
 
-            const rect = caseScroller.getBoundingClientRect();
+            const rect = caseSection.getBoundingClientRect();
             const enteringFromPreviousSection = rect.top > 2 && deltaY > 0;
             const enteringFromNextSection = rect.top < -2 && deltaY < 0;
             return enteringFromPreviousSection || enteringFromNextSection;

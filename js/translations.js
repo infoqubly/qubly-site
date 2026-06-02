@@ -24,7 +24,7 @@ const translations = {
         showcase_tag_architecture: "ARCHITECTURE",
         showcase_tag_spaces: "SPACES",
         showcase_tag_transformation: "TRANSFORMATION",
-        case_studies_title: "WHEN CLARITY DRIVES DECISIONS",
+        case_studies_title: "MAKE VISIBLE WHAT THE MIND CAN'T PICTURE",
 
         row1_title: "From idea to image",
         kicker_need: "Before",
@@ -118,7 +118,7 @@ const translations = {
         showcase_tag_architecture: "ARCHITETTURA",
         showcase_tag_spaces: "SPAZI",
         showcase_tag_transformation: "TRASFORMAZIONE",
-        case_studies_title: "QUANDO LA CHIAREZZA GUIDA LE DECISIONI",
+        case_studies_title: "RENDI VISIBILE CI\u00d2 CHE LA MENTE NON RIESCE A IMMAGINARE",
 
         row1_title: "Dall’idea all’immagine",
         kicker_need: "Prima",
@@ -212,7 +212,7 @@ const translations = {
         showcase_tag_architecture: "ARHITEKTURA",
         showcase_tag_spaces: "PROSTORI",
         showcase_tag_transformation: "PREOBRAZBA",
-        case_studies_title: "KO JASNOST VODI ODLOČITVE",
+        case_studies_title: "NAREDI VIDNO, \u010cESAR SI UM NE MORE PREDSTAVLJATI",
 
         row1_title: "Od ideje do podobe",
         kicker_need: "Pred",
