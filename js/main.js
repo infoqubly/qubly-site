@@ -320,7 +320,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return 0;
         }
 
-        const offsetRatio = Number.parseFloat(target.dataset.snapOffset || "0");
+        const mobileOffsetlessTargets = new Set(["projects", "contact"]);
+        const useMobileOffsetlessSnap = window.matchMedia("(max-width: 767px)").matches
+            && mobileOffsetlessTargets.has(target.id);
+        const offsetRatio = useMobileOffsetlessSnap
+            ? 0
+            : Number.parseFloat(target.dataset.snapOffset || "0");
         const targetTop = target.getBoundingClientRect().top + window.scrollY;
 
         if (target.classList.contains("case-group") && window.matchMedia("(min-width: 1024px)").matches) {
@@ -677,206 +682,253 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     updateActiveCaseTitle();
 
-    function initMobileCaseSectionAccess() {
-        const caseSection = document.querySelector(".case-snapshots");
-        if (!caseSection) {
+    function initMobilePageSnap() {
+        if (!isHomePage) {
             return;
         }
 
-        const caseScroller = caseSection.querySelector(".case-mobile-scroll-window") || caseSection;
         const mobileQuery = window.matchMedia("(max-width: 767px)");
-        const previousSection = document.getElementById("visual-flow");
-        const nextSection = document.getElementById("projects");
+        const horizontalScrollSelector = ".scroll-showcase-stage, .mobile-showcase-zoom-track";
+        const snapInputThreshold = 34;
+        let touchStartX = 0;
         let touchStartY = 0;
-        let handoffLockUntil = 0;
+        let touchStartScrollY = 0;
+        let touchStartTarget = null;
+        let gestureAxis = null;
+        let snapLockUntil = 0;
+        let nearestSnapTimer = 0;
 
-        function isMobileCaseMode() {
-            return mobileQuery.matches;
+        function isMobileSnapEnabled() {
+            return mobileQuery.matches
+                && !prefersReducedMotion.matches
+                && !body.classList.contains("menu-open-body")
+                && !body.classList.contains("mobile-showcase-zoom-open");
         }
 
-        function isLocked() {
-            return performance.now() < handoffLockUntil;
+        function getViewportHeight() {
+            return window.visualViewport?.height || window.innerHeight;
         }
 
-        function lockHandoff() {
-            handoffLockUntil = performance.now() + 620;
+        function getMaxPageScrollTop() {
+            return Math.max(0, docEl.scrollHeight - getViewportHeight());
         }
 
-        function getPageTop(element) {
-            return Math.max(0, Math.round(element.getBoundingClientRect().top + window.scrollY));
+        function clampScrollTop(value) {
+            return Math.max(0, Math.min(Math.round(value), getMaxPageScrollTop()));
         }
 
-        function isCaseViewportLocked() {
-            return Math.abs(caseSection.getBoundingClientRect().top) <= 2;
+        function getElementPageTop(element) {
+            return element.getBoundingClientRect().top + window.scrollY;
         }
 
-        function isCasePartlyVisible() {
-            const rect = caseSection.getBoundingClientRect();
-            return rect.top < window.innerHeight && rect.bottom > 0;
+        function getMobileTargetTop(element, mode = "start") {
+            const elementTop = getElementPageTop(element);
+
+            if (mode === "center") {
+                const elementHeight = element.getBoundingClientRect().height;
+                const centeredOffset = Math.max(0, (getViewportHeight() - elementHeight) / 2);
+                return clampScrollTop(elementTop - centeredOffset);
+            }
+
+            return clampScrollTop(elementTop);
         }
 
-        function snapCaseViewport() {
-            if (isLocked()) {
+        function getMobileSnapPoints() {
+            const points = [{ element: null, key: "top", top: 0 }];
+            const caseIntro = document.getElementById("case-studies");
+            const intro = document.getElementById("intro");
+            const projects = document.getElementById("projects");
+            const contact = document.getElementById("contact");
+
+            [
+                [intro, "intro", "start"],
+                [visualFlow, "visual-flow", "start"],
+                [caseIntro, "case-title", "start"]
+            ].forEach(([element, key, mode]) => {
+                if (element) {
+                    points.push({ element, key, top: getMobileTargetTop(element, mode) });
+                }
+            });
+
+            caseGroups.forEach((group, index) => {
+                points.push({
+                    element: group,
+                    key: `case-${index + 1}`,
+                    top: getMobileTargetTop(group, "center")
+                });
+            });
+
+            [
+                [projects, "projects", "start"],
+                [contact, "contact", "start"]
+            ].forEach(([element, key, mode]) => {
+                if (element) {
+                    points.push({ element, key, top: getMobileTargetTop(element, mode) });
+                }
+            });
+
+            return points
+                .sort((left, right) => left.top - right.top)
+                .filter((point, index, sortedPoints) => index === 0 || Math.abs(point.top - sortedPoints[index - 1].top) > 8);
+        }
+
+        function getNearestMobileSnapIndex(points, scrollTop = window.scrollY) {
+            let nearestIndex = 0;
+            let nearestDistance = Number.POSITIVE_INFINITY;
+
+            points.forEach((point, index) => {
+                const distance = Math.abs(point.top - scrollTop);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestIndex = index;
+                }
+            });
+
+            return nearestIndex;
+        }
+
+        function snapToMobileIndex(index, behavior = "smooth") {
+            if (!isMobileSnapEnabled()) {
                 return false;
             }
 
-            lockHandoff();
+            const points = getMobileSnapPoints();
+            if (points.length === 0) {
+                return false;
+            }
+
+            const safeIndex = Math.max(0, Math.min(points.length - 1, index));
+            snapLockUntil = performance.now() + 560;
             window.scrollTo({
-                top: getPageTop(caseSection),
-                behavior: "smooth"
+                top: points[safeIndex].top,
+                behavior
             });
             return true;
         }
 
-        function shouldSnapCaseForTouch(deltaY) {
-            if (!isMobileCaseMode() || isCaseViewportLocked() || !isCasePartlyVisible()) {
+        function snapByMobileDirection(direction) {
+            if (!isMobileSnapEnabled() || direction === 0) {
                 return false;
             }
 
-            const rect = caseSection.getBoundingClientRect();
-            const enteringFromPreviousSection = rect.top > 2 && deltaY < 0;
-            const enteringFromNextSection = rect.top < -2 && deltaY > 0;
-            return enteringFromPreviousSection || enteringFromNextSection;
+            const points = getMobileSnapPoints();
+            const currentIndex = getNearestMobileSnapIndex(points, touchStartScrollY || window.scrollY);
+            const nextIndex = Math.max(0, Math.min(points.length - 1, currentIndex + direction));
+            return snapToMobileIndex(nextIndex);
         }
 
-        function shouldSnapCaseForWheel(deltaY) {
-            if (!isMobileCaseMode() || isCaseViewportLocked() || !isCasePartlyVisible()) {
-                return false;
-            }
-
-            const rect = caseSection.getBoundingClientRect();
-            const enteringFromPreviousSection = rect.top > 2 && deltaY > 0;
-            const enteringFromNextSection = rect.top < -2 && deltaY < 0;
-            return enteringFromPreviousSection || enteringFromNextSection;
-        }
-
-        function isAtTop() {
-            return caseScroller.scrollTop <= 2;
-        }
-
-        function isAtBottom() {
-            const bottomTolerance = Math.max(48, window.innerHeight * 0.04);
-            return caseScroller.scrollTop + caseScroller.clientHeight >= caseScroller.scrollHeight - bottomTolerance;
-        }
-
-        function handoffTo(target) {
-            if (!target || isLocked()) {
-                return false;
-            }
-
-            lockHandoff();
-            window.scrollTo({
-                top: getScrollDestination(target),
-                behavior: "smooth"
-            });
-            return true;
-        }
-
-        function handleTouchStart(event) {
-            if (!isMobileCaseMode() || event.touches.length !== 1) {
+        function snapToNearestMobilePoint(delay = 120) {
+            window.clearTimeout(nearestSnapTimer);
+            if (!isMobileSnapEnabled() || performance.now() < snapLockUntil) {
                 return;
             }
 
-            touchStartY = event.touches[0].clientY;
-        }
-
-        function handleTouchMove(event) {
-            if (!isMobileCaseMode() || event.touches.length !== 1) {
-                return;
-            }
-
-            const deltaY = event.touches[0].clientY - touchStartY;
-            if (Math.abs(deltaY) < 28) {
-                return;
-            }
-
-            if (!isCaseViewportLocked()) {
-                if (shouldSnapCaseForTouch(deltaY) && snapCaseViewport()) {
-                    event.preventDefault();
+            nearestSnapTimer = window.setTimeout(() => {
+                if (!isMobileSnapEnabled()) {
+                    return;
                 }
-                return;
-            }
 
-            const wantsPreviousSection = deltaY > 0 && isAtTop();
-            const wantsNextSection = deltaY < 0 && isAtBottom();
-            if (!wantsPreviousSection && !wantsNextSection) {
-                return;
-            }
+                snapToMobileIndex(getNearestMobileSnapIndex(getMobileSnapPoints()));
+            }, delay);
+        }
 
-            const target = wantsPreviousSection ? previousSection : nextSection;
-            if (handoffTo(target)) {
+        function isHorizontalGestureTarget(target) {
+            return Boolean(target?.closest?.(horizontalScrollSelector));
+        }
+
+        function preventVerticalScroll(event) {
+            if (event.cancelable) {
                 event.preventDefault();
             }
         }
 
-        function handleWheel(event) {
-            if (!isMobileCaseMode() || Math.abs(event.deltaY) < 8) {
+        function handleMobileTouchStart(event) {
+            if (!isMobileSnapEnabled() || event.touches.length !== 1) {
                 return;
             }
 
-            if (!isCaseViewportLocked()) {
-                if (shouldSnapCaseForWheel(event.deltaY) && snapCaseViewport()) {
-                    event.preventDefault();
-                }
-                return;
-            }
-
-            const wantsPreviousSection = event.deltaY < 0 && isAtTop();
-            const wantsNextSection = event.deltaY > 0 && isAtBottom();
-            if (wantsPreviousSection || wantsNextSection) {
-                const target = wantsPreviousSection ? previousSection : nextSection;
-                if (handoffTo(target)) {
-                    event.preventDefault();
-                }
-                return;
-            }
-
-            event.preventDefault();
-            caseScroller.scrollTop += event.deltaY;
+            const touch = event.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            touchStartScrollY = window.scrollY;
+            touchStartTarget = event.target;
+            gestureAxis = null;
+            window.clearTimeout(nearestSnapTimer);
         }
 
-        function handleWindowTouchStart(event) {
-            if (!isMobileCaseMode() || event.touches.length !== 1) {
+        function handleMobileTouchMove(event) {
+            if (!isMobileSnapEnabled() || event.touches.length !== 1) {
                 return;
             }
 
-            touchStartY = event.touches[0].clientY;
-        }
+            const touch = event.touches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
 
-        function handleWindowTouchMove(event) {
-            if (!isMobileCaseMode() || event.touches.length !== 1 || event.target.closest(".case-snapshots")) {
+            if (!gestureAxis && Math.max(Math.abs(deltaX), Math.abs(deltaY)) > 10) {
+                gestureAxis = Math.abs(deltaX) > Math.abs(deltaY) + 6 ? "x" : "y";
+            }
+
+            if (gestureAxis === "x" && isHorizontalGestureTarget(touchStartTarget)) {
                 return;
             }
 
-            const deltaY = event.touches[0].clientY - touchStartY;
-            if (Math.abs(deltaY) < 28 || !shouldSnapCaseForTouch(deltaY)) {
-                return;
-            }
-
-            if (snapCaseViewport()) {
-                event.preventDefault();
+            if (gestureAxis === "y") {
+                preventVerticalScroll(event);
             }
         }
 
-        function handleWindowWheel(event) {
-            if (!isMobileCaseMode() || Math.abs(event.deltaY) < 8 || event.target.closest(".case-snapshots")) {
+        function handleMobileTouchEnd(event) {
+            if (!isMobileSnapEnabled()) {
                 return;
             }
 
-            if (shouldSnapCaseForWheel(event.deltaY) && snapCaseViewport()) {
-                event.preventDefault();
+            const touch = event.changedTouches[0];
+            if (!touch) {
+                snapToNearestMobilePoint();
+                return;
             }
+
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+
+            if (Math.abs(deltaX) > Math.abs(deltaY) + 8 && isHorizontalGestureTarget(touchStartTarget)) {
+                return;
+            }
+
+            if (Math.abs(deltaY) < snapInputThreshold) {
+                snapToNearestMobilePoint(80);
+                return;
+            }
+
+            const direction = deltaY < 0 ? 1 : -1;
+            snapByMobileDirection(direction);
         }
 
-        caseScroller.addEventListener("touchstart", handleTouchStart, { passive: true });
-        caseScroller.addEventListener("touchmove", handleTouchMove, { passive: false });
-        caseScroller.addEventListener("wheel", handleWheel, { passive: false });
-        window.addEventListener("touchstart", handleWindowTouchStart, { passive: true });
-        window.addEventListener("touchmove", handleWindowTouchMove, { passive: false });
-        window.addEventListener("wheel", handleWindowWheel, { passive: false });
+        function handleMobileWheel(event) {
+            if (!isMobileSnapEnabled() || Math.abs(event.deltaY) < 10) {
+                return;
+            }
+
+            preventVerticalScroll(event);
+
+            if (performance.now() < snapLockUntil) {
+                return;
+            }
+
+            touchStartScrollY = window.scrollY;
+            snapByMobileDirection(event.deltaY > 0 ? 1 : -1);
+        }
+
+        document.addEventListener("touchstart", handleMobileTouchStart, { passive: true });
+        document.addEventListener("touchmove", handleMobileTouchMove, { passive: false });
+        document.addEventListener("touchend", handleMobileTouchEnd, { passive: true });
+        window.addEventListener("wheel", handleMobileWheel, { passive: false });
+        window.addEventListener("resize", () => snapToNearestMobilePoint(180), { passive: true });
+        mobileQuery.addEventListener?.("change", () => snapToNearestMobilePoint(0));
     }
 
-    initMobileCaseSectionAccess();
+    initMobilePageSnap();
 
     document.querySelectorAll(".faq-item").forEach((item) => {
         const summary = item.querySelector("summary");
