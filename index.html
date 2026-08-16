@@ -1,392 +1,3570 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUBLY – Architectural Visualization</title>
-    <meta name="description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici." data-i18n="meta_desc_index">
-    <link rel="canonical" href="https://infoqubly.github.io/qubly-site/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <title>Valutazione render QUBLY</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bar-h: 148px;
+      --bg: #090b0e;
+      --panel: #151a20;
+      --panel-2: #202731;
+      --panel-3: #29313b;
+      --line: #3a4552;
+      --text: #f7f1e8;
+      --muted: #aeb8c3;
+      --soft: #7e8995;
+      --accent: #f0b85a;
+      --accent-2: #73cbc2;
+      --ok: #92d184;
+      --warn: #f0b85a;
+      --danger: #e77878;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+      --focus: 0 0 0 3px rgba(240, 184, 90, 0.26);
+    }
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=93">
-    <link rel="icon" href="favicon.png" type="image/png">
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 760;
+      transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+    }
+
+    button:hover:not(:disabled),
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    button:hover:not(:disabled) {
+      background: #2b3440;
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.46;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 15px;
+      font-weight: 820;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 820;
+    }
+
+    .app {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    .topbar {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 20;
+      width: min(430px, calc(100vw - 24px));
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(16, 20, 25, 0.95);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    .status {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .tab-button {
+      min-height: 36px;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    .tab-button[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: rgba(240, 184, 90, 0.16);
+      color: #ffe1aa;
+    }
+
+    body.final-mode .topbar {
+      display: none;
+    }
+
+    body.final-mode main {
+      padding-top: 6px;
+    }
+
+    main {
+      min-height: 0;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .view {
+      height: 100%;
+      min-height: 0;
+    }
+
+    .view[hidden] {
+      display: none !important;
+    }
+
+    .review-shell,
+    .final-shell {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(380px, 430px);
+      gap: 12px;
+    }
+
+    .visual-stack {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .image-card,
+    .side-panel,
+    .board,
+    .variant-card,
+    .mini-original,
+    .final-note {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .image-card {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 34px minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    #reviewView .image-card {
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    #reviewView .image-head {
+      display: none;
+    }
+
+    .image-head {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 11px;
+      border-bottom: 1px solid var(--line);
+      background: #11161c;
+    }
+
+    .image-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .image-meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .image-stage {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      position: relative;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #040506;
+    }
+
+    div.image-stage {
+      cursor: zoom-in;
+    }
+
+    .image-stage img,
+    .variant-image-box img,
+    .mini-original img,
+    .overlay-body img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .image-load-error {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(4, 5, 6, 0.92);
+      color: var(--text);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.45;
+      z-index: 2;
+    }
+
+    .image-load-error.active {
+      display: grid;
+    }
+
+    .compare-stage {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #040506;
+    }
+
+    .compare-stage.active {
+      display: flex;
+    }
+
+    .compare-stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: contain;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .compare-after {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    .compare-bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+      pointer-events: none;
+    }
+
+    .compare-knob {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 46px;
+      height: 46px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      background: rgba(16, 20, 25, 0.56);
+      color: rgba(255, 255, 255, 0.78);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 900;
+      pointer-events: none;
+      box-shadow: var(--shadow);
+    }
+
+    .compare-drag-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: min(190px, 34%);
+      height: 100%;
+      margin: 0;
+      transform: translateX(-50%);
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.015);
+      cursor: ew-resize;
+      touch-action: none;
+      z-index: 3;
+    }
+
+    .compare-drag-zone:hover,
+    .compare-drag-zone:focus-visible,
+    .compare-drag-zone.dragging {
+      background: rgba(255, 255, 255, 0.055);
+      border-color: rgba(255, 255, 255, 0.22);
+      outline: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .compare-label {
+      position: absolute;
+      top: 10px;
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(4, 5, 6, 0.72);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 820;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .compare-label.before {
+      left: 10px;
+    }
+
+    .compare-label.after {
+      right: 10px;
+    }
+
+    .compare-toggle {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      z-index: 4;
+      min-height: 36px;
+      padding: 0 12px;
+      border-color: rgba(240, 184, 90, 0.76);
+      background: rgba(16, 20, 25, 0.9);
+      color: #ffe1aa;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+
+    .image-stage:hover:not(:disabled),
+    .image-stage:focus-visible {
+      background: #040506;
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+
+    .floating-nav {
+      position: absolute;
+      z-index: 5;
+      bottom: 16px;
+      width: 58px;
+      height: 58px;
+      min-height: 58px;
+      padding: 0;
+      border-radius: 12px;
+      border-color: rgba(240, 184, 90, 0.7);
+      background: rgba(16, 20, 25, 0.82);
+      color: #ffe3ad;
+      font-size: 40px;
+      line-height: 1;
+      backdrop-filter: blur(8px);
+    }
+
+    .floating-nav.prev {
+      left: 12px;
+    }
+
+    .floating-nav.next {
+      right: 12px;
+    }
+
+    .side-panel {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      gap: 8px;
+      padding: 12px;
+      padding-top: calc(var(--bar-h) + 12px);
+      overflow: hidden;
+    }
+
+    #finalView .side-panel {
+      grid-template-rows: auto auto auto;
+      gap: 8px;
+      padding-top: 8px;
+      overflow-y: auto;
+    }
+
+    #finalView .panel-top,
+    #finalView .panel-actions,
+    #finalView .average-card,
+    #finalView .subject-average-panel {
+      display: none;
+    }
+
+    .panel-top {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .eyebrow {
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    .current-name {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: 15px;
+      font-weight: 860;
+      line-height: 1.15;
+    }
+
+    .source-line {
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    #sourceLine,
+    #finalSourceLine {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    #reviewView #sourceLine {
+      display: none;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      min-height: 24px;
+      max-width: 100%;
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #10151b;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .chip.ok {
+      border-color: rgba(146, 209, 132, 0.45);
+      color: #c9efbf;
+      background: rgba(146, 209, 132, 0.1);
+    }
+
+    .chip.warn {
+      border-color: rgba(240, 184, 90, 0.55);
+      color: #ffe0a4;
+      background: rgba(240, 184, 90, 0.12);
+    }
+
+    .progress-box {
+      display: grid;
+      gap: 7px;
+    }
+
+    .meter {
+      height: 8px;
+      border-radius: 999px;
+      border: 1px solid #2a333d;
+      background: #0d1116;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .average-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f141a;
+    }
+
+    .average-label {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .average-value {
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .voter-area {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    #finalView .voter-area {
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    .voter-list {
+      min-height: 0;
+      display: grid;
+      gap: 6px;
+      align-content: start;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    #reviewView .voter-list {
+      overflow: hidden;
+    }
+
+    #finalView .voter-area {
+      display: none;
+    }
+
+    .voter-row {
+      display: grid;
+      gap: 4px;
+      padding: 5px;
+      border: 1px solid #2d3742;
+      border-radius: 8px;
+      background: #11161c;
+    }
+
+    .voter-switch {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .voter-switch button {
+      min-width: 0;
+      min-height: 34px;
+      padding: 0 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .voter-switch button[aria-pressed="true"] {
+      border-color: var(--accent-2);
+      background: rgba(115, 203, 194, 0.15);
+      color: #cefffa;
+    }
+
+    .voter-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 50px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .voter-name,
+    .note-input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #0c1116;
+      color: var(--text);
+    }
+
+    .voter-name {
+      height: 28px;
+      padding: 0 9px;
+      font-weight: 760;
+    }
+
+    .voter-name.display {
+      display: flex;
+      align-items: center;
+      background: #0f151b;
+    }
+
+    .note-input {
+      height: 24px;
+      padding: 0 9px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .score-bubble {
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: rgba(240, 184, 90, 0.13);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .score-bubble.empty {
+      color: var(--muted);
+      background: #0c1116;
+    }
+
+    .score-range {
+      width: 100%;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .panel-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .panel-actions button {
+      min-height: 38px;
+      font-size: 15px;
+    }
+
+    .primary-button {
+      border-color: rgba(240, 184, 90, 0.62);
+      background: rgba(240, 184, 90, 0.16);
+      color: #ffe1aa;
+    }
+
+    .final-back-inline {
+      width: fit-content;
+      min-height: 32px;
+      margin-top: 8px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .board {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      gap: 10px;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .subject-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .subject-tab {
+      min-height: 38px;
+      padding: 0 11px;
+      font-size: 13px;
+    }
+
+    .subject-tab[aria-pressed="true"] {
+      border-color: var(--accent-2);
+      background: rgba(115, 203, 194, 0.15);
+      color: #cefffa;
+    }
+
+    .subject-tab.needs-rank {
+      border-color: rgba(240, 184, 90, 0.72);
+    }
+
+    .final-head {
+      min-height: 120px;
+      display: grid;
+      grid-template-columns: minmax(220px, 310px) minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .mini-original,
+    .final-note {
+      min-width: 0;
+      overflow: hidden;
+      background: #10151b;
+    }
+
+    .mini-original {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      align-items: stretch;
+    }
+
+    .mini-original .img-box {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #040506;
+    }
+
+    .mini-original .info,
+    .final-note {
+      padding: 10px;
+      display: grid;
+      align-content: center;
+      gap: 5px;
+    }
+
+    .mini-original strong {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .final-note p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .variant-grid {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      grid-auto-rows: minmax(245px, 1fr);
+      gap: 10px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .variant-card {
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      overflow: hidden;
+      cursor: grab;
+      text-align: left;
+    }
+
+    .variant-card:active {
+      cursor: grabbing;
+    }
+
+    .variant-card.dragging {
+      opacity: 0.55;
+    }
+
+    .variant-card[aria-selected="true"] {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(240, 184, 90, 0.27), var(--shadow);
+    }
+
+    .variant-image-box {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #040506;
+      overflow: hidden;
+    }
+
+    .variant-card-foot {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border-top: 1px solid var(--line);
+      background: #11161c;
+    }
+
+    .rank-badge {
+      min-height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(115, 203, 194, 0.13);
+      border: 1px solid rgba(115, 203, 194, 0.42);
+      color: #cefffa;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .variant-info {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .variant-info strong {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .variant-info span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .personal-mini-ranks {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .rank-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .tool-summary {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f141a;
+      overflow: hidden;
+    }
+
+    #finalView .tool-summary {
+      border-color: #536273;
+      background: #10171f;
+    }
+
+    .tool-summary-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    #finalView .tool-summary-head {
+      color: #d5e0ec;
+      font-size: 14px;
+      font-weight: 860;
+    }
+
+    .tool-summary-list {
+      display: grid;
+      gap: 5px;
+      max-height: 126px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    #finalView .tool-summary-list {
+      max-height: 244px;
+      gap: 7px;
+    }
+
+    .tool-row {
+      width: 100%;
+      min-height: 38px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px 46px;
+      gap: 6px;
+      align-items: center;
+      padding: 6px 7px;
+      border: 1px solid #2c3742;
+      border-radius: 8px;
+      background: #111820;
+      color: var(--text);
+      font-size: 11px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    #finalView .tool-row {
+      min-height: 48px;
+      grid-template-columns: minmax(0, 1fr) 58px 54px;
+      padding: 8px 9px;
+      font-size: 13px;
+    }
+
+    .tool-row:hover,
+    .tool-row:focus-visible {
+      border-color: rgba(240, 184, 90, 0.58);
+      background: #151d25;
+    }
+
+    .tool-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+      font-weight: 780;
+    }
+
+    #finalView .tool-name {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .tool-value {
+      color: var(--accent);
+      font-weight: 900;
+      text-align: right;
+    }
+
+    #finalView .tool-value {
+      font-size: 15px;
+    }
+
+    .tool-score {
+      color: var(--muted);
+      font-weight: 760;
+      text-align: right;
+    }
+
+    .tool-bar {
+      grid-column: 1 / -1;
+      height: 5px;
+      border-radius: 999px;
+      background: #0b1015;
+      overflow: hidden;
+      border: 1px solid #26313c;
+    }
+
+    .tool-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    }
+
+    .personal-rank-panel {
+      display: grid;
+      gap: 7px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f141a;
+      overflow: hidden;
+    }
+
+    #finalView .personal-rank-panel {
+      border-color: #536273;
+      background: #10171f;
+    }
+
+    .personal-rank-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .personal-rank-row {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+      align-items: center;
+      padding: 8px;
+      border: 1px solid #2d3742;
+      border-radius: 8px;
+      background: #11161c;
+    }
+
+    .personal-rank-row strong {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .active-voter-hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .active-vote-control {
+      display: grid;
+      gap: 5px;
+      padding: 7px;
+      border: 1px solid #2d3742;
+      border-radius: 8px;
+      background: #11161c;
+    }
+
+    #finalView .active-vote-control {
+      padding: 7px 8px;
+    }
+
+    .active-vote-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 54px;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .rank-and-score {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .mini-badge {
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border: 1px solid rgba(115, 203, 194, 0.48);
+      border-radius: 7px;
+      background: rgba(115, 203, 194, 0.12);
+      color: #cefffa;
+      font-weight: 860;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    #finalView .active-vote-control .note-input {
+      display: none;
+    }
+
+    #finalView .score-range {
+      height: 14px;
+    }
+
+    .subject-average-panel {
+      display: grid;
+      gap: 7px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f141a;
+      overflow: hidden;
+    }
+
+    .subject-average-list {
+      display: grid;
+      gap: 5px;
+      max-height: 142px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .subject-average-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 7px;
+      align-items: center;
+      padding: 6px;
+      border: 1px solid #2d3742;
+      border-radius: 8px;
+      background: #11161c;
+      font-size: 12px;
+    }
+
+    .subject-average-row strong {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .subject-average-meta {
+      grid-column: 2;
+      color: var(--muted);
+      font-weight: 760;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      grid-template-rows: 54px minmax(0, 1fr);
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .overlay[hidden] {
+      display: none;
+    }
+
+    .overlay-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #101419;
+    }
+
+    .overlay-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 820;
+    }
+
+    .overlay-actions {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .overlay-actions button {
+      min-height: 36px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+
+    .overlay-nav {
+      min-width: 42px;
+    }
+
+    .overlay-cycle {
+      min-width: 126px;
+    }
+
+    .overlay-close {
+      width: 38px;
+      height: 38px;
+      min-height: 38px;
+      padding: 0;
+      font-size: 22px;
+    }
+
+    .overlay-body {
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    #overlayImage {
+      transform-origin: center center;
+      cursor: zoom-in;
+      touch-action: none;
+      user-select: none;
+      will-change: transform;
+    }
+
+    #overlayImage.zoomed {
+      cursor: grab;
+    }
+
+    #overlayImage.zoomed:active {
+      cursor: grabbing;
+    }
+
+    .overlay-side-stack {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 5;
+      width: min(270px, calc(100vw - 24px));
+      display: grid;
+      gap: 6px;
+      pointer-events: auto;
+    }
+
+    .overlay-side-stack[hidden] {
+      display: none;
+    }
+
+    .overlay-rank-panel,
+    .overlay-vote-panel {
+      display: grid;
+      gap: 5px;
+      padding: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(9, 13, 18, 0.52);
+      backdrop-filter: blur(8px);
+    }
+
+    .overlay-rank-panel {
+      max-height: min(34vh, 198px);
+      overflow: auto;
+    }
+
+    .overlay-rank-title {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 860;
+    }
+
+    .overlay-rank-row {
+      width: 100%;
+      min-height: 28px;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) auto;
+      gap: 5px;
+      align-items: center;
+      padding: 4px 5px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      background: rgba(14, 20, 27, 0.58);
+      color: var(--text);
+      text-align: left;
+      font-size: 11px;
+    }
+
+    .overlay-rank-row[aria-current="true"] {
+      border-color: rgba(240, 184, 90, 0.75);
+      background: rgba(240, 184, 90, 0.16);
+    }
+
+    .overlay-rank-row strong {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .overlay-vote-panel .active-vote-control {
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .overlay-vote-panel .active-vote-top {
+      grid-template-columns: minmax(0, 1fr) 42px;
+    }
+
+    .overlay-vote-panel .note-input {
+      display: none;
+    }
+
+    .fatal {
+      max-width: 780px;
+      margin: 70px auto;
+      padding: 20px;
+      border: 1px solid var(--danger);
+      border-radius: 8px;
+      background: rgba(231, 120, 120, 0.12);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1120px) {
+      html,
+      body {
+        height: auto;
+        min-height: 100%;
+        overflow: auto;
+      }
+
+      .app {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      main {
+        overflow: visible;
+      }
+
+      .view,
+      .review-shell,
+      .final-shell {
+        height: auto;
+        min-height: 0;
+      }
+
+      .review-shell,
+      .final-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        min-height: 640px;
+      }
+
+      #finalView .side-panel {
+        min-height: 0;
+        max-height: none;
+        overflow: visible;
+      }
+    }
+  </style>
 </head>
-
-<body class="home-page">
-
-    <!-- HEADER -->
-    <header class="site-header">
-        <a href="index.html" class="logo">
-            <!-- Increased size to 50px height as requested -->
-            <img src="logo.png" alt="QUBLY">
-        </a>
-
-        <div class="menu-toggle">
-            <div class="hamburger-line"></div>
-        </div>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>QB</h1>
+        <p class="status" id="statusLine">Caricamento...</p>
+      </div>
+      <nav class="top-actions" aria-label="Viste">
+        <button class="tab-button" id="reviewTab" type="button" aria-pressed="true">Valutazione</button>
+        <button class="tab-button" id="finalTab" type="button" aria-pressed="false">Confronto finale</button>
+        <button class="tab-button" id="syncUploadButton" type="button">Carica locali</button>
+      </nav>
     </header>
 
-    <!-- FULLSCREEN MENU -->
-    <div class="fullscreen-menu">
-        <ul class="menu-list">
-            <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
-            <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
-            <li class="menu-item"><a href="#case-studies" data-i18n="nav_purpose">What We Offer</a></li>
-            <li class="menu-item"><a href="#projects" data-i18n="nav_projects">Projects</a></li>
-            <!-- CONTACT triggers scroll to #contact section, where the trigger link is -->
-            <li class="menu-item"><a href="#contact" data-i18n="nav_contact">Contact Us</a></li>
-        </ul>
-    </div>
+    <main id="appMain">
+      <section class="view" id="reviewView">
+        <div class="review-shell">
+          <section class="visual-stack" aria-label="Confronto originale e variante">
+            <button class="floating-nav prev" id="prevFloat" type="button" aria-label="Immagine precedente">‹</button>
+            <button class="floating-nav next" id="nextFloat" type="button" aria-label="Immagine successiva">›</button>
 
-    <!-- HERO SECTION -->
-    <section class="hero-section">
-        <div class="hero-video-container">
-            <video class="hero-video" autoplay loop muted playsinline disablePictureInPicture
-                controlsList="nodownload noplaybackrate noremoteplayback">
-                <!-- PC: 1024px in su -->
-                <source src="hero-pc.mp4" media="(min-width: 1024px)" type="video/mp4">
-                <!-- Tablet: tra 768px e 1023px -->
-                <source src="hero-tablet.mp4" media="(min-width: 768px)" type="video/mp4">
-                <!-- Telefono: fino a 767px -->
-                <source src="hero-telefono.mp4" media="(max-width: 767px)" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="scroll-trigger-zone">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
-
-    <!-- MAIN CONTENT WRAPPER to fix background scrolling issue -->
-    <main id="main-content-wrapper">
-        <!-- SCROLLING TEXTURE BACKGROUND -->
-        <img src="Sfondo.webp" id="scrolling-texture" alt="">
-
-        <!-- INTRO TEXT -->
-        <div class="section-wrapper" id="intro" data-snap-anchor data-snap-offset="0">
-            <h1 class="reveal from-left" data-delay="0" style="text-transform: uppercase;" data-i18n="hero_title">
-                SEE THE FORM<br>
-                UNDERSTAND THE PROJECT
-            </h1>
-        </div>
-
-        <section class="scroll-showcase" id="visual-flow" data-snap-anchor data-snap-offset="0.08">
-            <div class="scroll-showcase-stack" style="--showcase-card-count: 4;">
-                <div class="scroll-showcase-stage">
-                    <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/01.jpg" alt="Selected interior work 1" data-speed="0.94">
-                        <div class="showcase-tags">
-                            <span>QUBLY</span>
-                            <span data-i18n="showcase_tag_residential">RESIDENTIAL</span>
-                        </div>
-                    </article>
-                    <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/02.jpg" alt="Selected exterior work" data-speed="0.92">
-                        <div class="showcase-tags">
-                            <span>QUBLY</span>
-                            <span data-i18n="showcase_tag_architecture">ARCHITECTURE</span>
-                        </div>
-                    </article>
-                    <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/03.jpg" alt="Selected landscapes work" data-speed="0.9">
-                        <div class="showcase-tags">
-                            <span>QUBLY</span>
-                            <span data-i18n="showcase_tag_landscapes">LANDSCAPES</span>
-                        </div>
-                    </article>
-                    <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/04.png" alt="Selected redevelopment work" data-speed="0.88">
-                        <div class="showcase-tags">
-                            <span>QUBLY</span>
-                            <span data-i18n="showcase_tag_transformation">TRANSFORMATION</span>
-                        </div>
-                    </article>
+            <article class="image-card">
+              <div class="image-head">
+                <span class="image-title" id="originalTitle">Originale</span>
+                <span class="image-meta" id="originalMeta">-</span>
+              </div>
+              <div class="image-stage" id="originalStage" role="button" tabindex="0" aria-label="Apri originale ingrandita">
+                <img id="originalImage" alt="">
+                <div class="compare-stage" id="reviewCompare" aria-hidden="true">
+                  <img class="compare-before" id="reviewCompareBefore" alt="">
+                  <img class="compare-after" id="reviewCompareAfter" alt="">
+                  <span class="compare-label before">Originale</span>
+                  <span class="compare-label after">Variante</span>
+                  <div class="compare-bar" id="reviewCompareBar"></div>
+                  <div class="compare-knob" id="reviewCompareKnob">↔</div>
+                  <div class="compare-drag-zone" id="reviewCompareDrag" role="slider" tabindex="0" aria-label="Trascina confronto prima dopo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
                 </div>
+                <button class="compare-toggle" id="compareToggle" type="button">Prima/dopo</button>
+              </div>
+            </article>
+
+            <article class="image-card">
+              <div class="image-head">
+                <span class="image-title" id="variantTitle">Variante</span>
+                <span class="image-meta" id="variantMeta">-</span>
+              </div>
+              <button class="image-stage" id="variantButton" type="button" aria-label="Apri variante ingrandita">
+                <img id="variantImage" alt="">
+              </button>
+            </article>
+          </section>
+
+          <aside class="side-panel">
+            <div class="panel-top">
+              <div class="eyebrow" id="counter">1 / 1</div>
+              <div class="current-name" id="currentName">-</div>
+              <div class="chips">
+                <span class="chip" id="subjectChip">-</span>
+                <span class="chip" id="categoryChip">-</span>
+                <span class="chip" id="rankingChip">-</span>
+              </div>
+              <p class="source-line" id="sourceLine">-</p>
             </div>
-        </section>
 
-        <section class="case-studies-intro section-wrapper" id="case-studies" data-snap-anchor data-snap-offset="0">
-            <h2 class="service-title reveal from-left" data-delay="0" data-i18n="case_studies_title">QUANDO LA CHIAREZZA GUIDA LE DECISIONI</h2>
-        </section>
-
-    <!-- CASE STUDIES SNAPSHOT -->
-    <section class="case-snapshots">
-        <h2 class="case-mobile-sticky-title" data-i18n="case_studies_title">QUANDO LA CHIAREZZA GUIDA LE DECISIONI</h2>
-
-        <div class="case-mobile-scroll-window">
-        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
-
-        <!-- ROW 1 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row1_title">Design transition to reality</h3>
-        <div class="case-row">
-            <!-- Left Card: Problem -->
-            <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Before</p>
-                <div class="case-media">
-                    <img src="PS/P1.png" alt="Case Study 1 Problem" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row1_prob">Drawings explain structure, but they don’t communicate how the architecture will actually look
-                        and feel in reality.</p>
-                </div>
-            </a>
-
-            <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="700">
-                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
-                <div class="case-media">
-                    <img src="PS/S1.png" alt="Case Study 1 Solution" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row1_sol">Architectural visualizations that turn 2D intent into clear, tangible spatial reality.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-
-        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
-        <!-- ROW 2 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row2_title">From project to image</h3>
-        <div class="case-row">
-            <!-- Left Card: Problem -->
-            <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Before</p>
-                <div class="case-media">
-                    <img src="PS/P5.png" alt="Case Study 2 Problem" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row2_prob">A project can be precise and complete, but still difficult to read without a clear visual translation.</p>
-                </div>
-            </a>
-
-            <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="700">
-                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
-                <div class="case-media">
-                    <img src="PS/S5.png" alt="Case Study 2 Solution" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row2_sol">Images that turn the project into an immediate, readable and communicative architectural vision.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-
-        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
-        <!-- ROW 3 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row3_title">From model to image</h3>
-        <div class="case-row">
-            <!-- Left Card: Problem -->
-            <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Before</p>
-                <div class="case-media">
-                    <img src="PS/P6.png" alt="Case Study 3 Problem" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row3_prob">A model defines volumes and proportions, but it does not yet express atmosphere, materials and light.</p>
-                </div>
-            </a>
-
-            <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="700">
-                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
-                <div class="case-media">
-                    <img src="PS/S6.png" alt="Case Study 3 Solution" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row3_sol">Rendered images that transform the model into a complete visual experience, ready to communicate.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-
-        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
-        <!-- ROW 4 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row4_title">Interior decisions</h3>
-        <div class="case-row">
-            <!-- Left Card: Problem -->
-            <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Before</p>
-                <div class="case-media">
-                    <img src="PS/P2.png" alt="Case Study 2 Problem" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row4_prob">Sometimes there is only an empty space, or just a project on paper, and it has to be sold before
-                        anyone can imagine living in it.</p>
-                </div>
-            </a>
-
-            <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="700">
-                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
-                <div class="case-media">
-                    <img src="PS/S2.png" alt="Case Study 2 Solution" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row4_sol">Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready
-                        environments that make purchase decisions easier.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-
-        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
-        <!-- ROW 5 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row5_title">Photomontage of your project</h3>
-        <div class="case-row">
-            <!-- Left Card: Problem -->
-            <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Before</p>
-                <div class="case-media">
-                    <img src="PS/P3.png" alt="Case Study 3 Problem" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row5_prob">Existing buildings and sites don’t communicate their future potential.</p>
-                </div>
-            </a>
-
-            <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="700">
-                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
-                <div class="case-media">
-                    <img src="PS/S3.png" alt="Case Study 3 Solution" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row5_sol">Contextual photoinsertions that show the transformation as if it already exists.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-
-        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
-        <!-- ROW 6 -->
-        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row6_title">Design options and material comparison</h3>
-        <div class="case-row">
-            <!-- Left Card: Problem -->
-            <a class="case-card reveal from-left" href="#" data-delay="0">
-                <p class="case-kicker" data-i18n="kicker_need">Before</p>
-                <div class="case-media">
-                    <img src="PS/P4.png" alt="Case Study 4 Problem" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row6_prob">Comparing finishes and alternatives is abstract without seeing them side by side.</p>
-                </div>
-            </a>
-
-            <!-- Right Card: Solution -->
-            <a class="case-card reveal from-right" href="#" data-delay="700">
-                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
-                <div class="case-media">
-                    <img src="PS/S4.png" alt="Case Study 4 Solution" />
-                </div>
-                <div class="case-body">
-                    <p data-i18n="row6_sol">Consistent comparative renders that make choices immediate and concrete.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-        </div>
-    </section>
-
-    <!-- PROJECTS SECTION (Moved here) -->
-    <div class="section-wrapper" id="projects" data-snap-anchor data-snap-offset="0.12">
-        <h2 class="service-title reveal from-left" data-delay="0" data-i18n="projects_title">PROJECTS</h2>
-
-        <div class="services-grid">
-            <!-- Project Category 1: EXTERIOR -->
-            <a href="esterni.html" class="case-card reveal from-left" data-delay="0">
-                <div class="case-media"
-                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
-                    <img src="PS/exterior.png" alt="Exterior"
-                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
-                </div>
-                <div class="case-body">
-                    <h3 data-i18n="proj_exterior">EXTERIOR</h3>
-                </div>
-            </a>
-
-            <!-- Project Category 2: INTERIOR -->
-            <a href="interni.html" class="case-card reveal from-left" data-delay="200">
-                <div class="case-media"
-                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
-                    <img src="PS/interior.png" alt="Interior"
-                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
-                </div>
-                <div class="case-body">
-                    <h3 data-i18n="proj_interior">INTERIOR</h3>
-                </div>
-            </a>
-
-            <!-- Project Category 3: LANDSCAPES -->
-            <a href="paesaggi.html" class="case-card reveal from-left" data-delay="400">
-                <div class="case-media"
-                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
-                    <img src="PS/paesaggi.png" alt="Landscapes"
-                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
-                </div>
-                <div class="case-body">
-                    <h3 data-i18n="proj_landscapes">LANDSCAPES</h3>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- CONTACT SECTION (Redesigned) -->
-    <div class="contact-section" id="contact" data-snap-anchor data-snap-offset="0.12">
-        <div class="contact-left reveal from-left" data-delay="0">
-            <h2 class="service-title" data-i18n="contact_title">CONTACT</h2>
-            <p class="contact-text" data-i18n="contact_desc">
-                Turning architectural ideas into visual reality.<br>
-                For project proposals and collaborations, email us.
-            </p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRsD1cFEi_Piw1dqPVw4LWgrstn5cbHXEcnYwcSCSfHgwjyg/viewform?usp=publish-editor"
-                class="contact-form-button contact-form-button--dark" target="_blank" rel="noopener"
-                data-i18n="contact_request_button">SEND REQUEST</a>
-        </div>
-
-        <div class="contact-right">
-            <div class="social-icons-wrapper">
-                <!-- Facebook Icon -->
-                <a href="#" class="social-icon">
-                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.71 6 13.5 6H16V9H14C13.06 9 13 9.97 13 10.5V12H16L15.6 15H13V21.95C17.74 21.45 22 17.18 22 12Z" />
-                    </svg>
-                </a>
-                <!-- Instagram Icon -->
-                <a href="#" class="social-icon">
-                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6Z" />
-                        <path
-                            d="M12 7C9.2 7 7 9.2 7 12C7 14.8 9.2 17 12 17C14.8 17 17 14.8 17 12C17 9.2 14.8 7 12 7ZM12 15C10.3 15 9 13.7 9 12C9 10.3 10.3 9 12 9C13.7 9 15 10.3 15 12C15 13.7 13.7 15 12 15Z" />
-                        <circle cx="17" cy="7" r="1.5" />
-                    </svg>
-                </a>
+            <div class="progress-box">
+              <div class="meter"><div class="meter-fill" id="progressFill"></div></div>
+              <div class="progress-text">
+                <span id="progressText">-</span>
+                <span>Tastiera: ← →</span>
+              </div>
             </div>
-            <a href="#" class="contact-trigger-link">info.qubly@gmail.com</a>
-        </div>
-    </div>
 
-    <!-- FOOTER (Empty now or removed) -->
-    <footer class="site-footer" style="padding: 2vw; border: none;">
-        <!-- Icons moved to contact section, keeping simple copyright or empty -->
-        <p style="font-size: 0.8vw; color: #333; margin: 0 auto;">&copy; 2026 QUBLY.</p>
-    </footer>
+            <section class="voter-area">
+              <div class="average-card">
+                <div>
+                  <div class="average-label">Media dei 4 votanti</div>
+                  <div class="source-line" id="averageDetail">-</div>
+                </div>
+                <div class="average-value" id="averageValue">-</div>
+              </div>
+              <div class="voter-list" id="voterList" aria-label="Voti dei quattro votanti"></div>
+            </section>
+
+            <div class="panel-actions">
+              <button id="prevButton" type="button">← Precedente</button>
+              <button id="nextButton" type="button">Successiva →</button>
+              <button class="primary-button wide" id="goFinalButton" type="button">Confronto per soggetto</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="finalView" hidden>
+        <div class="final-shell">
+          <section class="board">
+            <div class="subject-tabs" id="subjectTabs" aria-label="Soggetti"></div>
+            <div class="final-head">
+              <article class="mini-original">
+                <div class="img-box"><img id="finalOriginalImage" alt=""></div>
+                <div class="info">
+                  <span class="eyebrow">Originale</span>
+                  <strong id="finalOriginalName">-</strong>
+                  <span class="source-line" id="finalSubjectCount">-</span>
+                </div>
+              </article>
+              <article class="final-note">
+                <h2 id="finalSubjectTitle">-</h2>
+                <button class="primary-button final-back-inline" id="backToReviewBoardButton" type="button">Torna a valutazione</button>
+                <p id="finalInstruction">Trascina le card per ordinare le varianti dello stesso soggetto dal 1° posto all’ultimo. Puoi cambiare i voti a destra mentre confronti le immagini.</p>
+              </article>
+            </div>
+            <div class="variant-grid" id="variantGrid"></div>
+          </section>
+
+          <aside class="side-panel">
+            <div class="panel-top">
+              <div class="eyebrow">Variante selezionata</div>
+              <div class="current-name" id="finalName">-</div>
+              <div class="chips">
+                <span class="chip" id="finalCategoryChip">-</span>
+                <span class="chip" id="finalRankChip">-</span>
+              </div>
+              <p class="source-line" id="finalSourceLine">-</p>
+            </div>
+
+            <section class="personal-rank-panel" aria-label="Votante attivo">
+              <div class="tool-summary-head">
+                <span>Votante</span>
+                <span id="personalRankStatus">-</span>
+              </div>
+              <div class="personal-rank-list" id="personalRankList"></div>
+            </section>
+
+            <section class="tool-summary" aria-label="Classifica media per posizioni">
+              <div class="tool-summary-head">
+                <span>Classifica posizioni</span>
+                <span id="toolSummaryStatus">-</span>
+              </div>
+              <div class="tool-summary-list" id="toolSummaryList"></div>
+            </section>
+
+            <section class="tool-summary" aria-label="Classifica media per voti">
+              <div class="tool-summary-head">
+                <span>Classifica voti</span>
+                <span id="scoreSummaryStatus">-</span>
+              </div>
+              <div class="tool-summary-list" id="scoreSummaryList"></div>
+            </section>
+
+            <div class="average-card">
+              <div>
+                <div class="average-label">Media aggiornata</div>
+                <div class="source-line" id="finalAverageDetail">-</div>
+              </div>
+              <div class="average-value" id="finalAverageValue">-</div>
+            </div>
+
+            <section class="subject-average-panel" aria-label="Classifica media del soggetto">
+              <div class="tool-summary-head">
+                <span>Media soggetto</span>
+                <span id="subjectAverageStatus">-</span>
+              </div>
+              <div class="subject-average-list" id="subjectAverageList"></div>
+            </section>
+
+            <section class="voter-area">
+              <div class="voter-list" id="finalVoterList" aria-label="Ritocco voti"></div>
+            </section>
+
+            <div class="panel-actions">
+              <button id="backToReviewButton" type="button">Torna alla scheda</button>
+              <button class="primary-button" id="completeRankingButton" type="button">Classifica completa</button>
+            </div>
+          </aside>
+        </div>
+      </section>
     </main>
+  </div>
 
-    <!-- CUSTOM CURSOR -->
-    <div id="cursor-dot" class="custom-cursor"></div>
+  <div class="overlay" id="overlay" hidden>
+    <div class="overlay-head">
+      <div class="overlay-title" id="overlayTitle">-</div>
+      <div class="overlay-actions">
+        <button class="overlay-nav" id="overlayRankUp" type="button" aria-label="Sposta su in classifica">↑ posto</button>
+        <button class="overlay-nav" id="overlayPrev" type="button" aria-label="Precedente">←</button>
+        <button class="overlay-cycle primary-button" id="overlayCycle" type="button">Originale</button>
+        <button class="overlay-nav" id="overlayNext" type="button" aria-label="Successiva">→</button>
+        <button class="overlay-nav" id="overlayRankDown" type="button" aria-label="Sposta giu in classifica">↓ posto</button>
+        <button class="overlay-close" id="overlayClose" type="button" aria-label="Chiudi">x</button>
+      </div>
+    </div>
+    <div class="overlay-body">
+      <div class="overlay-side-stack" id="overlaySideStack" hidden>
+        <div class="overlay-rank-panel" id="overlayRankPanel"></div>
+        <div class="overlay-vote-panel" id="overlayVotePanel"></div>
+      </div>
+      <img id="overlayImage" alt="">
+      <div class="compare-stage" id="overlayCompare" aria-hidden="true">
+        <img class="compare-before" id="overlayCompareBefore" alt="">
+        <img class="compare-after" id="overlayCompareAfter" alt="">
+        <span class="compare-label before">Originale</span>
+        <span class="compare-label after">Variante</span>
+        <div class="compare-bar" id="overlayCompareBar"></div>
+        <div class="compare-knob" id="overlayCompareKnob">↔</div>
+        <div class="compare-drag-zone" id="overlayCompareDrag" role="slider" tabindex="0" aria-label="Trascina confronto prima dopo fullscreen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+      </div>
+    </div>
+  </div>
 
-    <!-- SPOTLIGHT CANVAS -->
-    <canvas id="spotlight-canvas"></canvas>
+  <script src="./manifest.js"></script>
+  <script src="./sync-config.js"></script>
+  <script>
+    (() => {
+      const manifest = window.RENDER_REVIEW_MANIFEST;
+      const main = document.getElementById("appMain");
 
+      if (!manifest || !Array.isArray(manifest.variants)) {
+        main.innerHTML = '<div class="fatal">Manifest non trovato. Rigenera i file con <code>python build_manifest.py</code>.</div>';
+        return;
+      }
 
-    <!-- JS -->
-    <script src="js/translations.js?v=58"></script>
-    <script src="js/spotlight.js?v=49"></script>
-    <script src="js/main.js?v=74"></script>
+      const variants = manifest.variants;
+      const subjects = manifest.subjects || [];
+      const voters = manifest.voters || [
+        { id: "voter_1", label: "Marco" },
+        { id: "voter_2", label: "Matteo" },
+        { id: "voter_3", label: "Samu" },
+        { id: "voter_4", label: "Vlad" },
+      ];
+      const storageKey = `render-review-v3:${manifest.manifestId || "default"}`;
+      const syncConfig = window.RENDER_REVIEW_SYNC || {};
+      const syncUrl = String(syncConfig.webAppUrl || "").trim();
+      const syncToken = String(syncConfig.token || "").trim();
+      const syncEnabled = Boolean(syncUrl && syncToken);
+      const syncPollMs = Math.max(5, Number(syncConfig.pollSeconds) || 12) * 1000;
+      const deviceStorageKey = `${storageKey}:device-id`;
+      const deviceId = loadDeviceId();
+      let syncStatus = syncEnabled ? "sync pronta" : "solo locale";
+      let applyingRemoteState = false;
+      let remotePollTimer = null;
+      const pendingVoteSync = new Map();
+      const pendingRankingSync = new Map();
+
+      const els = {
+        statusLine: document.getElementById("statusLine"),
+        reviewTab: document.getElementById("reviewTab"),
+        finalTab: document.getElementById("finalTab"),
+        syncUploadButton: document.getElementById("syncUploadButton"),
+        reviewView: document.getElementById("reviewView"),
+        finalView: document.getElementById("finalView"),
+        originalTitle: document.getElementById("originalTitle"),
+        originalMeta: document.getElementById("originalMeta"),
+        originalImage: document.getElementById("originalImage"),
+        originalStage: document.getElementById("originalStage"),
+        reviewCompare: document.getElementById("reviewCompare"),
+        reviewCompareBefore: document.getElementById("reviewCompareBefore"),
+        reviewCompareAfter: document.getElementById("reviewCompareAfter"),
+        reviewCompareBar: document.getElementById("reviewCompareBar"),
+        reviewCompareKnob: document.getElementById("reviewCompareKnob"),
+        reviewCompareDrag: document.getElementById("reviewCompareDrag"),
+        compareToggle: document.getElementById("compareToggle"),
+        variantTitle: document.getElementById("variantTitle"),
+        variantMeta: document.getElementById("variantMeta"),
+        variantImage: document.getElementById("variantImage"),
+        variantButton: document.getElementById("variantButton"),
+        prevFloat: document.getElementById("prevFloat"),
+        nextFloat: document.getElementById("nextFloat"),
+        counter: document.getElementById("counter"),
+        currentName: document.getElementById("currentName"),
+        subjectChip: document.getElementById("subjectChip"),
+        categoryChip: document.getElementById("categoryChip"),
+        rankingChip: document.getElementById("rankingChip"),
+        sourceLine: document.getElementById("sourceLine"),
+        progressFill: document.getElementById("progressFill"),
+        progressText: document.getElementById("progressText"),
+        averageValue: document.getElementById("averageValue"),
+        averageDetail: document.getElementById("averageDetail"),
+        voterList: document.getElementById("voterList"),
+        prevButton: document.getElementById("prevButton"),
+        nextButton: document.getElementById("nextButton"),
+        goFinalButton: document.getElementById("goFinalButton"),
+        subjectTabs: document.getElementById("subjectTabs"),
+        finalOriginalImage: document.getElementById("finalOriginalImage"),
+        finalOriginalName: document.getElementById("finalOriginalName"),
+        finalSubjectCount: document.getElementById("finalSubjectCount"),
+        finalSubjectTitle: document.getElementById("finalSubjectTitle"),
+        finalInstruction: document.getElementById("finalInstruction"),
+        variantGrid: document.getElementById("variantGrid"),
+        finalName: document.getElementById("finalName"),
+        finalCategoryChip: document.getElementById("finalCategoryChip"),
+        finalRankChip: document.getElementById("finalRankChip"),
+        finalSourceLine: document.getElementById("finalSourceLine"),
+        finalAverageValue: document.getElementById("finalAverageValue"),
+        finalAverageDetail: document.getElementById("finalAverageDetail"),
+        toolSummaryList: document.getElementById("toolSummaryList"),
+        toolSummaryStatus: document.getElementById("toolSummaryStatus"),
+        scoreSummaryList: document.getElementById("scoreSummaryList"),
+        scoreSummaryStatus: document.getElementById("scoreSummaryStatus"),
+        personalRankList: document.getElementById("personalRankList"),
+        personalRankStatus: document.getElementById("personalRankStatus"),
+        subjectAverageList: document.getElementById("subjectAverageList"),
+        subjectAverageStatus: document.getElementById("subjectAverageStatus"),
+        finalVoterList: document.getElementById("finalVoterList"),
+        backToReviewBoardButton: document.getElementById("backToReviewBoardButton"),
+        backToReviewButton: document.getElementById("backToReviewButton"),
+        completeRankingButton: document.getElementById("completeRankingButton"),
+        overlay: document.getElementById("overlay"),
+        overlayBody: document.querySelector(".overlay-body"),
+        overlaySideStack: document.getElementById("overlaySideStack"),
+        overlayRankPanel: document.getElementById("overlayRankPanel"),
+        overlayVotePanel: document.getElementById("overlayVotePanel"),
+        overlayImage: document.getElementById("overlayImage"),
+        overlayCompare: document.getElementById("overlayCompare"),
+        overlayCompareBefore: document.getElementById("overlayCompareBefore"),
+        overlayCompareAfter: document.getElementById("overlayCompareAfter"),
+        overlayCompareBar: document.getElementById("overlayCompareBar"),
+        overlayCompareKnob: document.getElementById("overlayCompareKnob"),
+        overlayCompareDrag: document.getElementById("overlayCompareDrag"),
+        overlayTitle: document.getElementById("overlayTitle"),
+        overlayRankUp: document.getElementById("overlayRankUp"),
+        overlayPrev: document.getElementById("overlayPrev"),
+        overlayCycle: document.getElementById("overlayCycle"),
+        overlayNext: document.getElementById("overlayNext"),
+        overlayRankDown: document.getElementById("overlayRankDown"),
+        overlayClose: document.getElementById("overlayClose"),
+      };
+
+      let state = loadState();
+      let currentIndex = clamp(Number(state.currentIndex) || 0, 0, Math.max(variants.length - 1, 0));
+      let currentSubjectKey = subjects[0]?.key || variants[0]?.subjectKey || "";
+      let finalSelectedId = firstVariantForSubject(currentSubjectKey)?.id || variants[0]?.id || "";
+      let overlayKind = "image";
+      let overlayScope = "pair";
+      let overlayIndex = currentIndex;
+      let overlayFinalSubjectKey = "";
+      let overlayFinalId = "";
+      const overlayZoom = {
+        scale: 1,
+        x: 0,
+        y: 0,
+        dragging: false,
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        originX: 0,
+        originY: 0,
+      };
+
+      function defaultState() {
+        const voterNames = {};
+        voters.forEach((voter) => {
+          voterNames[voter.id] = voter.label;
+        });
+        return {
+          currentIndex: 0,
+          voterNames,
+          items: {},
+          rankings: {},
+          personalRankings: {},
+          personalTouched: {},
+          personalRankingUpdatedAt: {},
+          activeVoterId: voters[0]?.id || "",
+          compareMode: false,
+          comparePosition: 50,
+          summary: null,
+          summaryUpdatedAt: "",
+        };
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(storageKey);
+          if (!raw) return defaultState();
+          const parsed = JSON.parse(raw);
+          const base = defaultState();
+          base.currentIndex = Number(parsed.currentIndex) || 0;
+          base.voterNames = { ...base.voterNames, ...(parsed.voterNames || {}) };
+          voters.forEach((voter, index) => {
+            const oldDefault = `Persona ${index + 1}`;
+            if (!base.voterNames[voter.id] || base.voterNames[voter.id] === oldDefault) {
+              base.voterNames[voter.id] = voter.label;
+            }
+          });
+          base.items = parsed.items && typeof parsed.items === "object" ? parsed.items : {};
+          base.rankings = parsed.rankings && typeof parsed.rankings === "object" ? parsed.rankings : {};
+          base.personalRankings = parsed.personalRankings && typeof parsed.personalRankings === "object" ? parsed.personalRankings : {};
+          base.personalTouched = parsed.personalTouched && typeof parsed.personalTouched === "object" ? parsed.personalTouched : {};
+          base.personalRankingUpdatedAt = parsed.personalRankingUpdatedAt && typeof parsed.personalRankingUpdatedAt === "object" ? parsed.personalRankingUpdatedAt : {};
+          base.activeVoterId = voters.some((voter) => voter.id === parsed.activeVoterId) ? parsed.activeVoterId : base.activeVoterId;
+          base.compareMode = Boolean(parsed.compareMode);
+          base.comparePosition = Number.isFinite(Number(parsed.comparePosition)) ? clamp(Number(parsed.comparePosition), 0, 100) : 50;
+          base.summary = parsed.summary || null;
+          base.summaryUpdatedAt = parsed.summaryUpdatedAt || "";
+          return base;
+        } catch (error) {
+          return defaultState();
+        }
+      }
+
+      function saveState() {
+        state.currentIndex = currentIndex;
+        state.summary = computeToolSummary();
+        state.summaryUpdatedAt = new Date().toISOString();
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(state));
+        } catch (error) {
+          els.statusLine.textContent = "Salvataggio locale non disponibile in questo browser";
+        }
+      }
+
+      function loadDeviceId() {
+        try {
+          const saved = localStorage.getItem(deviceStorageKey);
+          if (saved) return saved;
+          const generated = `device_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+          localStorage.setItem(deviceStorageKey, generated);
+          return generated;
+        } catch (error) {
+          return `device_${Math.random().toString(36).slice(2, 10)}`;
+        }
+      }
+
+      function setSyncStatus(message) {
+        syncStatus = message;
+        updateStatus();
+      }
+
+      function jsonpRequest(params, timeoutMs = 15000) {
+        if (!syncEnabled) return Promise.reject(new Error("Sync non configurata"));
+        return new Promise((resolve, reject) => {
+          const callbackName = `__renderReviewSync_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+          const script = document.createElement("script");
+          const timeout = window.setTimeout(() => {
+            cleanup();
+            reject(new Error("Timeout sync"));
+          }, timeoutMs);
+
+          function cleanup() {
+            window.clearTimeout(timeout);
+            delete window[callbackName];
+            script.remove();
+          }
+
+          window[callbackName] = (payload) => {
+            cleanup();
+            if (!payload || payload.ok === false) {
+              reject(new Error(payload?.error || "Errore sync"));
+              return;
+            }
+            resolve(payload);
+          };
+
+          const query = new URLSearchParams({
+            ...params,
+            token: syncToken,
+            manifestId: manifest.manifestId || "default",
+            deviceId,
+            callback: callbackName,
+          });
+          script.src = `${syncUrl}${syncUrl.includes("?") ? "&" : "?"}${query.toString()}`;
+          script.onerror = () => {
+            cleanup();
+            reject(new Error("Impossibile contattare Google Apps Script"));
+          };
+          document.head.appendChild(script);
+        });
+      }
+
+      function syncSuffix() {
+        return syncStatus ? ` | ${syncStatus}` : "";
+      }
+
+      function isUserEditing() {
+        const target = document.activeElement;
+        return target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+      }
+
+      function refreshCurrentView() {
+        if (isUserEditing()) return;
+        if (els.finalView.hidden) renderReview();
+        else renderFinal();
+      }
+
+      function mergeRemoteState(payload) {
+        let changed = false;
+        applyingRemoteState = true;
+        try {
+          Object.entries(payload.voterNames || {}).forEach(([voterId, name]) => {
+            if (!name || state.voterNames[voterId] === name) return;
+            state.voterNames[voterId] = name;
+            changed = true;
+          });
+
+          (payload.votes || []).forEach((vote) => {
+            if (!byId(vote.itemId) || !voters.some((voter) => voter.id === vote.voterId)) return;
+            const record = itemState(vote.itemId);
+            const current = record.votes[vote.voterId] || {};
+            const remoteUpdated = vote.updatedAt || "";
+            const localUpdated = current.updatedAt || "";
+            if (localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
+            const next = {
+              score: scoreValue(vote.score),
+              note: vote.note || "",
+              updatedAt: remoteUpdated || new Date().toISOString(),
+            };
+            if (current.score === next.score && current.note === next.note && current.updatedAt === next.updatedAt) return;
+            record.votes[vote.voterId] = next;
+            changed = true;
+          });
+
+          (payload.rankings || []).forEach((ranking) => {
+            const subject = subjectByKey(ranking.subjectKey);
+            if (!subject || !voters.some((voter) => voter.id === ranking.voterId)) return;
+            const ids = new Set(subject.variantIds || []);
+            const clean = Array.isArray(ranking.order) ? ranking.order.filter((id) => ids.has(id)) : [];
+            subjectVariants(ranking.subjectKey).forEach((item) => {
+              if (!clean.includes(item.id)) clean.push(item.id);
+            });
+            if (!state.personalRankings[ranking.subjectKey]) state.personalRankings[ranking.subjectKey] = {};
+            if (!state.personalTouched[ranking.subjectKey]) state.personalTouched[ranking.subjectKey] = {};
+            if (!state.personalRankingUpdatedAt[ranking.subjectKey]) state.personalRankingUpdatedAt[ranking.subjectKey] = {};
+            const localUpdated = state.personalRankingUpdatedAt[ranking.subjectKey][ranking.voterId] || "";
+            const remoteUpdated = ranking.updatedAt || "";
+            if (localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
+            const currentOrder = state.personalRankings[ranking.subjectKey][ranking.voterId] || [];
+            if (
+              currentOrder.join("|") === clean.join("|")
+              && Boolean(state.personalTouched[ranking.subjectKey][ranking.voterId]) === Boolean(ranking.touched)
+              && localUpdated === remoteUpdated
+            ) {
+              return;
+            }
+            state.personalRankings[ranking.subjectKey][ranking.voterId] = clean;
+            state.personalTouched[ranking.subjectKey][ranking.voterId] = Boolean(ranking.touched);
+            state.personalRankingUpdatedAt[ranking.subjectKey][ranking.voterId] = remoteUpdated || new Date().toISOString();
+            changed = true;
+          });
+        } finally {
+          applyingRemoteState = false;
+        }
+        if (changed) saveState();
+        return changed;
+      }
+
+      async function pullRemoteState(silent = false) {
+        if (!syncEnabled) return;
+        try {
+          if (!silent) setSyncStatus("carico sync...");
+          const payload = await jsonpRequest({ action: "load" });
+          const changed = mergeRemoteState(payload);
+          setSyncStatus("sync ok");
+          if (changed) refreshCurrentView();
+        } catch (error) {
+          setSyncStatus("sync errore");
+        }
+      }
+
+      function pushVoteToRemote(itemId, voterId) {
+        if (!syncEnabled || applyingRemoteState) return;
+        const key = `${itemId}:${voterId}`;
+        window.clearTimeout(pendingVoteSync.get(key));
+        pendingVoteSync.set(key, window.setTimeout(() => {
+          pendingVoteSync.delete(key);
+          sendVoteToRemote(itemId, voterId);
+        }, 450));
+      }
+
+      function sendVoteToRemote(itemId, voterId) {
+        const vote = itemState(itemId).votes[voterId] || {};
+        setSyncStatus("salvo voto...");
+        jsonpRequest({
+          action: "saveVote",
+          itemId,
+          voterId,
+          score: vote.score == null ? "" : String(vote.score),
+          note: vote.note || "",
+          updatedAt: vote.updatedAt || new Date().toISOString(),
+        }).then(() => {
+          setSyncStatus("sync ok");
+        }).catch(() => {
+          setSyncStatus("sync errore");
+        });
+      }
+
+      function pushRankingToRemote(subjectKey, voterId) {
+        if (!syncEnabled || applyingRemoteState) return;
+        const key = `${subjectKey}:${voterId}`;
+        window.clearTimeout(pendingRankingSync.get(key));
+        pendingRankingSync.set(key, window.setTimeout(() => {
+          pendingRankingSync.delete(key);
+          sendRankingToRemote(subjectKey, voterId);
+        }, 450));
+      }
+
+      function sendRankingToRemote(subjectKey, voterId) {
+        const order = state.personalRankings?.[subjectKey]?.[voterId] || personalOrder(subjectKey, voterId);
+        const updatedAt = state.personalRankingUpdatedAt?.[subjectKey]?.[voterId] || new Date().toISOString();
+        setSyncStatus("salvo classifica...");
+        jsonpRequest({
+          action: "saveRanking",
+          subjectKey,
+          voterId,
+          orderJson: JSON.stringify(order),
+          touched: String(Boolean(state.personalTouched?.[subjectKey]?.[voterId])),
+          updatedAt,
+        }).then(() => {
+          setSyncStatus("sync ok");
+        }).catch(() => {
+          setSyncStatus("sync errore");
+        });
+      }
+
+      function pushVoterNameToRemote(voterId) {
+        if (!syncEnabled || applyingRemoteState) return;
+        jsonpRequest({
+          action: "saveVoterName",
+          voterId,
+          name: state.voterNames[voterId] || voterId,
+          updatedAt: new Date().toISOString(),
+        }).catch(() => {
+          setSyncStatus("sync errore");
+        });
+      }
+
+      async function pushAllLocalState() {
+        if (!syncEnabled) return;
+        els.syncUploadButton.disabled = true;
+        try {
+          setSyncStatus("carico locali...");
+          let sent = 0;
+          for (const voter of voters) {
+            await jsonpRequest({
+              action: "saveVoterName",
+              voterId: voter.id,
+              name: state.voterNames[voter.id] || voter.label || voter.id,
+              updatedAt: new Date().toISOString(),
+            });
+            sent += 1;
+          }
+          for (const item of variants) {
+            const record = itemState(item.id);
+            for (const voter of voters) {
+              const vote = record.votes[voter.id] || {};
+              if (vote.score == null && !vote.note) continue;
+              await jsonpRequest({
+                action: "saveVote",
+                itemId: item.id,
+                voterId: voter.id,
+                score: vote.score == null ? "" : String(vote.score),
+                note: vote.note || "",
+                updatedAt: vote.updatedAt || new Date().toISOString(),
+              });
+              sent += 1;
+            }
+          }
+          for (const subject of subjects) {
+            for (const voter of voters) {
+              if (!state.personalTouched?.[subject.key]?.[voter.id]) continue;
+              await jsonpRequest({
+                action: "saveRanking",
+                subjectKey: subject.key,
+                voterId: voter.id,
+                orderJson: JSON.stringify(personalOrder(subject.key, voter.id)),
+                touched: "true",
+                updatedAt: state.personalRankingUpdatedAt?.[subject.key]?.[voter.id] || new Date().toISOString(),
+              });
+              sent += 1;
+            }
+          }
+          setSyncStatus(`locali caricati (${sent})`);
+          await pullRemoteState(true);
+        } catch (error) {
+          setSyncStatus("upload errore");
+        } finally {
+          els.syncUploadButton.disabled = false;
+        }
+      }
+
+      function startRemoteSync() {
+        if (!syncEnabled) {
+          els.syncUploadButton.disabled = true;
+          els.syncUploadButton.textContent = "Sync off";
+          return;
+        }
+        els.syncUploadButton.disabled = false;
+        pullRemoteState();
+        if (remotePollTimer) window.clearInterval(remotePollTimer);
+        remotePollTimer = window.setInterval(() => pullRemoteState(true), syncPollMs);
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function scoreValue(value) {
+        const numeric = Number(value);
+        if (!Number.isFinite(numeric) || numeric < 1 || numeric > 100) return null;
+        return Math.round(numeric);
+      }
+
+      function currentItem() {
+        return variants[currentIndex] || null;
+      }
+
+      function byId(id) {
+        return variants.find((item) => item.id === id) || null;
+      }
+
+      function subjectByKey(key) {
+        return subjects.find((subject) => subject.key === key) || null;
+      }
+
+      function subjectVariants(key) {
+        return variants.filter((item) => item.subjectKey === key);
+      }
+
+      function firstVariantForSubject(key) {
+        return subjectVariants(key)[0] || null;
+      }
+
+      function setImageSource(img, src, alt = "") {
+        img.alt = alt;
+        img.removeAttribute("data-load-error");
+        let errorBox = img.parentElement?.querySelector(":scope > .image-load-error");
+        if (errorBox) errorBox.classList.remove("active");
+        img.onerror = () => {
+          img.setAttribute("data-load-error", "true");
+          const parent = img.parentElement;
+          if (!parent) return;
+          errorBox = parent.querySelector(":scope > .image-load-error");
+          if (!errorBox) {
+            errorBox = document.createElement("div");
+            errorBox.className = "image-load-error";
+            parent.appendChild(errorBox);
+          }
+          errorBox.textContent = "Immagine non caricata. Apri l'app da un URL web pubblicato oppure rendi disponibili offline tutti i file della cartella immagini_valutazione.";
+          errorBox.classList.add("active");
+        };
+        img.onload = () => {
+          img.removeAttribute("data-load-error");
+          const box = img.parentElement?.querySelector(":scope > .image-load-error");
+          if (box) box.classList.remove("active");
+        };
+        img.src = src || "";
+      }
+
+      function resetOverlayZoom() {
+        overlayZoom.scale = 1;
+        overlayZoom.x = 0;
+        overlayZoom.y = 0;
+        overlayZoom.dragging = false;
+        overlayZoom.pointerId = null;
+        applyOverlayZoom();
+      }
+
+      function applyOverlayZoom() {
+        const scale = overlayZoom.scale;
+        els.overlayImage.style.transform = `translate3d(${overlayZoom.x}px, ${overlayZoom.y}px, 0) scale(${scale})`;
+        els.overlayImage.classList.toggle("zoomed", scale > 1.01);
+      }
+
+      function canZoomOverlay() {
+        return !els.overlay.hidden && !els.overlayImage.hidden && overlayKind !== "compare";
+      }
+
+      function zoomOverlayAt(event) {
+        if (!canZoomOverlay()) return;
+        event.preventDefault();
+        const previousScale = overlayZoom.scale;
+        const direction = event.deltaY < 0 ? 1 : -1;
+        const factor = direction > 0 ? 1.16 : 1 / 1.16;
+        const nextScale = clamp(previousScale * factor, 1, 8);
+        if (nextScale === previousScale) return;
+
+        const rect = els.overlayBody.getBoundingClientRect();
+        const cursorX = event.clientX - rect.left - rect.width / 2 - overlayZoom.x;
+        const cursorY = event.clientY - rect.top - rect.height / 2 - overlayZoom.y;
+        const ratio = nextScale / previousScale;
+        overlayZoom.x -= cursorX * (ratio - 1);
+        overlayZoom.y -= cursorY * (ratio - 1);
+        overlayZoom.scale = nextScale;
+
+        if (overlayZoom.scale <= 1.01) {
+          overlayZoom.scale = 1;
+          overlayZoom.x = 0;
+          overlayZoom.y = 0;
+        }
+        applyOverlayZoom();
+      }
+
+      function beginOverlayPan(event) {
+        if (!canZoomOverlay() || overlayZoom.scale <= 1.01 || event.button !== 0) return;
+        event.preventDefault();
+        overlayZoom.dragging = true;
+        overlayZoom.pointerId = event.pointerId;
+        overlayZoom.startX = event.clientX;
+        overlayZoom.startY = event.clientY;
+        overlayZoom.originX = overlayZoom.x;
+        overlayZoom.originY = overlayZoom.y;
+        els.overlayImage.setPointerCapture(event.pointerId);
+      }
+
+      function moveOverlayPan(event) {
+        if (!overlayZoom.dragging || overlayZoom.pointerId !== event.pointerId) return;
+        event.preventDefault();
+        overlayZoom.x = overlayZoom.originX + event.clientX - overlayZoom.startX;
+        overlayZoom.y = overlayZoom.originY + event.clientY - overlayZoom.startY;
+        applyOverlayZoom();
+      }
+
+      function endOverlayPan(event) {
+        if (!overlayZoom.dragging || overlayZoom.pointerId !== event.pointerId) return;
+        overlayZoom.dragging = false;
+        overlayZoom.pointerId = null;
+        try {
+          els.overlayImage.releasePointerCapture(event.pointerId);
+        } catch (error) {
+          // Pointer capture can already be released by the browser.
+        }
+      }
+
+      function itemState(id) {
+        if (!state.items[id] || typeof state.items[id] !== "object") state.items[id] = {};
+        if (!state.items[id].votes || typeof state.items[id].votes !== "object") state.items[id].votes = {};
+        voters.forEach((voter) => {
+          if (!state.items[id].votes[voter.id]) state.items[id].votes[voter.id] = { score: null, note: "" };
+        });
+        return state.items[id];
+      }
+
+      function setVote(itemId, voterId, score, note) {
+        const record = itemState(itemId);
+        const normalized = score === "" || score === null ? null : clamp(Math.round(Number(score)), 1, 100);
+        record.votes[voterId] = {
+          score: Number.isFinite(normalized) ? normalized : null,
+          note: note ?? record.votes[voterId]?.note ?? "",
+          updatedAt: new Date().toISOString(),
+        };
+        saveState();
+        pushVoteToRemote(itemId, voterId);
+      }
+
+      function setVoterName(voterId, name) {
+        state.voterNames[voterId] = name || voters.find((voter) => voter.id === voterId)?.label || voterId;
+        saveState();
+        pushVoterNameToRemote(voterId);
+      }
+
+      function activeVoter() {
+        return voters.find((voter) => voter.id === state.activeVoterId) || voters[0];
+      }
+
+      function setActiveVoter(voterId) {
+        if (!voters.some((voter) => voter.id === voterId)) return;
+        state.activeVoterId = voterId;
+        saveState();
+        if (!els.reviewView.hidden) renderReview();
+        if (!els.finalView.hidden) renderFinal();
+      }
+
+      function averageFor(itemId) {
+        const votes = itemState(itemId).votes;
+        const scores = voters
+          .map((voter) => scoreValue(votes[voter.id]?.score))
+          .filter((score) => score !== null);
+        if (!scores.length) return { average: null, count: 0, missing: voters.length };
+        const average = Math.round((scores.reduce((sum, score) => sum + score, 0) / scores.length) * 10) / 10;
+        return { average, count: scores.length, missing: voters.length - scores.length };
+      }
+
+      function imageComplete(itemId) {
+        return averageFor(itemId).count === voters.length;
+      }
+
+      function subjectComplete(key) {
+        const items = subjectVariants(key);
+        return items.length > 0 && items.every((item) => imageComplete(item.id));
+      }
+
+      function rankingOrder(key) {
+        const items = subjectVariants(key);
+        const ids = new Set(items.map((item) => item.id));
+        const saved = Array.isArray(state.rankings[key]) ? state.rankings[key].filter((id) => ids.has(id)) : [];
+        const remaining = items
+          .filter((item) => !saved.includes(item.id))
+          .map((item) => item.id);
+        return [...saved, ...remaining];
+      }
+
+      function personalOrder(key, voterId) {
+        const items = subjectVariants(key);
+        const ids = new Set(items.map((item) => item.id));
+        const saved = Array.isArray(state.personalRankings?.[key]?.[voterId])
+          ? state.personalRankings[key][voterId].filter((id) => ids.has(id))
+          : [];
+        const baseline = rankingOrder(key);
+        const remaining = baseline.filter((id) => ids.has(id) && !saved.includes(id));
+        return [...saved, ...remaining];
+      }
+
+      function savePersonalOrder(key, voterId, order, touched = true) {
+        if (!state.personalRankings[key]) state.personalRankings[key] = {};
+        if (!state.personalTouched[key]) state.personalTouched[key] = {};
+        const ids = new Set(subjectVariants(key).map((item) => item.id));
+        const cleaned = order.filter((id) => ids.has(id));
+        rankingOrder(key).forEach((id) => {
+          if (ids.has(id) && !cleaned.includes(id)) cleaned.push(id);
+        });
+        state.personalRankings[key][voterId] = cleaned;
+        if (touched) state.personalTouched[key][voterId] = true;
+        if (!state.personalRankingUpdatedAt[key]) state.personalRankingUpdatedAt[key] = {};
+        state.personalRankingUpdatedAt[key][voterId] = new Date().toISOString();
+        saveState();
+        pushRankingToRemote(key, voterId);
+      }
+
+      function movePersonalRank(key, voterId, id, newIndex) {
+        const order = personalOrder(key, voterId);
+        const oldIndex = order.indexOf(id);
+        if (oldIndex < 0) return;
+        const bounded = clamp(newIndex, 0, order.length - 1);
+        order.splice(oldIndex, 1);
+        order.splice(bounded, 0, id);
+        savePersonalOrder(key, voterId, order, true);
+      }
+
+      function voterHasChoice(key, voterId) {
+        return Boolean(state.personalTouched?.[key]?.[voterId]);
+      }
+
+      function personalChoiceCount(key) {
+        return voters.filter((voter) => voterHasChoice(key, voter.id)).length;
+      }
+
+      function activeRankingOrder(key) {
+        const voter = activeVoter();
+        return voter ? personalOrder(key, voter.id) : rankingOrder(key);
+      }
+
+      function saveActiveRankingOrder(key, order) {
+        const voter = activeVoter();
+        if (!voter) return;
+        savePersonalOrder(key, voter.id, order, true);
+      }
+
+      function rankingComplete(key) {
+        return subjectVariants(key).length > 0 && personalChoiceCount(key) === voters.length;
+      }
+
+      function saveRanking(key, order) {
+        const ids = new Set(subjectVariants(key).map((item) => item.id));
+        const cleaned = order.filter((id) => ids.has(id));
+        subjectVariants(key).forEach((item) => {
+          if (!cleaned.includes(item.id)) cleaned.push(item.id);
+        });
+        state.rankings[key] = cleaned;
+        saveState();
+      }
+
+      function moveInRanking(key, id, newIndex) {
+        const order = rankingOrder(key);
+        const oldIndex = order.indexOf(id);
+        if (oldIndex < 0) return;
+        const bounded = clamp(newIndex, 0, order.length - 1);
+        order.splice(oldIndex, 1);
+        order.splice(bounded, 0, id);
+        saveRanking(key, order);
+      }
+
+      function firstPendingSubject() {
+        return subjects.find((subject) => !rankingComplete(subject.key)) || subjects[0] || null;
+      }
+
+      function dimensions(width, height) {
+        return width && height ? `${width} x ${height}` : "-";
+      }
+
+      function displayName(item) {
+        return item.displayName || `${item.subject} - ${item.category}`;
+      }
+
+      function applyComparePosition(value) {
+        const position = clamp(Number(value), 0, 100);
+        state.comparePosition = position;
+        const rightInset = 100 - position;
+        [
+          [els.reviewCompareAfter, els.reviewCompareBar, els.reviewCompareKnob, els.reviewCompareDrag],
+          [els.overlayCompareAfter, els.overlayCompareBar, els.overlayCompareKnob, els.overlayCompareDrag],
+        ].forEach(([after, bar, knob, drag]) => {
+          if (!after || !bar || !knob || !drag) return;
+          after.style.clipPath = `inset(0 ${rightInset}% 0 0)`;
+          bar.style.left = `${position}%`;
+          knob.style.left = `${position}%`;
+          drag.style.left = `${position}%`;
+          drag.setAttribute("aria-valuenow", String(Math.round(position)));
+        });
+        saveState();
+      }
+
+      function renderCompareMode() {
+        const item = currentItem();
+        if (!item) return;
+        setImageSource(els.reviewCompareBefore, item.originalPath || "", item.originalFileName || "Originale");
+        setImageSource(els.reviewCompareAfter, item.variantPath || "", item.fileName || "Variante");
+        els.reviewCompare.classList.toggle("active", Boolean(state.compareMode));
+        els.reviewCompare.setAttribute("aria-hidden", String(!state.compareMode));
+        els.compareToggle.textContent = state.compareMode ? "Solo originale" : "Prima/dopo";
+        els.compareToggle.setAttribute("aria-pressed", String(Boolean(state.compareMode)));
+        applyComparePosition(state.comparePosition ?? 50);
+      }
+
+      function toggleCompareMode() {
+        state.compareMode = !state.compareMode;
+        renderCompareMode();
+        saveState();
+      }
+
+      function positionFromPointer(event, stage) {
+        const rect = stage.getBoundingClientRect();
+        if (!rect.width) return state.comparePosition ?? 50;
+        return clamp(((event.clientX - rect.left) / rect.width) * 100, 0, 100);
+      }
+
+      function attachCompareDrag(dragElement, stageElement) {
+        let dragging = false;
+        const move = (event) => {
+          if (!dragging) return;
+          event.preventDefault();
+          applyComparePosition(positionFromPointer(event, stageElement));
+        };
+        const stop = () => {
+          dragging = false;
+          dragElement.classList.remove("dragging");
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+          window.removeEventListener("pointercancel", stop);
+        };
+
+        dragElement.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          dragging = true;
+          dragElement.classList.add("dragging");
+          applyComparePosition(positionFromPointer(event, stageElement));
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", stop);
+          window.addEventListener("pointercancel", stop);
+        });
+        dragElement.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+        dragElement.addEventListener("keydown", (event) => {
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          event.preventDefault();
+          event.stopPropagation();
+          const delta = event.key === "ArrowLeft" ? -2 : 2;
+          applyComparePosition(clamp((state.comparePosition ?? 50) + delta, 0, 100));
+        });
+      }
+
+      function progress() {
+        const complete = variants.filter((item) => imageComplete(item.id)).length;
+        const partial = variants.filter((item) => {
+          const count = averageFor(item.id).count;
+          return count > 0 && count < voters.length;
+        }).length;
+        const ranked = subjects.filter((subject) => rankingComplete(subject.key)).length;
+        const mandatory = subjects.filter((subject) => subjectComplete(subject.key) && !rankingComplete(subject.key)).length;
+        return { complete, partial, total: variants.length, ranked, subjects: subjects.length, mandatory };
+      }
+
+      function computeToolSummary() {
+        const buckets = new Map();
+        variants.forEach((item) => {
+          if (!buckets.has(item.category)) {
+            buckets.set(item.category, {
+              tool: item.category,
+              items: 0,
+              votedItems: 0,
+              scoreSum: 0,
+              scoreCount: 0,
+              rankSum: 0,
+              rankCount: 0,
+              firstPlaces: 0,
+            });
+          }
+          const bucket = buckets.get(item.category);
+          const votes = itemState(item.id).votes;
+          const scores = voters
+            .map((voter) => scoreValue(votes[voter.id]?.score))
+            .filter((score) => score !== null);
+          bucket.items += 1;
+          if (scores.length) {
+            bucket.votedItems += 1;
+            bucket.scoreSum += scores.reduce((sum, score) => sum + score, 0);
+            bucket.scoreCount += scores.length;
+          }
+        });
+
+        let rankedChoices = 0;
+        subjects.forEach((subject) => {
+          voters.forEach((voter) => {
+            if (!voterHasChoice(subject.key, voter.id)) return;
+            rankedChoices += 1;
+            personalOrder(subject.key, voter.id).forEach((id, index) => {
+              const rankedItem = byId(id);
+              if (!rankedItem) return;
+              if (!buckets.has(rankedItem.category)) {
+                buckets.set(rankedItem.category, {
+                  tool: rankedItem.category,
+                  items: 0,
+                  votedItems: 0,
+                  scoreSum: 0,
+                  scoreCount: 0,
+                  rankSum: 0,
+                  rankCount: 0,
+                  firstPlaces: 0,
+                });
+              }
+              const bucket = buckets.get(rankedItem.category);
+              bucket.rankSum += index + 1;
+              bucket.rankCount += 1;
+              if (index === 0) bucket.firstPlaces += 1;
+            });
+          });
+        });
+
+        const tools = Array.from(buckets.values()).map((bucket) => {
+          const averageScore = bucket.scoreCount ? Math.round((bucket.scoreSum / bucket.scoreCount) * 10) / 10 : null;
+          const averageRank = bucket.rankCount ? Math.round((bucket.rankSum / bucket.rankCount) * 10) / 10 : null;
+          const bestPercent = rankedChoices ? Math.round((bucket.firstPlaces / rankedChoices) * 100) : 0;
+          return {
+            tool: bucket.tool,
+            items: bucket.items,
+            votedItems: bucket.votedItems,
+            averageScore,
+            scoreCount: bucket.scoreCount,
+            averageRank,
+            rankCount: bucket.rankCount,
+            firstPlaces: bucket.firstPlaces,
+            bestPercent,
+          };
+        }).sort((a, b) => {
+          return (a.averageRank ?? 999) - (b.averageRank ?? 999)
+            || b.bestPercent - a.bestPercent
+            || (b.averageScore ?? -1) - (a.averageScore ?? -1)
+            || a.tool.localeCompare(b.tool);
+        });
+
+        return {
+          rankedChoices,
+          totalChoices: subjects.length * voters.length,
+          tools,
+        };
+      }
+
+      function renderToolSummary() {
+        const summary = computeToolSummary();
+        els.toolSummaryStatus.textContent = `${summary.rankedChoices}/${summary.totalChoices} classifiche`;
+        els.toolSummaryList.innerHTML = "";
+        if (!summary.tools.length) {
+          els.toolSummaryList.innerHTML = '<div class="source-line">Nessun dato disponibile</div>';
+          return;
+        }
+        const maxRank = Math.max(...subjects.map((subject) => subjectVariants(subject.key).length), 1);
+        summary.tools.forEach((tool) => {
+          const row = document.createElement("button");
+          row.type = "button";
+          row.className = "tool-row";
+          const rank = tool.averageRank === null ? "-" : `${tool.averageRank}°`;
+          const firsts = tool.rankCount ? `${tool.rankCount}/${summary.rankedChoices}` : "-";
+          const fill = tool.averageRank === null ? 0 : clamp(((maxRank + 1 - tool.averageRank) / maxRank) * 100, 0, 100);
+          row.innerHTML = `
+            <div class="tool-name">${escapeHtml(tool.tool)}</div>
+            <div class="tool-value">${rank}</div>
+            <div class="tool-score">${firsts}</div>
+            <div class="tool-bar"><div class="tool-fill" style="width:${fill}%"></div></div>
+          `;
+          row.addEventListener("click", () => {
+            const local = subjectVariants(currentSubjectKey).find((item) => item.category === tool.tool);
+            const global = variants.find((item) => item.category === tool.tool);
+            const candidate = local || global;
+            if (!candidate) return;
+            currentSubjectKey = candidate.subjectKey;
+            finalSelectedId = candidate.id;
+            renderFinal();
+          });
+          els.toolSummaryList.appendChild(row);
+        });
+      }
+
+      function renderScoreSummary() {
+        const summary = computeToolSummary();
+        const votedScores = summary.tools.reduce((sum, tool) => sum + (tool.scoreCount || 0), 0);
+        const totalScores = variants.length * voters.length;
+        els.scoreSummaryStatus.textContent = `${votedScores}/${totalScores} voti`;
+        els.scoreSummaryList.innerHTML = "";
+        const tools = [...summary.tools].sort((a, b) => {
+          return (b.averageScore ?? -1) - (a.averageScore ?? -1)
+            || (a.averageRank ?? 999) - (b.averageRank ?? 999)
+            || a.tool.localeCompare(b.tool);
+        });
+        if (!tools.length) {
+          els.scoreSummaryList.innerHTML = '<div class="source-line">Nessun voto disponibile</div>';
+          return;
+        }
+        tools.forEach((tool) => {
+          const row = document.createElement("button");
+          row.type = "button";
+          row.className = "tool-row";
+          const score = tool.averageScore === null ? "-" : `${tool.averageScore}`;
+          const fill = tool.averageScore === null ? 0 : clamp(tool.averageScore, 0, 100);
+          row.innerHTML = `
+            <div class="tool-name">${escapeHtml(tool.tool)}</div>
+            <div class="tool-value">${score}</div>
+            <div class="tool-score">${tool.scoreCount || 0}</div>
+            <div class="tool-bar"><div class="tool-fill" style="width:${fill}%"></div></div>
+          `;
+          row.addEventListener("click", () => {
+            const local = subjectVariants(currentSubjectKey).find((item) => item.category === tool.tool);
+            const global = variants.find((item) => item.category === tool.tool);
+            const candidate = local || global;
+            if (!candidate) return;
+            currentSubjectKey = candidate.subjectKey;
+            finalSelectedId = candidate.id;
+            renderFinal();
+          });
+          els.scoreSummaryList.appendChild(row);
+        });
+      }
+
+      function setView(name) {
+        const final = name === "final";
+        document.body.classList.toggle("final-mode", final);
+        els.reviewView.hidden = final;
+        els.finalView.hidden = !final;
+        els.reviewTab.setAttribute("aria-pressed", String(!final));
+        els.finalTab.setAttribute("aria-pressed", String(final));
+        history.replaceState(null, "", final ? `${location.pathname}#confronto` : location.pathname);
+        if (final) renderFinal();
+      }
+
+      function renderVoterSwitch(container) {
+        const switcher = document.createElement("div");
+        switcher.className = "voter-switch";
+        voters.forEach((voter) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = voterLabel(voter);
+          button.setAttribute("aria-pressed", String(voter.id === activeVoter()?.id));
+          button.addEventListener("click", () => setActiveVoter(voter.id));
+          switcher.appendChild(button);
+        });
+        container.appendChild(switcher);
+      }
+
+      function renderActiveVoteControl(container, item, onInput = () => {}, options = {}) {
+        const record = itemState(item.id);
+        const voter = activeVoter();
+        if (!voter) return null;
+        const vote = record.votes[voter.id] || { score: null, note: "" };
+        const savedScore = scoreValue(vote.score);
+        const row = document.createElement("div");
+        row.className = `active-vote-control${options.compact ? " compact" : ""}`;
+
+        const top = document.createElement("div");
+        top.className = "active-vote-top";
+
+        const labelWrap = document.createElement("div");
+        labelWrap.className = "rank-and-score";
+        const label = document.createElement("strong");
+        label.textContent = `Voto ${voterLabel(voter)}`;
+        labelWrap.appendChild(label);
+        if (options.rankText) {
+          const badge = document.createElement("span");
+          badge.className = "mini-badge";
+          badge.textContent = options.rankText;
+          labelWrap.appendChild(badge);
+        }
+        if (options.showAverage) {
+          const avg = averageFor(item.id);
+          const avgBadge = document.createElement("span");
+          avgBadge.className = "mini-badge";
+          avgBadge.textContent = `media ${avg.average === null ? "-" : avg.average}`;
+          labelWrap.appendChild(avgBadge);
+        }
+
+        const bubble = document.createElement("div");
+        bubble.className = `score-bubble${savedScore === null ? " empty" : ""}`;
+        bubble.textContent = savedScore === null ? "--" : String(savedScore);
+
+        const range = document.createElement("input");
+        range.className = "score-range";
+        range.type = "range";
+        range.min = "1";
+        range.max = "100";
+        range.value = savedScore === null ? "50" : String(savedScore);
+        range.setAttribute("aria-label", `Voto ${voterLabel(voter)} per ${displayName(item)}`);
+        range.addEventListener("input", () => {
+          setVote(item.id, voter.id, range.value, note.value);
+          bubble.classList.remove("empty");
+          bubble.textContent = range.value;
+          onInput();
+        });
+
+        const note = document.createElement("input");
+        note.className = "note-input";
+        note.placeholder = `nota ${voterLabel(voter)}`;
+        note.value = vote.note || "";
+        note.setAttribute("aria-label", `Nota ${voterLabel(voter)} per ${displayName(item)}`);
+        note.addEventListener("input", () => {
+          setVote(item.id, voter.id, bubble.classList.contains("empty") ? "" : range.value, note.value);
+        });
+
+        top.append(labelWrap, bubble);
+        row.append(top, range, note);
+        container.appendChild(row);
+        return row;
+      }
+
+      function renderVoters(container, item, rerender, showSwitch = true) {
+        container.innerHTML = "";
+        if (showSwitch) renderVoterSwitch(container);
+        renderActiveVoteControl(container, item, rerender);
+      }
+
+      function voterLabel(voter) {
+        return state.voterNames[voter.id] || voter.label || voter.id;
+      }
+
+      function voterShortLabel(voter) {
+        const label = voter.label || voterLabel(voter);
+        const fixed = { Marco: "Ma", Matteo: "Mt", Samu: "Sa", Vlad: "Vl" };
+        return fixed[label] || label.slice(0, 2);
+      }
+
+      function personalRankLine(key, itemId) {
+        return voters.map((voter) => {
+          const order = personalOrder(key, voter.id);
+          const index = order.indexOf(itemId);
+          const value = voterHasChoice(key, voter.id) && index >= 0 ? `${index + 1}°` : "-";
+          return `${voterShortLabel(voter)} ${value}`;
+        }).join(" · ");
+      }
+
+      function renderPersonalRanks(subject, selected) {
+        const count = personalChoiceCount(subject.key);
+        const voter = activeVoter();
+        const order = voter ? personalOrder(subject.key, voter.id) : [];
+        const current = order.indexOf(selected.id);
+        els.personalRankStatus.textContent = voter
+          ? `${voterLabel(voter)} ${voterHasChoice(subject.key, voter.id) ? "salvato" : "attivo"} | ${count}/${voters.length}`
+          : `${count}/${voters.length} scelte`;
+        els.personalRankList.innerHTML = "";
+        renderVoterSwitch(els.personalRankList);
+        if (!voter) return;
+
+        const row = document.createElement("div");
+        row.className = "personal-rank-row";
+        const touched = voterHasChoice(subject.key, voter.id);
+        const rankText = touched && current >= 0 ? `${current + 1}°` : "trascina le immagini";
+        row.innerHTML = `
+          <div>
+            <strong>${escapeHtml(voterLabel(voter))}: ${escapeHtml(rankText)}</strong>
+            <div class="active-voter-hint">L'ordine si salva trascinando le card a sinistra.</div>
+          </div>
+        `;
+        els.personalRankList.appendChild(row);
+      }
+
+      function renderPersonalRanks(subject, selected) {
+        const count = personalChoiceCount(subject.key);
+        const voter = activeVoter();
+        const order = voter ? personalOrder(subject.key, voter.id) : [];
+        const current = order.indexOf(selected.id);
+        els.personalRankStatus.textContent = voter
+          ? `${voterLabel(voter)} ${voterHasChoice(subject.key, voter.id) ? "salvato" : "attivo"} | ${count}/${voters.length}`
+          : `${count}/${voters.length} scelte`;
+        els.personalRankList.innerHTML = "";
+        renderVoterSwitch(els.personalRankList);
+        if (!voter) return;
+
+        const touched = voterHasChoice(subject.key, voter.id);
+        const rankText = touched && current >= 0 ? `${current + 1}° posto` : "non salvata";
+        const row = document.createElement("div");
+        row.className = "personal-rank-row";
+        row.innerHTML = `
+          <div>
+            <strong>Classifica ${escapeHtml(voterLabel(voter))}: ${escapeHtml(rankText)}</strong>
+          </div>
+        `;
+        els.personalRankList.appendChild(row);
+        renderActiveVoteControl(els.personalRankList, selected, () => {
+          updateFinalMetrics(selected);
+          renderVariantGrid(subject);
+          renderSubjectAverage(subject);
+        }, { rankText });
+      }
+
+      function renderPersonalRanks(subject, selected) {
+        const count = personalChoiceCount(subject.key);
+        const voter = activeVoter();
+        const order = voter ? personalOrder(subject.key, voter.id) : [];
+        const current = order.indexOf(selected.id);
+        const touched = voter ? voterHasChoice(subject.key, voter.id) : false;
+        els.personalRankStatus.textContent = `${count}/${voters.length} classifiche`;
+        els.personalRankList.innerHTML = "";
+        renderVoterSwitch(els.personalRankList);
+        if (!voter) return;
+        const rankText = touched && current >= 0 ? `${current + 1}° posto` : "da ordinare";
+        renderActiveVoteControl(els.personalRankList, selected, () => {
+          updateFinalMetrics(selected);
+          renderVariantGrid(subject);
+          renderSubjectAverage(subject);
+          renderToolSummary();
+          renderScoreSummary();
+        }, { rankText, showAverage: true, compact: true });
+      }
+
+      function subjectAverageRows(subject) {
+        return subjectVariants(subject.key).map((item) => {
+          const ranks = voters.flatMap((voter) => {
+            if (!voterHasChoice(subject.key, voter.id)) return [];
+            const index = personalOrder(subject.key, voter.id).indexOf(item.id);
+            return index >= 0 ? [index + 1] : [];
+          });
+          const avgRank = ranks.length
+            ? Math.round((ranks.reduce((sum, rank) => sum + rank, 0) / ranks.length) * 10) / 10
+            : null;
+          return { item, avgRank, rankCount: ranks.length, score: averageFor(item.id).average };
+        }).sort((a, b) => {
+          return (a.avgRank ?? 999) - (b.avgRank ?? 999)
+            || (b.score ?? -1) - (a.score ?? -1)
+            || a.item.category.localeCompare(b.item.category);
+        });
+      }
+
+      function renderSubjectAverage(subject) {
+        const count = personalChoiceCount(subject.key);
+        els.subjectAverageStatus.textContent = `${count}/${voters.length} persone`;
+        els.subjectAverageList.innerHTML = "";
+        subjectAverageRows(subject).forEach((row, index) => {
+          const element = document.createElement("div");
+          element.className = "subject-average-row";
+          const rank = row.avgRank === null ? "-" : row.avgRank;
+          const score = row.score === null ? "-" : row.score;
+          element.innerHTML = `
+            <span>${index + 1}°</span>
+            <strong>${escapeHtml(row.item.category)}</strong>
+            <span class="subject-average-meta">posto ${rank} · voto ${score}</span>
+          `;
+          els.subjectAverageList.appendChild(element);
+        });
+      }
+
+      function subjectAverageRows(subject) {
+        const rows = subjectVariants(subject.key).map((item) => {
+          const ranks = voters.flatMap((voter) => {
+            if (!voterHasChoice(subject.key, voter.id)) return [];
+            const index = personalOrder(subject.key, voter.id).indexOf(item.id);
+            return index >= 0 ? [index + 1] : [];
+          });
+          const avgRank = ranks.length
+            ? Math.round((ranks.reduce((sum, rank) => sum + rank, 0) / ranks.length) * 10) / 10
+            : null;
+          const avg = averageFor(item.id);
+          return {
+            item,
+            avgRank,
+            rankCount: ranks.length,
+            score: avg.average,
+            scoreCount: avg.count,
+            rankPosition: null,
+            scorePosition: null,
+          };
+        });
+
+        [...rows]
+          .filter((row) => row.avgRank !== null)
+          .sort((a, b) => a.avgRank - b.avgRank || (b.score ?? -1) - (a.score ?? -1) || a.item.category.localeCompare(b.item.category))
+          .forEach((row, index) => {
+            row.rankPosition = index + 1;
+          });
+
+        [...rows]
+          .filter((row) => row.score !== null)
+          .sort((a, b) => b.score - a.score || (a.avgRank ?? 999) - (b.avgRank ?? 999) || a.item.category.localeCompare(b.item.category))
+          .forEach((row, index) => {
+            row.scorePosition = index + 1;
+          });
+
+        return rows.sort((a, b) => {
+          return (a.rankPosition ?? 999) - (b.rankPosition ?? 999)
+            || (a.scorePosition ?? 999) - (b.scorePosition ?? 999)
+            || a.item.category.localeCompare(b.item.category);
+        });
+      }
+
+      function renderSubjectAverage(subject) {
+        const count = personalChoiceCount(subject.key);
+        const rows = subjectAverageRows(subject);
+        const voteCount = rows.reduce((sum, row) => sum + row.scoreCount, 0);
+        const voteTotal = rows.length * voters.length;
+        els.subjectAverageStatus.textContent = `${count}/${voters.length} classif. | ${voteCount}/${voteTotal} voti`;
+        els.subjectAverageList.innerHTML = "";
+        rows.forEach((row) => {
+          const element = document.createElement("div");
+          element.className = "subject-average-row";
+          const rankPosition = row.rankPosition === null ? "-" : `${row.rankPosition}°`;
+          const avgRank = row.avgRank === null ? "-" : row.avgRank;
+          const score = row.score === null ? "-" : row.score;
+          const scorePosition = row.scorePosition === null ? "-" : `${row.scorePosition}°`;
+          element.innerHTML = `
+            <span>${rankPosition}</span>
+            <strong>${escapeHtml(row.item.category)}</strong>
+            <span class="subject-average-meta">class. media ${avgRank} (${row.rankCount}/4) · voto ${score} (${row.scoreCount}/4), posto voto ${scorePosition}</span>
+          `;
+          els.subjectAverageList.appendChild(element);
+        });
+      }
+
+      function updateStatus() {
+        const p = progress();
+        const mandatoryText = p.mandatory ? ` | ${p.mandatory} confronti obbligatori` : "";
+        els.statusLine.textContent = `${p.complete}/${p.total} immagini con 4 voti | ${p.partial} parziali | ${p.ranked}/${p.subjects} soggetti classificati${mandatoryText}${syncSuffix()}`;
+      }
+
+      function renderReview() {
+        const item = currentItem();
+        if (!item) return;
+
+        els.originalTitle.textContent = `Originale - ${item.subject}`;
+        els.originalMeta.textContent = dimensions(item.originalWidth, item.originalHeight);
+        setImageSource(els.originalImage, item.originalPath || "", item.originalFileName || "Originale");
+        els.variantTitle.textContent = displayName(item);
+        els.variantMeta.textContent = dimensions(item.width, item.height);
+        setImageSource(els.variantImage, item.variantPath, item.fileName);
+        renderCompareMode();
+
+        els.counter.textContent = `${currentIndex + 1} / ${variants.length}`;
+        els.currentName.textContent = displayName(item);
+        els.subjectChip.textContent = item.subject;
+        els.categoryChip.textContent = item.category;
+        els.sourceLine.textContent = `Sorgente: ${item.sourceRelativePath} | Originale: ${item.originalSourceRelativePath || "-"}`;
+        els.prevButton.disabled = currentIndex === 0;
+        els.prevFloat.disabled = currentIndex === 0;
+        els.nextButton.textContent = currentIndex >= variants.length - 1 ? "Confronti →" : "Successiva →";
+        els.nextFloat.textContent = currentIndex >= variants.length - 1 ? "↘" : "›";
+        renderVoters(els.voterList, item, () => updateReviewMetrics(item));
+        updateReviewMetrics(item);
+        saveState();
+      }
+
+      function updateReviewMetrics(item) {
+        const avg = averageFor(item.id);
+        const p = progress();
+        const subjectDone = subjectComplete(item.subjectKey);
+        const rankDone = rankingComplete(item.subjectKey);
+        const pct = p.total ? (p.complete / p.total) * 100 : 0;
+        els.rankingChip.className = `chip ${rankDone ? "ok" : subjectDone ? "warn" : ""}`;
+        els.rankingChip.textContent = rankDone ? "confronto fatto" : subjectDone ? "confronto obbligatorio" : "confronto da fare";
+        els.progressFill.style.width = `${pct}%`;
+        els.progressText.textContent = `${p.complete}/${p.total} immagini complete, ${p.ranked}/${p.subjects} classifiche`;
+        els.averageValue.textContent = avg.average === null ? "-" : String(avg.average);
+        els.averageDetail.textContent = `${avg.count}/4 voti inseriti`;
+        els.goFinalButton.textContent = subjectDone && !rankDone
+          ? `Confronto obbligatorio: ${item.subject}`
+          : `Confronto: ${item.subject}`;
+        updateStatus();
+      }
+
+      function renderSubjectTabs() {
+        els.subjectTabs.innerHTML = "";
+        subjects.forEach((subject) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "subject-tab";
+          if (subjectComplete(subject.key) && !rankingComplete(subject.key)) button.classList.add("needs-rank");
+          button.setAttribute("aria-pressed", String(subject.key === currentSubjectKey));
+          const mark = rankingComplete(subject.key) ? " ✓" : subjectComplete(subject.key) ? " !" : "";
+          button.textContent = `${subject.label}${mark}`;
+          button.addEventListener("click", () => {
+            currentSubjectKey = subject.key;
+            finalSelectedId = activeRankingOrder(subject.key)[0] || firstVariantForSubject(subject.key)?.id || "";
+            renderFinal();
+          });
+          els.subjectTabs.appendChild(button);
+        });
+      }
+
+      function renderVariantGrid(subject) {
+        const order = activeRankingOrder(subject.key);
+        els.variantGrid.innerHTML = "";
+        order.forEach((id, index) => {
+          const item = byId(id);
+          if (!item) return;
+          const avg = averageFor(id);
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "variant-card";
+          card.draggable = true;
+          card.setAttribute("aria-selected", String(id === finalSelectedId));
+          card.addEventListener("click", () => {
+            finalSelectedId = id;
+            renderFinal();
+          });
+          card.addEventListener("dragstart", (event) => {
+            event.dataTransfer.setData("text/plain", id);
+            event.dataTransfer.effectAllowed = "move";
+            card.classList.add("dragging");
+          });
+          card.addEventListener("dragend", () => {
+            card.classList.remove("dragging");
+          });
+          card.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "move";
+          });
+          card.addEventListener("drop", (event) => {
+            event.preventDefault();
+            const draggedId = event.dataTransfer.getData("text/plain");
+            if (!draggedId || draggedId === id) return;
+            const nextOrder = activeRankingOrder(subject.key);
+            const from = nextOrder.indexOf(draggedId);
+            const to = nextOrder.indexOf(id);
+            if (from < 0 || to < 0) return;
+            nextOrder.splice(from, 1);
+            nextOrder.splice(to, 0, draggedId);
+            saveActiveRankingOrder(subject.key, nextOrder);
+            finalSelectedId = draggedId;
+            renderFinal();
+          });
+
+          const imageBox = document.createElement("div");
+          imageBox.className = "variant-image-box";
+          imageBox.addEventListener("click", (event) => {
+            event.stopPropagation();
+            finalSelectedId = id;
+            openFinalOverlay(subject.key, id);
+          });
+          const img = document.createElement("img");
+          setImageSource(img, item.variantPath, item.fileName);
+          imageBox.appendChild(img);
+
+          const foot = document.createElement("div");
+          foot.className = "variant-card-foot";
+
+          const rank = document.createElement("div");
+          rank.className = "rank-badge";
+          rank.textContent = `${index + 1}°`;
+
+          const info = document.createElement("div");
+          info.className = "variant-info";
+          info.innerHTML = `
+            <strong>${escapeHtml(item.category)}</strong>
+            <span>media ${avg.average === null ? "-" : avg.average}</span>
+            <span class="personal-mini-ranks">${escapeHtml(personalRankLine(subject.key, id))}</span>
+          `;
+
+          foot.append(rank, info);
+          card.append(imageBox, foot);
+          els.variantGrid.appendChild(card);
+        });
+      }
+
+      function renderFinal() {
+        const subject = subjectByKey(currentSubjectKey) || subjects[0];
+        if (!subject) return;
+        currentSubjectKey = subject.key;
+        const order = activeRankingOrder(subject.key);
+        if (!finalSelectedId || !order.includes(finalSelectedId)) finalSelectedId = order[0] || "";
+        const selected = byId(finalSelectedId);
+        const complete = rankingComplete(subject.key);
+        const needsRank = subjectComplete(subject.key) && !complete;
+
+        renderSubjectTabs();
+        renderVariantGrid(subject);
+        setImageSource(els.finalOriginalImage, subject.originalPath || "", subject.originalFileName || "Originale");
+        els.finalOriginalName.textContent = subject.originalRenamedFileName || subject.originalFileName || "-";
+        els.finalSubjectTitle.textContent = subject.label;
+        els.finalSubjectCount.textContent = `${subject.variantIds.length} varianti da ordinare`;
+        els.finalInstruction.textContent = needsRank
+          ? `Passaggio obbligatorio: scegli una persona e trascina le card per salvare la classifica di ${voterLabel(activeVoter())}.`
+          : `Trascina le card per ordinare la classifica di ${voterLabel(activeVoter())}. Clicca una immagine per ingrandirla e rifinire l'ordine.`;
+
+        if (!selected) return;
+        const avg = averageFor(selected.id);
+        const rankIndex = order.indexOf(selected.id);
+        els.finalName.textContent = displayName(selected);
+        els.finalCategoryChip.textContent = selected.category;
+        els.finalRankChip.className = `chip ${complete ? "ok" : needsRank ? "warn" : ""}`;
+        els.finalRankChip.textContent = `${rankIndex + 1}° posto`;
+        els.finalSourceLine.textContent = `Sorgente: ${selected.sourceRelativePath}`;
+        els.completeRankingButton.disabled = true;
+        els.completeRankingButton.textContent = complete
+          ? "Completata automatica"
+          : `${personalChoiceCount(subject.key)}/${voters.length} scelte`;
+        updateFinalMetrics(selected);
+        renderPersonalRanks(subject, selected);
+        renderSubjectAverage(subject);
+        els.finalVoterList.innerHTML = "";
+        renderToolSummary();
+        renderScoreSummary();
+        updateStatus();
+      }
+
+      function updateFinalMetrics(item) {
+        const avg = averageFor(item.id);
+        els.finalAverageValue.textContent = avg.average === null ? "-" : String(avg.average);
+        els.finalAverageDetail.textContent = `${avg.count}/4 voti inseriti`;
+        renderToolSummary();
+        renderScoreSummary();
+        updateStatus();
+      }
+
+      function goPrevious() {
+        currentIndex = clamp(currentIndex - 1, 0, variants.length - 1);
+        renderReview();
+      }
+
+      function goNext() {
+        if (currentIndex < variants.length - 1) {
+          currentIndex += 1;
+          renderReview();
+          return;
+        }
+        const pending = firstPendingSubject();
+        if (pending) {
+          currentSubjectKey = pending.key;
+          finalSelectedId = activeRankingOrder(pending.key)[0] || firstVariantForSubject(pending.key)?.id || "";
+        }
+        setView("final");
+      }
+
+      function openCurrentSubjectFinal() {
+        const item = currentItem();
+        if (item) {
+          currentSubjectKey = item.subjectKey;
+          finalSelectedId = item.id;
+        }
+        setView("final");
+      }
+
+      function overlayTitleFor(item, kind) {
+        if (!item) return "-";
+        if (overlayScope === "final") {
+          const subject = subjectByKey(overlayFinalSubjectKey);
+          const order = activeRankingOrder(overlayFinalSubjectKey);
+          const index = order.indexOf(item.id);
+          return `${voterLabel(activeVoter())} · ${subject?.label || item.subject} · ${index + 1}/${order.length} - ${displayName(item)}`;
+        }
+        const prefix = overlayScope === "variants" ? `${overlayIndex + 1}/${variants.length} - ` : "";
+        if (kind === "compare") return `${prefix}${displayName(item)} - prima/dopo`;
+        if (kind === "variant") return `${prefix}${displayName(item)} - variante`;
+        return `${displayName(item)} - originale`;
+      }
+
+      function finalOverlayOrder() {
+        return overlayFinalSubjectKey ? activeRankingOrder(overlayFinalSubjectKey) : [];
+      }
+
+      function renderOverlayRankPanel() {
+        if (overlayScope !== "final") {
+          els.overlayRankPanel.hidden = true;
+          els.overlayRankPanel.innerHTML = "";
+          return;
+        }
+        const subject = subjectByKey(overlayFinalSubjectKey);
+        const order = finalOverlayOrder();
+        els.overlayRankPanel.hidden = false;
+        els.overlayRankPanel.innerHTML = `
+          <div class="overlay-rank-title">${escapeHtml(voterLabel(activeVoter()))} · ${escapeHtml(subject?.label || "")}</div>
+        `;
+        order.forEach((id, index) => {
+          const item = byId(id);
+          if (!item) return;
+          const avg = averageFor(id);
+          const row = document.createElement("button");
+          row.type = "button";
+          row.className = "overlay-rank-row";
+          row.setAttribute("aria-current", String(id === overlayFinalId));
+          row.innerHTML = `
+            <span>${index + 1}°</span>
+            <strong>${escapeHtml(item.category)}</strong>
+            <span>${avg.average === null ? "-" : avg.average}</span>
+          `;
+          row.addEventListener("click", () => {
+            overlayFinalId = id;
+            finalSelectedId = id;
+            renderOverlay();
+            renderFinal();
+          });
+          els.overlayRankPanel.appendChild(row);
+        });
+      }
+
+      function renderOverlayRankPanel() {
+        if (overlayScope !== "final") {
+          els.overlaySideStack.hidden = true;
+          els.overlayRankPanel.innerHTML = "";
+          els.overlayVotePanel.innerHTML = "";
+          return;
+        }
+        const subject = subjectByKey(overlayFinalSubjectKey);
+        const order = finalOverlayOrder();
+        els.overlaySideStack.hidden = false;
+        els.overlayRankPanel.innerHTML = `
+          <div class="overlay-rank-title">${escapeHtml(voterLabel(activeVoter()))} · ${escapeHtml(subject?.label || "")}</div>
+        `;
+        order.forEach((id, index) => {
+          const item = byId(id);
+          if (!item) return;
+          const avg = averageFor(id);
+          const row = document.createElement("button");
+          row.type = "button";
+          row.className = "overlay-rank-row";
+          row.setAttribute("aria-current", String(id === overlayFinalId));
+          row.innerHTML = `
+            <span>${index + 1}°</span>
+            <strong>${escapeHtml(item.category)}</strong>
+            <span>${avg.average === null ? "-" : avg.average}</span>
+          `;
+          row.addEventListener("click", () => {
+            overlayFinalId = id;
+            finalSelectedId = id;
+            renderOverlay();
+            renderFinal();
+          });
+          els.overlayRankPanel.appendChild(row);
+        });
+      }
+
+      function renderOverlayVotePanel(item) {
+        if (overlayScope !== "final" || !item) {
+          els.overlayVotePanel.innerHTML = "";
+          return;
+        }
+        const order = finalOverlayOrder();
+        const index = order.indexOf(item.id);
+        const subject = subjectByKey(overlayFinalSubjectKey);
+        const rankText = index >= 0 ? `${index + 1}° posto` : "";
+        els.overlayVotePanel.innerHTML = "";
+        renderActiveVoteControl(els.overlayVotePanel, item, () => {
+          updateFinalMetrics(item);
+          if (subject) {
+            renderVariantGrid(subject);
+            renderSubjectAverage(subject);
+          }
+          renderToolSummary();
+          renderScoreSummary();
+        }, { compact: true, rankText });
+      }
+
+      function openFinalOverlay(subjectKey, itemId) {
+        overlayScope = "final";
+        overlayKind = "variant";
+        overlayFinalSubjectKey = subjectKey;
+        overlayFinalId = itemId;
+        overlayIndex = variants.findIndex((item) => item.id === itemId);
+        finalSelectedId = itemId;
+        renderOverlay();
+      }
+
+      function setOverlayKind(kind) {
+        overlayKind = kind;
+        renderOverlay();
+      }
+
+      function renderOverlay() {
+        const item = overlayScope === "final"
+          ? byId(overlayFinalId)
+          : variants[overlayIndex] || currentItem();
+        if (!item) return;
+        els.overlayTitle.textContent = overlayTitleFor(item, overlayKind);
+        els.overlay.hidden = false;
+        resetOverlayZoom();
+        renderOverlayRankPanel();
+        renderOverlayVotePanel(item);
+        els.overlayRankUp.hidden = overlayScope !== "final";
+        els.overlayRankDown.hidden = overlayScope !== "final";
+        els.overlayCycle.textContent = overlayScope === "final"
+          ? "Classifica"
+          : overlayScope === "variants"
+          ? "Varianti"
+          : overlayKind === "original"
+            ? "Originale"
+            : overlayKind === "compare"
+              ? "Prima/dopo"
+              : "Variante";
+        els.overlayCycle.disabled = overlayScope === "variants" || overlayScope === "final";
+        if (overlayScope === "final") {
+          const order = finalOverlayOrder();
+          const index = order.indexOf(overlayFinalId);
+          els.overlayPrev.disabled = index <= 0;
+          els.overlayNext.disabled = index < 0 || index >= order.length - 1;
+          els.overlayRankUp.disabled = index <= 0;
+          els.overlayRankDown.disabled = index < 0 || index >= order.length - 1;
+        } else {
+          els.overlayPrev.disabled = overlayScope === "variants" && overlayIndex === 0;
+          els.overlayNext.disabled = overlayScope === "variants" && overlayIndex >= variants.length - 1;
+          els.overlayRankUp.disabled = true;
+          els.overlayRankDown.disabled = true;
+        }
+
+        if (overlayKind === "compare") {
+          els.overlayImage.hidden = true;
+          els.overlayImage.removeAttribute("src");
+          setImageSource(els.overlayCompareBefore, item.originalPath || "", item.originalFileName || "Originale");
+          setImageSource(els.overlayCompareAfter, item.variantPath || "", item.fileName || "Variante");
+          els.overlayCompare.classList.add("active");
+          els.overlayCompare.setAttribute("aria-hidden", "false");
+          applyComparePosition(state.comparePosition ?? 50);
+          return;
+        }
+
+        els.overlayCompare.classList.remove("active");
+        els.overlayCompare.setAttribute("aria-hidden", "true");
+        els.overlayImage.hidden = false;
+        setImageSource(els.overlayImage, overlayKind === "variant" ? item.variantPath : item.originalPath, overlayTitleFor(item, overlayKind));
+      }
+
+      function openOverlay(src, title, mode = "image", kind = "original", scope = "pair") {
+        const item = currentItem();
+        if (!item && !src) return;
+        overlayIndex = currentIndex;
+        overlayKind = mode === "compare" ? "compare" : kind;
+        overlayScope = scope;
+        if (scope !== "final") {
+          overlayFinalSubjectKey = "";
+          overlayFinalId = "";
+        }
+        renderOverlay();
+      }
+
+      function cycleOverlayKind(direction = 1) {
+        if (overlayScope === "variants" || overlayScope === "final") return;
+        const order = ["original", "compare", "variant"];
+        const index = order.indexOf(overlayKind);
+        overlayKind = order[(index + direction + order.length) % order.length];
+        renderOverlay();
+      }
+
+      function moveFinalOverlay(delta) {
+        const order = finalOverlayOrder();
+        const index = order.indexOf(overlayFinalId);
+        if (index < 0) return;
+        const nextIndex = clamp(index + delta, 0, order.length - 1);
+        overlayFinalId = order[nextIndex] || overlayFinalId;
+        finalSelectedId = overlayFinalId;
+        overlayIndex = variants.findIndex((item) => item.id === overlayFinalId);
+        renderOverlay();
+        renderFinal();
+      }
+
+      function shiftFinalOverlayRank(delta) {
+        const order = finalOverlayOrder();
+        const index = order.indexOf(overlayFinalId);
+        if (index < 0) return;
+        const nextIndex = clamp(index + delta, 0, order.length - 1);
+        if (nextIndex === index) return;
+        const nextOrder = [...order];
+        nextOrder.splice(index, 1);
+        nextOrder.splice(nextIndex, 0, overlayFinalId);
+        saveActiveRankingOrder(overlayFinalSubjectKey, nextOrder);
+        finalSelectedId = overlayFinalId;
+        renderOverlay();
+        renderFinal();
+      }
+
+      function moveOverlay(delta) {
+        if (overlayScope === "final") {
+          moveFinalOverlay(delta);
+          return;
+        }
+        if (overlayScope === "variants") {
+          overlayIndex = clamp(overlayIndex + delta, 0, variants.length - 1);
+          currentIndex = overlayIndex;
+          renderOverlay();
+          renderReview();
+          return;
+        }
+        cycleOverlayKind(delta > 0 ? 1 : -1);
+      }
+
+      function closeOverlay() {
+        els.overlay.hidden = true;
+        resetOverlayZoom();
+        overlayScope = "pair";
+        overlayFinalSubjectKey = "";
+        overlayFinalId = "";
+        els.overlaySideStack.hidden = true;
+        els.overlayRankPanel.innerHTML = "";
+        els.overlayVotePanel.innerHTML = "";
+        els.overlayImage.removeAttribute("src");
+        els.overlayImage.hidden = false;
+        els.overlayCompare.classList.remove("active");
+        els.overlayCompare.setAttribute("aria-hidden", "true");
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      els.reviewTab.addEventListener("click", () => setView("review"));
+      els.finalTab.addEventListener("click", () => {
+        const pending = firstPendingSubject();
+        if (pending) {
+          currentSubjectKey = pending.key;
+          finalSelectedId = activeRankingOrder(pending.key)[0] || firstVariantForSubject(pending.key)?.id || "";
+        }
+        setView("final");
+      });
+      els.syncUploadButton.addEventListener("click", pushAllLocalState);
+      els.prevButton.addEventListener("click", goPrevious);
+      els.prevFloat.addEventListener("click", goPrevious);
+      els.nextButton.addEventListener("click", goNext);
+      els.nextFloat.addEventListener("click", goNext);
+      els.goFinalButton.addEventListener("click", openCurrentSubjectFinal);
+      els.originalStage.addEventListener("click", (event) => {
+        if (event.target.closest(".compare-toggle") || event.target.closest(".compare-drag-zone")) return;
+        const item = currentItem();
+        if (!item) return;
+        if (state.compareMode) {
+          openOverlay("", `${displayName(item)} - prima/dopo`, "compare");
+        } else {
+          openOverlay(item.originalPath, item.originalFileName || "Originale", "image", "original");
+        }
+      });
+      els.originalStage.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        const item = currentItem();
+        if (!item) return;
+        if (state.compareMode) {
+          openOverlay("", `${displayName(item)} - prima/dopo`, "compare");
+        } else {
+          openOverlay(item.originalPath, item.originalFileName || "Originale", "image", "original");
+        }
+      });
+      els.compareToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleCompareMode();
+      });
+      els.reviewCompare.addEventListener("click", (event) => {
+        if (event.target.closest(".compare-drag-zone")) return;
+        event.stopPropagation();
+        const item = currentItem();
+        if (item) openOverlay("", `${displayName(item)} - prima/dopo`, "compare");
+      });
+      attachCompareDrag(els.reviewCompareDrag, els.reviewCompare);
+      attachCompareDrag(els.overlayCompareDrag, els.overlayCompare);
+      els.variantButton.addEventListener("click", () => {
+        const item = currentItem();
+        if (item) openOverlay(item.variantPath, displayName(item), "image", "variant", "variants");
+      });
+      function backToSelectedReview() {
+        const selectedIndex = variants.findIndex((item) => item.id === finalSelectedId);
+        if (selectedIndex >= 0) currentIndex = selectedIndex;
+        setView("review");
+        renderReview();
+      }
+      els.backToReviewButton.addEventListener("click", backToSelectedReview);
+      els.backToReviewBoardButton.addEventListener("click", backToSelectedReview);
+      els.overlayClose.addEventListener("click", closeOverlay);
+      els.overlay.addEventListener("click", (event) => {
+        if (event.target === els.overlay) closeOverlay();
+      });
+      els.overlayBody.addEventListener("wheel", zoomOverlayAt, { passive: false });
+      els.overlayImage.addEventListener("pointerdown", beginOverlayPan);
+      els.overlayImage.addEventListener("pointermove", moveOverlayPan);
+      els.overlayImage.addEventListener("pointerup", endOverlayPan);
+      els.overlayImage.addEventListener("pointercancel", endOverlayPan);
+      els.overlayImage.addEventListener("dblclick", (event) => {
+        if (!canZoomOverlay()) return;
+        event.preventDefault();
+        resetOverlayZoom();
+      });
+      els.overlayImage.addEventListener("dragstart", (event) => event.preventDefault());
+      els.overlayPrev.addEventListener("click", () => moveOverlay(-1));
+      els.overlayNext.addEventListener("click", () => moveOverlay(1));
+      els.overlayRankUp.addEventListener("click", () => shiftFinalOverlayRank(-1));
+      els.overlayRankDown.addEventListener("click", () => shiftFinalOverlayRank(1));
+      els.overlayCycle.addEventListener("click", () => cycleOverlayKind(1));
+      document.addEventListener("keydown", (event) => {
+        if (!els.overlay.hidden) {
+          if (event.key === "Escape") {
+            closeOverlay();
+            return;
+          }
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            moveOverlay(-1);
+            return;
+          }
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            moveOverlay(1);
+            return;
+          }
+          if (overlayScope === "final" && event.key === "ArrowUp") {
+            event.preventDefault();
+            shiftFinalOverlayRank(-1);
+            return;
+          }
+          if (overlayScope === "final" && event.key === "ArrowDown") {
+            event.preventDefault();
+            shiftFinalOverlayRank(1);
+            return;
+          }
+        }
+        const target = event.target;
+        const typing = target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName) && target.type !== "range";
+        if (typing) return;
+        if (!els.reviewView.hidden && event.key === "ArrowLeft") {
+          event.preventDefault();
+          goPrevious();
+        }
+        if (!els.reviewView.hidden && event.key === "ArrowRight") {
+          event.preventDefault();
+          goNext();
+        }
+        if (!els.finalView.hidden && event.key === "ArrowLeft") {
+          event.preventDefault();
+          const order = activeRankingOrder(currentSubjectKey);
+          const index = order.indexOf(finalSelectedId);
+          finalSelectedId = order[clamp(index - 1, 0, order.length - 1)] || finalSelectedId;
+          renderFinal();
+        }
+        if (!els.finalView.hidden && event.key === "ArrowRight") {
+          event.preventDefault();
+          const order = activeRankingOrder(currentSubjectKey);
+          const index = order.indexOf(finalSelectedId);
+          finalSelectedId = order[clamp(index + 1, 0, order.length - 1)] || finalSelectedId;
+          renderFinal();
+        }
+      });
+      window.addEventListener("beforeunload", () => {
+        saveState();
+      });
+
+      renderReview();
+      startRemoteSync();
+      if (location.hash === "#compare") {
+        state.compareMode = true;
+        renderReview();
+      }
+      if (location.hash === "#confronto") setView("final");
+    })();
+  </script>
 </body>
-
 </html>
