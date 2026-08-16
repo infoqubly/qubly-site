@@ -1910,12 +1910,16 @@
             const current = record.votes[vote.voterId] || {};
             const remoteUpdated = vote.updatedAt || "";
             const localUpdated = current.updatedAt || "";
-            if (localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
             const next = {
               score: scoreValue(vote.score),
               note: vote.note || "",
               updatedAt: remoteUpdated || new Date().toISOString(),
             };
+            const currentScore = scoreValue(current.score);
+            const remoteHasData = next.score !== null || Boolean(next.note);
+            const localHasData = currentScore !== null || Boolean(current.note);
+            if (localHasData && localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
+            if (!localHasData && !remoteHasData && localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
             if (current.score === next.score && current.note === next.note && current.updatedAt === next.updatedAt) return;
             record.votes[vote.voterId] = next;
             changed = true;
@@ -1934,17 +1938,19 @@
             if (!state.personalRankingUpdatedAt[ranking.subjectKey]) state.personalRankingUpdatedAt[ranking.subjectKey] = {};
             const localUpdated = state.personalRankingUpdatedAt[ranking.subjectKey][ranking.voterId] || "";
             const remoteUpdated = ranking.updatedAt || "";
-            if (localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
+            const localTouched = Boolean(state.personalTouched[ranking.subjectKey][ranking.voterId]);
+            const remoteTouched = Boolean(ranking.touched);
+            if (localTouched && localUpdated && remoteUpdated && remoteUpdated < localUpdated) return;
             const currentOrder = state.personalRankings[ranking.subjectKey][ranking.voterId] || [];
             if (
               currentOrder.join("|") === clean.join("|")
-              && Boolean(state.personalTouched[ranking.subjectKey][ranking.voterId]) === Boolean(ranking.touched)
+              && localTouched === remoteTouched
               && localUpdated === remoteUpdated
             ) {
               return;
             }
             state.personalRankings[ranking.subjectKey][ranking.voterId] = clean;
-            state.personalTouched[ranking.subjectKey][ranking.voterId] = Boolean(ranking.touched);
+            state.personalTouched[ranking.subjectKey][ranking.voterId] = remoteTouched;
             state.personalRankingUpdatedAt[ranking.subjectKey][ranking.voterId] = remoteUpdated || new Date().toISOString();
             changed = true;
           });
